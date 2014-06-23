@@ -1,4 +1,4 @@
-package org.bndtools.headless.build.plugin.gradle;
+package nl.pelagic.bndtools.headless.build.plugin.gradle;
 
 import java.io.File;
 import java.io.IOException;

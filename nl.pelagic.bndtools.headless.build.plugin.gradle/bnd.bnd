@@ -20,5 +20,5 @@ Conditional-Package: \
 	org.bndtools.utils.copy.bundleresource,\
 	aQute.lib.io
 Private-Package: \
-	org.bndtools.headless.build.plugin.gradle
+	nl.pelagic.bndtools.headless.build.plugin.gradle
 Service-Component: *
