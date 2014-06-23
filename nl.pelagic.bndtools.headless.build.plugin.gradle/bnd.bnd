@@ -4,7 +4,6 @@
 	bndtools.api;version=latest,\
 	org.bndtools.headless.build.manager;version=latest,\
 	org.bndtools.versioncontrol.ignores.manager;version=latest,\
-	bndtools.utils;version=project,\
 	biz.aQute.bnd.annotation,\
 	${bndlib},\
 	${junit}
