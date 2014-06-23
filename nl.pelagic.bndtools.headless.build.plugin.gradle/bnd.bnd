@@ -15,9 +15,6 @@
 Bundle-ActivationPolicy: lazy
 
 Bundle-Version: 1.0.0.${tstamp}
-Conditional-Package: \
-	org.bndtools.utils.copy.bundleresource,\
-	aQute.lib.io
 Private-Package: \
 	nl.pelagic.bndtools.headless.build.plugin.gradle
 Service-Component: *
