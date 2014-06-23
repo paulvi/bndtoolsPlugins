@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/pelagic.bndtools.plugins.gradle.feature_@master-version@" id="pelagic.bndtools.plugins.gradle.feature" version="@master-version@">
+      <category name="bndtools.pelagic.category"/>
+   </feature>
+   <category-def name="bndtools.pelagic.category" label="Bndtools Plugins by Pelagic"/>
+</site>
