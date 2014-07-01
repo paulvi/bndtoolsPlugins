@@ -229,6 +229,7 @@ if (!bnd_classPathBoot.isEmpty()) {
   def classPathBootAsPath = files(bnd_classPathBoot).asPath
   compileJava.options.compilerArgs          += ["-Xbootclasspath/p:$classPathBootAsPath"]
   compileTestJava.options.compilerArgs      += ["-Xbootclasspath/p:$classPathBootAsPath"]
+  ext.gradleBuild_compileFork                = true
 }
 
 /* Setup java compiler options */
