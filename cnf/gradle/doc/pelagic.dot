@@ -149,12 +149,15 @@ digraph GradleSetup {
       findbugsMain         [shape=box, style=filled, fillcolor=cyan     , label="findbugsMain"        ]
     }
 
+    jacocoTestReport       [shape=box, style=filled, fillcolor=cyan     , label="jacocoTestReport"    ]
+
     classes                -> findbugsMain
     testClasses            -> findbugsTest
     findbugsMain           -> findbugs
     findbugsTest           -> findbugstest
     findbugs               -> check              [color=green ]
     findbugstest           -> check              [color=green ]
+    test                   -> jacocoTestReport
   }
 
 

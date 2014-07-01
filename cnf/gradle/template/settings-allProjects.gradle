@@ -87,6 +87,13 @@ ext.gradleBuild_findbugsReportLevel            = "medium"            /* low, med
 ext.gradleBuild_findbugsReportsDir             = "findbugs"          /* relative to bnd_targetDir           */
 ext.gradleBuild_findbugsToolVersion            = "2.0.3"
 
+/* jacoco settings */
+ext.gradleBuild_jacocoReportsDir               = "reports/jacoco/test"  /* relative to bnd_targetDir                       */
+ext.gradleBuild_jacocoXmlReport                = true
+ext.gradleBuild_jacocoCsvReport                = false
+ext.gradleBuild_jacocoHtmlDir                  = "html"                 /* relative to gradleBuild_jacocoReportsDir        */
+ext.gradleBuild_jacocoToolVersion              = "0.7.1.201405082137"   /* set the version when you don't want the default */
+
 /* Export task settings */
 ext.gradleBuild_exportDir                      = "export"            /* relative to bnd_targetDir           */
 
