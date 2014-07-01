@@ -43,12 +43,6 @@ gradle.projectsEvaluated {
     distclean.dependsOn         += [clean                             ]
   }
 
-  /* regular gradle project dependencies */
-  dependsOnProjects.each {
-    cleanNeeded.dependsOn       += [":" + it.name + ":cleanNeeded"    ]
-    distcleanNeeded.dependsOn   += [":" + it.name + ":distcleanNeeded"]
-  }
-
   /* bnd project dependencies */
   if (hasProperty("bnd_project")) {
     bnd_project.dependson.each {
