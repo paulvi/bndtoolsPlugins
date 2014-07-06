@@ -170,6 +170,11 @@ assert(            hasProperty("gradleBuild_testIgnoreFailures"  ))
 assert(            hasProperty("gradleBuild_testMaxParallelForks"))
 
 
+/* Declare that we're in the offline build */
+bnd_project.setProperty("in.ant"       , "true"  )
+bnd_project.setProperty("environment"  , "gradle")
+
+/* Prepare the project */
 bnd_project.setDelayRunDependencies(true)
 bnd_project.prepare()
 if (!bnd_project.isValid()) {
@@ -254,9 +259,6 @@ test.maxParallelForks                        = gradleBuild_testMaxParallelForks
 
 /* Override the javadoc bootclasspath */
 ext.gradleBuild_javadocClassPathBoot = bnd_classPathBoot
-
-/* Declare that we're in the offline build */
-bnd_project.setProperty("in.ant", "true")
 
 /*
  * Setup tasks
