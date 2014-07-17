@@ -1,6 +1,6 @@
 assert(hasProperty("bnd_targetDir"))
 
-ext.p2SubDir               = "child"
+ext.p2SubDir               = "pelagic"
 ext.p2BndtoolsdateSiteUrl  = "https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/"
 ext.p2PelagicUpdateSiteUrl = "http://bndtools-plugins.pelagic.nl/master/"
 
