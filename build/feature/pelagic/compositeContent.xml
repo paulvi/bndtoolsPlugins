@@ -7,6 +7,6 @@
   </properties>
   <children size='2'>
     <child location='@p2BndtoolsdateSiteUrl@'/>
-    <child location='child'/>
+    <child location='@p2SubDir@'/>
   </children>
 </repository>

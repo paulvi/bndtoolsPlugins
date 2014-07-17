@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="bndtools" default="none">
+<project name="bndtoolsPlugins" default="none">
   <!-- Default Target -->
   <target name="none">
     <fail message="This ant script should never be called directly." />
@@ -7,17 +7,21 @@
 
   <!-- Initialisation -->
   <target name="init" unless="initialized">
-    <dirname  property="projectdir"   file="${ant.file}" />
-    <dirname  property="workspacedir" file="${projectdir}" />
-    <property name="target"           value="${projectdir}/generated" />
-    <property name="initialized"      value="set"          />
+    <condition property="p2SubDirName" value="${p2SubDir}" else="child">
+      <isset   property="p2SubDir" />
+    </condition>
+
+    <dirname   property="projectdir"   file="${ant.file}"              />
+    <dirname   property="workspacedir" file="${projectdir}"            />
+    <property  name="target"           value="${projectdir}/generated" />
+    <property  name="initialized"      value="set"                     />
   </target>
 
   <!-- Called by the Eclipse embedded ANT application -->
   <target name="p2Pelagic" depends="init">
     <p2.publish.featuresAndBundles
         source="${workspacedir}"
-        repository="file:${target}/p2/child"
+        repository="file:${target}/p2/${p2SubDirName}"
         append="false"
         repositoryname="Bndtools Plugins by Pelagic"
         compress="true">

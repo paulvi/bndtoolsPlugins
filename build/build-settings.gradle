@@ -1,10 +1,11 @@
 assert(hasProperty("bnd_targetDir"))
 
+ext.p2SubDir               = "child"
 ext.p2BndtoolsdateSiteUrl  = "https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/"
 ext.p2PelagicUpdateSiteUrl = "http://bndtools-plugins.pelagic.nl/master/"
 
 
-ext.bnd_buildP2IndexRootPelagic = "$bnd_targetDir/p2/child"
+ext.bnd_buildP2IndexRootPelagic = "$bnd_targetDir/p2/$p2SubDir"
 ext.bnd_buildP2IndexTreePelagic = fileTree("$bnd_buildP2IndexRootPelagic/plugins").include("**/*.jar")
 
 /* Index task overrides */

@@ -80,6 +80,7 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   javaArgs     += "$projectDir/$bnd_targetDir"
   javaArgs     += "-buildfile"
   javaArgs     += "p2.xml"
+  javaArgs     += "-Dp2SubDir=$p2SubDir"
   javaArgs     += antTarget
 
   def result = javaexec {
@@ -193,12 +194,12 @@ task p2 {
 
   inputs.files { fileTree(projectDir)
                    .include("p2.xml")
-                   .include("$bnd_targetDir/p2/child/**")
+                   .include("$bnd_targetDir/p2/$p2SubDir/**")
                    .include("$bnd_targetDir/features/pelagic/category.xml")
                }
 
   doLast {
-    generateP2Repository("Bndtools Plugins by Pelagic", "p2Pelagic", "p2/child", "features/pelagic/category.xml")
+    generateP2Repository("Bndtools Plugins by Pelagic", "p2Pelagic", "p2/$p2SubDir", "features/pelagic/category.xml")
     delete("$bnd_targetDir/features")
     delete("$bnd_targetDir/plugins")
   }
@@ -212,7 +213,10 @@ task p2 {
 task distCompositePelagic(type: Copy) {
   from    "feature/pelagic"
   into    "$bnd_targetDir/p2"
-  filter(ReplaceTokens, tokens: ["p2Timestamp" : p2Timestamp, "p2BndtoolsdateSiteUrl" : p2BndtoolsdateSiteUrl])
+  filter(ReplaceTokens, tokens: [
+             "p2Timestamp" : p2Timestamp,
+             "p2BndtoolsdateSiteUrl" : p2BndtoolsdateSiteUrl,
+             "p2SubDir" : p2SubDir])
   include "compositeContent.xml"
   include "compositeArtifacts.xml"
 }
