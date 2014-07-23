@@ -289,21 +289,24 @@ clean.doLast {
 task bundle {
   description   "Assembles OSGi bundle(s)."
   group         "Build"
-  inputs.files  { getBundleInputFiles()  }
-  outputs.files { getBundleOutputFiles() }
-  enabled       bnd_doBundle
   dependsOn     classes
+  enabled       bnd_doBundle
 
-  doLast {
-    try {
-      def targetDir = file(bnd_targetDir)
-      if ((!targetDir.exists() && !targetDir.mkdirs()) || !targetDir.isDirectory()) {
-        throw new GradleException("Could not create directory $targetDir")
+  if (enabled) {
+    inputs.files  { getBundleInputFiles()  }
+    outputs.files { getBundleOutputFiles() }
+
+    doLast {
+      try {
+        def targetDir = file(bnd_targetDir)
+        if ((!targetDir.exists() && !targetDir.mkdirs()) || !targetDir.isDirectory()) {
+          throw new GradleException("Could not create directory $targetDir")
+        }
+        bnd_project.build()
+        printBndProjectWarningsAndErrors()
+      } catch (Exception e) {
+        throw new GradleException("Building OSGi bundle(s) of project $project.name failed", e)
       }
-      bnd_project.build()
-      printBndProjectWarningsAndErrors()
-    } catch (Exception e) {
-      throw new GradleException("Building OSGi bundle(s) of project $project.name failed", e)
     }
   }
 }
@@ -311,16 +314,19 @@ task bundle {
 task release {
   description   "Release OSGi bundle(s) into the release repository."
   group         "Release"
-  inputs.files  { getBundleOutputFiles() }
-  enabled       bnd_doRelease
   dependsOn     bundle
+  enabled       bnd_doRelease
 
-  doLast {
-    try {
-      bnd_project.release(bnd_releaseRepo, false)
-      printBndProjectWarningsAndErrors()
-    } catch (Exception e) {
-      throw new GradleException("Releasing OSGi bundle(s) of project $project.name failed", e)
+  if (enabled) {
+    inputs.files  { getBundleOutputFiles() }
+
+    doLast {
+      try {
+        bnd_project.release(bnd_releaseRepo, false)
+        printBndProjectWarningsAndErrors()
+      } catch (Exception e) {
+        throw new GradleException("Releasing OSGi bundle(s) of project $project.name failed", e)
+      }
     }
   }
 }
@@ -334,24 +340,27 @@ task releaseNeeded {
 task export {
   description   "Export bndrun files to runable jars."
   group         "Export"
-  inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
-  outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
-  enabled       bnd_doExport
   dependsOn     bundle
+  enabled       bnd_doExport
 
-  doLast {
-    def exportDir = file(bnd_exportDir)
-    if ((!exportDir.exists() && !exportDir.mkdirs()) || !exportDir.isDirectory()) {
-      throw new GradleException("Could not create directory $exportDir")
-    }
-    bnd_runFiles.each { f ->
-      def runFile = relativePath(f)
-      def jarFile = runFile.replaceAll("\\.bndrun\$", ".jar")
-      try {
-        bnd_project.export(runFile, false, file("$bnd_exportDir/$jarFile"))
-        printBndProjectWarningsAndErrors()
-      } catch (Exception e) {
-        throw new GradleException("Exporting $runFile of project $project.name failed", e)
+  if (enabled) {
+    inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
+    outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
+
+    doLast {
+      def exportDir = file(bnd_exportDir)
+      if ((!exportDir.exists() && !exportDir.mkdirs()) || !exportDir.isDirectory()) {
+        throw new GradleException("Could not create directory $exportDir")
+      }
+      bnd_runFiles.each { f ->
+        def runFile = relativePath(f)
+        def jarFile = runFile.replaceAll("\\.bndrun\$", ".jar")
+        try {
+          bnd_project.export(runFile, false, file("$bnd_exportDir/$jarFile"))
+          printBndProjectWarningsAndErrors()
+        } catch (Exception e) {
+          throw new GradleException("Exporting $runFile of project $project.name failed", e)
+        }
       }
     }
   }
@@ -360,16 +369,19 @@ task export {
 task bundleTest {
   description   "Run OSGi tests."
   group         "Verification"
-  inputs.files  { getBundleOutputFiles() }
   enabled       bnd_doBundleTests
   dependsOn     bundle
 
-  doLast {
-    try {
-      bnd_project.test()
-      printBndProjectWarningsAndErrors()
-    } catch (Exception e) {
-      throw new GradleException("Running OSGi tests in project $project.name failed", e)
+  if (enabled) {
+    inputs.files  { getBundleOutputFiles() }
+
+    doLast {
+      try {
+        bnd_project.test()
+        printBndProjectWarningsAndErrors()
+      } catch (Exception e) {
+        throw new GradleException("Running OSGi tests in project $project.name failed", e)
+      }
     }
   }
 }
@@ -401,8 +413,8 @@ task bndproperties {
  * Setup task dependencies
  */
 
-jar.enabled                  = false
 jar.dependsOn               += [bundle                           ]
+jar.enabled                  = false
 
 test.dependsOn              += [bundle                           ]
 test.enabled                   bnd_doJUnitTests
