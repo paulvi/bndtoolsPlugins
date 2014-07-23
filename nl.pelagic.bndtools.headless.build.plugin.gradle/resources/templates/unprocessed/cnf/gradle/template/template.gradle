@@ -10,8 +10,8 @@
  */
 
 assert(project == rootProject      )
-assert(hasProperty("bnd_cnf"      ))
-assert(hasProperty("bnd_workspace"))
+assert(hasProperty("bndCnf"      ))
+assert(hasProperty("bndWorkspace"))
 
 
 /*
@@ -20,22 +20,22 @@ assert(hasProperty("bnd_workspace"))
 
 allprojects { project ->
   /* Load the build settings */
-  apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/settings-allProjects.gradle")
+  apply from: rootProject.file("$rootProject.bndCnf/gradle/template/settings-allProjects.gradle")
 
   /* The Gradle build directory */
-  project.buildDir = project.bnd_targetDir
+  project.buildDir = project.bndTargetDir
 
   /* Add findbugs placeholder tasks to the project */
-  apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/findbugs-placeholders.gradle")
+  apply from: rootProject.file("$rootProject.bndCnf/gradle/template/findbugs-placeholders.gradle")
 
   /* Add index tasks to the project */
-  apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/index.gradle")
+  apply from: rootProject.file("$rootProject.bndCnf/gradle/template/index.gradle")
 
   /* Add clean tasks to the project */
-  apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/clean.gradle")
+  apply from: rootProject.file("$rootProject.bndCnf/gradle/template/clean.gradle")
 
   /* Load the build customisations */
-  apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/allProjects.gradle")
+  apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/allProjects.gradle")
 }
 
 
@@ -44,8 +44,8 @@ allprojects { project ->
  */
 
 subprojects { project ->
-  def bnd_project = rootProject.bnd_workspace.getProject(project.projectDir)
-  if (bnd_project == null) {
+  def bndProject = rootProject.bndWorkspace.getProject(project.projectDir)
+  if (bndProject == null) {
     assert(project.hasProperty("gradleBuild_nonBndProjectsDefaultTasks"))
 
     defaultTasks.clear()
@@ -54,7 +54,7 @@ subprojects { project ->
     }
 
     /* Load the build customisations */
-    apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/nonBndProjects.gradle")
+    apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/nonBndProjects.gradle")
   } else {
     assert(project.hasProperty("gradleBuild_bndProjectsDefaultTasks"))
 
@@ -64,14 +64,14 @@ subprojects { project ->
     }
 
     /* Store the bnd project for use in the bnd project template */
-    project.ext.bnd_project = bnd_project
+    project.ext.bndProject = bndProject
 
     /* Apply the bnd project template */
-    apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/bndProject.gradle")
+    apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndProject.gradle")
   }
 
   /* Load the build customisations */
-  apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/subProjects.gradle")
+  apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/subProjects.gradle")
 }
 
 
@@ -80,4 +80,4 @@ subprojects { project ->
  */
 
 /* Apply the rootProject template */
-apply from: file("$bnd_cnf/gradle/template/rootProject.gradle")
+apply from: file("$bndCnf/gradle/template/rootProject.gradle")

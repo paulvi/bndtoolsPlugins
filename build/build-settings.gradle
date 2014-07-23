@@ -1,16 +1,16 @@
-assert(hasProperty("bnd_targetDir"))
+assert(hasProperty("bndTargetDir"))
 
 ext.p2SubDir               = "pelagic"
 ext.p2BndtoolsdateSiteUrl  = "https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/"
 ext.p2PelagicUpdateSiteUrl = "http://bndtools-plugins.pelagic.nl/master/"
 
 
-ext.bnd_buildP2IndexRootPelagic = "$bnd_targetDir/p2/$p2SubDir"
-ext.bnd_buildP2IndexTreePelagic = fileTree("$bnd_buildP2IndexRootPelagic/plugins").include("**/*.jar")
+ext.bndBuildP2IndexRootPelagic = "$bndTargetDir/p2/$p2SubDir"
+ext.bndBuildP2IndexTreePelagic = fileTree("$bndBuildP2IndexRootPelagic/plugins").include("**/*.jar")
 
 /* Index task overrides */
 ext.gradleBuild_indexDirectories = \
-  "$bnd_buildP2IndexRootPelagic;Bndtools Plugins by Pelagic;bnd_buildP2IndexTreePelagic"
+  "$bndBuildP2IndexRootPelagic;Bndtools Plugins by Pelagic;bndBuildP2IndexTreePelagic"
 
 /* Default tasks override */
 defaultTasks "dist"

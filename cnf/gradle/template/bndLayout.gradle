@@ -13,10 +13,10 @@
  */
 
 assert(project != rootProject                       )
-assert(hasProperty("bnd_srcBinDir"                 ))
-assert(hasProperty("bnd_srcDir"                    ))
-assert(hasProperty("bnd_testSrcBinDir"             ))
-assert(hasProperty("bnd_testSrcDir"                ))
+assert(hasProperty("bndSrcBinDir"                  ))
+assert(hasProperty("bndSrcDir"                     ))
+assert(hasProperty("bndTestSrcBinDir"              ))
+assert(hasProperty("bndTestSrcDir"                 ))
 assert(hasProperty("gradleBuild_libsDirName"       ))
 assert(hasProperty("gradleBuild_testReportDirName" ))
 assert(hasProperty("gradleBuild_testResultsDirName"))
@@ -28,13 +28,13 @@ testResultsDirName                     = gradleBuild_testResultsDirName
 testReportDirName                      = gradleBuild_testReportDirName
 
 /* Java source code source set */
-sourceSets.main.java.srcDirs           = files(bnd_project.sourcePath.collect { relativePath(it) })
-sourceSets.main.resources.srcDirs      = files(bnd_project.sourcePath.collect { relativePath(it) })
-sourceSets.main.output.classesDir      =       bnd_srcBinDir
-sourceSets.main.output.resourcesDir    =       bnd_srcBinDir
+sourceSets.main.java.srcDirs           = files(bndProject.sourcePath.collect { relativePath(it) })
+sourceSets.main.resources.srcDirs      = files(bndProject.sourcePath.collect { relativePath(it) })
+sourceSets.main.output.classesDir      =       bndSrcBinDir
+sourceSets.main.output.resourcesDir    =       bndSrcBinDir
 
 /* Java test code source set */
-sourceSets.test.java.srcDirs           = files(bnd_testSrcDir   )
-sourceSets.test.resources.srcDirs      = files(bnd_testSrcDir   )
-sourceSets.test.output.classesDir      =       bnd_testSrcBinDir
-sourceSets.test.output.resourcesDir    =       bnd_testSrcBinDir
+sourceSets.test.java.srcDirs           = files(bndTestSrcDir   )
+sourceSets.test.resources.srcDirs      = files(bndTestSrcDir   )
+sourceSets.test.output.classesDir      =       bndTestSrcBinDir
+sourceSets.test.output.resourcesDir    =       bndTestSrcBinDir

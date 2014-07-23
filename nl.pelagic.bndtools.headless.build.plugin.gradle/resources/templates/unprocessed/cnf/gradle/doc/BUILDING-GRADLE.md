@@ -696,9 +696,9 @@ named ```bnd```.
 assert(project != rootProject)
 
 /* Index task overrides */
-ext.bnd_distIndexRoot                = "bundles"
-ext.bnd_distIndexDirectories         = fileTree(bnd_distIndexRoot).include("**/*.jar").exclude("**/*-latest.jar")
-ext.gradleBuild_indexDirectories     = "$bnd_distIndexRoot;bnd;bnd_distIndexDirectories"
+ext.bndDistIndexRoot                 = "bundles"
+ext.bndDistIndexDirectories          = fileTree(bndDistIndexRoot).include("**/*.jar").exclude("**/*-latest.jar")
+ext.gradleBuild_indexDirectories     = "$bndDistIndexRoot;bnd;bndDistIndexDirectories"
 ext.gradleBuild_indexOBRUncompressed = true
 ext.gradleBuild_indexOBRCompressed   = true
 ext.gradleBuild_indexR5Uncompressed  = true
@@ -735,13 +735,13 @@ assert(project != rootProject)
 
 apply plugin: "java"
 
-assert(rootProject.hasProperty("bnd_cnf"))
+assert(rootProject.hasProperty("bndCnf"))
 
 /* Setup the bnd project layout */
-apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/bndLayout.gradle")
+apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.gradle")
 
 /* Add tasks that are relevant to Java projects */
-apply from: rootProject.file("$rootProject.bnd_cnf/gradle/template/javaProject.gradle")
+apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")
 ```
 
 As an example, if the project should use the Maven layout, then add
@@ -749,10 +749,10 @@ a ```build-settings.gradle``` file in the root directory of the project as
 shown below.
 
 ```
-ext.bnd_srcDir        = "src/main/java"
-ext.bnd_srcBinDir     = "target/classes"
-ext.bnd_testSrcDir    = "src/main/test"
-ext.bnd_testSrcBinDir = "target/test-classes"
-ext.bnd_targetDir     = "target"
+ext.bndSrcDir        = "src/main/java"
+ext.bndSrcBinDir     = "target/classes"
+ext.bndTestSrcDir    = "src/main/test"
+ext.bndTestSrcBinDir = "target/test-classes"
+ext.bndTargetDir     = "target"
 ```
 

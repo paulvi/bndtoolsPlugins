@@ -23,11 +23,11 @@ if (cnfs.isEmpty()) {
 if (cnfs.size() > 1) {
   throw new GradleException("Multiple cnf projects found: $cnfs")
 }
-ext.bnd_cnf = cnfs.get(0)
+ext.bndCnf = cnfs.get(0)
 
 
 /* Load the workspace build settings */
-apply from: file("$bnd_cnf/gradle/template/settings-workspace.gradle")
+apply from: file("$bndCnf/gradle/template/settings-workspace.gradle")
 
 /* Logging */
 assert(hasProperty("gradleBuild_loggingCaptureStandardOutput"))
@@ -36,10 +36,10 @@ logging.captureStandardOutput   gradleBuild_loggingCaptureStandardOutput
 logging.level                 = gradleBuild_loggingLevel
 
 /* Determine the build dependencies */
-apply from: file("$bnd_cnf/gradle/template/buildDependencies.gradle")
+apply from: file("$bndCnf/gradle/template/buildDependencies.gradle")
 
 /* Initialise the bnd workspace and load the workspace defaults */
-apply from: file("$bnd_cnf/gradle/template/bndWorkspace.gradle")
+apply from: file("$bndCnf/gradle/template/bndWorkspace.gradle")
 
 /* Apply the build template */
-apply from: file("$bnd_cnf/gradle/template/template.gradle")
+apply from: file("$bndCnf/gradle/template/template.gradle")

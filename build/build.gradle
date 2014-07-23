@@ -1,16 +1,16 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 
-assert(hasProperty("bnd_project"  ))
-assert(hasProperty("bnd_targetDir"))
+assert(hasProperty("bndProject"  ))
+assert(hasProperty("bndTargetDir"))
 
 
 /* Eclipse settings for p2 publishing */
-ext.bnd_eclipseDirectory         = "$projectDir/eclipse-3.5.2"
-ext.bnd_eclipseJar               = files("$bnd_eclipseDirectory/plugins/org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar")
-ext.bnd_eclipseJarMain           = "org.eclipse.equinox.launcher.Main"
-ext.bnd_eclipseAntRunner         = "org.eclipse.ant.core.antRunner"
-ext.bnd_eclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPublisher"
+ext.bndEclipseDirectory         = "$projectDir/eclipse-3.5.2"
+ext.bndEclipseJar               = files("$bndEclipseDirectory/plugins/org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar")
+ext.bndEclipseJarMain           = "org.eclipse.equinox.launcher.Main"
+ext.bndEclipseAntRunner         = "org.eclipse.ant.core.antRunner"
+ext.bndEclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPublisher"
 
 
 /*
@@ -25,9 +25,9 @@ ext.bnd_eclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPub
 String getBndProjectProperty(String key, boolean throwOnNotSet) {
   assert(project != null                       )
   assert(key != null && !key.isEmpty()         )
-  assert(hasProperty("bnd_flattenedProperties"))
+  assert(hasProperty("bndFlattenedProperties"))
 
-  def value = bnd_flattenedProperties.getProperty(key, null)
+  def value = bndFlattenedProperties.getProperty(key, null)
   if (value == null) {
     if (throwOnNotSet) {
       throw new GradleException("Bnd property \"$key\" not found in project $project.name")
@@ -47,13 +47,13 @@ void copyProjectBundles(List<String> projs, String dstDir) {
       throw new GradleException("Could not find project " + it)
     }
 
-    proj.bnd_project.subBuilders.each { subBuilder ->
+    proj.bndProject.subBuilders.each { subBuilder ->
       def targetDir = file(dstDir)
       if ((!targetDir.exists() && !targetDir.mkdirs()) || !targetDir.isDirectory()) {
         throw new GradleException("Could not create directory $targetDir")
       }
       copy {
-        from project.relativePath(proj.bnd_project.getOutputFile(subBuilder.bsn))
+        from project.relativePath(proj.bndProject.getOutputFile(subBuilder.bsn))
         into targetDir
       }
     }
@@ -64,28 +64,28 @@ void copyProjectBundles(List<String> projs, String dstDir) {
  * Generate a p2 repository.
  */
 void generateP2Repository(String title, String antTarget, String metadataRepository, String categoryDefinition) {
-  assert(hasProperty("bnd_eclipseJar"              ))
-  assert(hasProperty("bnd_eclipseJarMain"          ))
-  assert(hasProperty("bnd_eclipseAntRunner"        ))
-  assert(hasProperty("bnd_eclipseCategoryPublisher"))
-  assert(hasProperty("bnd_targetDir"               ))
+  assert(hasProperty("bndEclipseJar"              ))
+  assert(hasProperty("bndEclipseJarMain"          ))
+  assert(hasProperty("bndEclipseAntRunner"        ))
+  assert(hasProperty("bndEclipseCategoryPublisher"))
+  assert(hasProperty("bndTargetDir"               ))
 
   def javaArgs  = []
-  if (bnd_verbose) {
+  if (bndVerbose) {
     javaArgs   += "-consoleLog"
   }
   javaArgs     += "-application"
-  javaArgs     += bnd_eclipseAntRunner
+  javaArgs     += bndEclipseAntRunner
   javaArgs     += "-data"
-  javaArgs     += "$projectDir/$bnd_targetDir"
+  javaArgs     += "$projectDir/$bndTargetDir"
   javaArgs     += "-buildfile"
   javaArgs     += "p2.xml"
   javaArgs     += "-Dp2SubDir=$p2SubDir"
   javaArgs     += antTarget
 
   def result = javaexec {
-    classpath      = bnd_eclipseJar
-    main           = bnd_eclipseJarMain
+    classpath      = bndEclipseJar
+    main           = bndEclipseJarMain
     args           = javaArgs
   }
   if (result.exitValue != 0) {
@@ -93,22 +93,22 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   }
 
   javaArgs  = []
-  if (bnd_verbose) {
+  if (bndVerbose) {
     javaArgs   += "-consoleLog"
   }
   javaArgs     += "-application"
-  javaArgs     += bnd_eclipseCategoryPublisher
+  javaArgs     += bndEclipseCategoryPublisher
   javaArgs     += "-data"
-  javaArgs     += "$projectDir/$bnd_targetDir"
+  javaArgs     += "$projectDir/$bndTargetDir"
   javaArgs     += "-metadataRepository"
-  javaArgs     += "file:$projectDir/$bnd_targetDir/$metadataRepository"
+  javaArgs     += "file:$projectDir/$bndTargetDir/$metadataRepository"
   javaArgs     += "-categoryDefinition"
-  javaArgs     += "file:$projectDir/$bnd_targetDir/$categoryDefinition"
+  javaArgs     += "file:$projectDir/$bndTargetDir/$categoryDefinition"
   javaArgs     += "-compress"
 
   result = javaexec {
-    classpath      = bnd_eclipseJar
-    main           = bnd_eclipseJarMain
+    classpath      = bndEclipseJar
+    main           = bndEclipseJarMain
     args           = javaArgs
   }
   if (result.exitValue != 0) {
@@ -116,14 +116,14 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   }
 
   /* Clean up the files Eclipse leaves behind */
-  fileTree("$bnd_eclipseDirectory").include("configuration/*.log").each {
+  fileTree("$bndEclipseDirectory").include("configuration/*.log").each {
     it.delete()
   }
 
-  delete(file("$bnd_eclipseDirectory/configuration/org.eclipse.core.runtime"))
-  delete(file("$bnd_eclipseDirectory/configuration/org.eclipse.equinox.app" ))
-  delete(file("$bnd_eclipseDirectory/configuration/org.eclipse.osgi"        ))
-  delete(file("$bnd_eclipseDirectory/p2"                                    ))
+  delete(file("$bndEclipseDirectory/configuration/org.eclipse.core.runtime"))
+  delete(file("$bndEclipseDirectory/configuration/org.eclipse.equinox.app" ))
+  delete(file("$bndEclipseDirectory/configuration/org.eclipse.osgi"        ))
+  delete(file("$bndEclipseDirectory/p2"                                    ))
 }
 
 
@@ -150,16 +150,16 @@ ext.masterVersion = String.format("%s.%s-%s-g%s",
 
 task p2FeaturesTree(type: Copy) {
   from    "feature"
-  into    "$bnd_targetDir/features"
+  into    "$bndTargetDir/features"
   filter(ReplaceTokens, tokens: ["master-version" : masterVersion, "p2PelagicUpdateSiteUrl" : p2PelagicUpdateSiteUrl])
   include "**/category.xml"
   include "**/feature.xml"
 }
 
 task p2FeatureGradlePlugin(type: Zip) {
-  destinationDir = file("$bnd_targetDir/features/pelagic")
+  destinationDir = file("$bndTargetDir/features/pelagic")
   archiveName    = "nl.pelagic.bndtools.headless.build.plugin.gradle.feature.jar"
-  from             "$bnd_targetDir/features/pelagic/gradle"
+  from             "$bndTargetDir/features/pelagic/gradle"
   include          "feature.xml"
 }
 
@@ -173,13 +173,13 @@ task p2Features {
 
 task p2PluginsPelagic() {
   doLast {
-    copyProjectBundles(p2_pelagic, "$bnd_targetDir/plugins/pelagic")
+    copyProjectBundles(p2_pelagic, "$bndTargetDir/plugins/pelagic")
   }
 }
 
 task p2Plugins {
   doLast {
-    delete("$bnd_targetDir/tmp");
+    delete("$bndTargetDir/tmp");
   }
 }
 
@@ -194,14 +194,14 @@ task p2 {
 
   inputs.files { fileTree(projectDir)
                    .include("p2.xml")
-                   .include("$bnd_targetDir/p2/$p2SubDir/**")
-                   .include("$bnd_targetDir/features/pelagic/category.xml")
+                   .include("$bndTargetDir/p2/$p2SubDir/**")
+                   .include("$bndTargetDir/features/pelagic/category.xml")
                }
 
   doLast {
     generateP2Repository("Bndtools Plugins by Pelagic", "p2Pelagic", "p2/$p2SubDir", "features/pelagic/category.xml")
-    delete("$bnd_targetDir/features")
-    delete("$bnd_targetDir/plugins")
+    delete("$bndTargetDir/features")
+    delete("$bndTargetDir/plugins")
   }
 }
 
@@ -212,7 +212,7 @@ task p2 {
 
 task distCompositePelagic(type: Copy) {
   from    "feature/pelagic"
-  into    "$bnd_targetDir/p2"
+  into    "$bndTargetDir/p2"
   filter(ReplaceTokens, tokens: [
              "p2Timestamp" : p2Timestamp,
              "p2BndtoolsdateSiteUrl" : p2BndtoolsdateSiteUrl,
@@ -222,9 +222,9 @@ task distCompositePelagic(type: Copy) {
 }
 
 task distZipPelagic(type: Zip) {
-  destinationDir = file(bnd_targetDir)
+  destinationDir = file(bndTargetDir)
   archiveName    = "pelagic-bndtools-plugins-latest.zip"
-  from             "$bnd_targetDir/p2"
+  from             "$bndTargetDir/p2"
   include          "**"
 }
 
@@ -244,7 +244,7 @@ release.enabled                      = false
 
 /* depend on all bnd projects in the workspace */
 rootProject.subprojects.each {
-  if (it.hasProperty("bnd_project")) {
+  if (it.hasProperty("bndProject")) {
     p2Entry.dependsOn += [":" + it.name + ":bundle"]
   }
 }

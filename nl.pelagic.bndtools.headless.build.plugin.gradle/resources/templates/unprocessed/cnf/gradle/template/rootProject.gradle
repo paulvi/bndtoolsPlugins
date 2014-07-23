@@ -16,11 +16,11 @@ assert(project == rootProject)
  * Root Project
  */
 
-assert(hasProperty("bnd_cnf"))
+assert(hasProperty("bndCnf"))
 
 
 /* Load the default build settings for the root project */
-apply from: file("$bnd_cnf/gradle/template/settings-rootProject.gradle")
+apply from: file("$bndCnf/gradle/template/settings-rootProject.gradle")
 
 
 assert(hasProperty("gradleBuild_gradleVersion"))
@@ -47,10 +47,10 @@ task wrapper(type: Wrapper) {
 }
 
 distclean.doLast {
-  delete("$bnd_cnf/cache")
-  delete(".gradle")
+  delete("$bndCnf/cache")
+  delete(".gradle"      )
 }
 
 
 /* Load the build customisations */
-apply from: file("$bnd_cnf/gradle/custom/rootProject.gradle")
+apply from: file("$bndCnf/gradle/custom/rootProject.gradle")

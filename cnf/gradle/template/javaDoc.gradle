@@ -13,7 +13,7 @@
  */
 
 assert(project != rootProject                            )
-assert(hasProperty("bnd_targetDir"                      ))
+assert(hasProperty("bndTargetDir"                       ))
 assert(hasProperty("gradleBuild_javadocAuthor"          ))
 assert(hasProperty("gradleBuild_javadocBreakIterator"   ))
 assert(hasProperty("gradleBuild_javadocClassPathBoot"   ))
@@ -39,7 +39,7 @@ assert(hasProperty("gradleBuild_javadocVersion"         ))
 assert(hasProperty("sourceSets"                         ))
 
 
-javadoc.destinationDir                     = file("$bnd_targetDir/$gradleBuild_javadocDir")
+javadoc.destinationDir                     = file("$bndTargetDir/$gradleBuild_javadocDir")
 javadoc.source                             = sourceSets.main.allJava
 javadoc.title                              = "$project.name"
 javadoc.failOnError                        = gradleBuild_javadocFailOnError
