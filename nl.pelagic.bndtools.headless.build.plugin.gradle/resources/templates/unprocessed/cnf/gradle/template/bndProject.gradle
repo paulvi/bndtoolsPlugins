@@ -390,13 +390,13 @@ task bndproperties {
  * Setup task dependencies
  */
 
-jar.dependsOn               += [bundle                           ]
-jar.enabled                  = false
+jar.dependsOn(bundle)
+jar.enabled = false
 
-test.dependsOn              += [bundle                           ]
-test.enabled                   bndDoJUnitTests
+test.dependsOn(bundle)
+test.enabled = bndDoJUnitTests
 
-check.dependsOn             += [bundleTest                       ]
+check.dependsOn(bundleTest)
 
 bndProject.dependson.each {
   compileJava.dependsOn  (":${it.name}:bundle")
