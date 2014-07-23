@@ -36,7 +36,7 @@ buildscript {
  * Returns an empty string when the property is not set unless instructed to
  * throw an exception when the property is not set.
  */
-String getBndProjectProperty(String key, boolean throwOnNotSet) {
+String bnd(String key, boolean throwOnNotSet) {
   assert(project != null                       )
   assert(key != null && !key.isEmpty()         )
   assert(hasProperty("bndFlattenedProperties"))
@@ -166,24 +166,24 @@ ext.bndClassPathTest                = bndPathToFileList(bndProject.testpath     
 ext.bndClassPathRun                 = bndPathToFileList(bndProject.runpath      )
 
 /* Java compiler options */
-ext.bndDebug                        = parseBoolean(getBndProjectProperty("javac.debug" , false))
-ext.bndJava                         =              getBndProjectProperty("java"        , true )
-ext.bndJavac                        =              getBndProjectProperty("javac"       , true )
-ext.bndJavacSource                  =              getBndProjectProperty("javac.source", true )
-ext.bndJavacTarget                  =              getBndProjectProperty("javac.target", true )
+ext.bndDebug                        = parseBoolean(bnd("javac.debug" , false))
+ext.bndJava                         =              bnd("java"        , true )
+ext.bndJavac                        =              bnd("javac"       , true )
+ext.bndJavacSource                  =              bnd("javac.source", true )
+ext.bndJavacTarget                  =              bnd("javac.target", true )
 
 /* Other settings */
-ext.bndVerbose                      = parseBoolean(getBndProjectProperty(Constants.VERBOSE    , false))
-ext.bndReleaseRepo                  =              getBndProjectProperty(Constants.RELEASEREPO, false)
+ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE    , false))
+ext.bndReleaseRepo                  =              bnd(Constants.RELEASEREPO, false)
 
 /* File trees */
 ext.bndRunFiles                     = fileTree(projectDir).include("*.bndrun")
 
 /* Task skipping instructions */
-ext.bndNoJunit1                     = parseBoolean(getBndProjectProperty(Constants.NOJUNIT    , false))
-ext.bndNoJunit2                     = parseBoolean(getBndProjectProperty("no.junit"           , false))
-ext.bndNoJunitOsgi                  = parseBoolean(getBndProjectProperty(Constants.NOJUNITOSGI, false))
-ext.bndTestCases                    =              getBndProjectProperty(Constants.TESTCASES  , false)
+ext.bndNoJunit1                     = parseBoolean(bnd(Constants.NOJUNIT    , false))
+ext.bndNoJunit2                     = parseBoolean(bnd("no.junit"           , false))
+ext.bndNoJunitOsgi                  = parseBoolean(bnd(Constants.NOJUNITOSGI, false))
+ext.bndTestCases                    =              bnd(Constants.TESTCASES  , false)
 ext.bndNoBundles                    = bndProject.isNoBundles()
 
 /* Task skipping booleans */
@@ -380,7 +380,7 @@ task bndproperties {
     bndProject.getPropertyKeys(true).sort({
       s1, s2 -> s1.compareTo(s2)
     }).each {
-      println "${it}: ${getBndProjectProperty(it, false)}"
+      println "${it}: ${bnd(it, false)}"
     }
   }
 }
