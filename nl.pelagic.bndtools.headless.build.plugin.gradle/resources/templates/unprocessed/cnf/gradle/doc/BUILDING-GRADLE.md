@@ -380,10 +380,10 @@ The build has the following flow:
           to the source sets and their compiler options.
 
         * The ```bundle```, ```release```, ```releaseNeeded```, ```export```
-          , ```bundleTest```, ```bndproperties``` and ```clean``` tasks are
-          setup and their dependencies are configured in such a way that they
-          hook into the tasks that are setup by the Java plugin
-          (see [the tasks diagram](#svg)).
+          , ```export.<name>```, ```bundleTest```, ```bndproperties```
+          and ```clean``` tasks are setup and their dependencies are configured
+          in such a way that they hook into the tasks that are setup by the
+          Java plugin (see [the tasks diagram](#svg)).
 
         * Build customisations are loaded from
           the ```cnf/gradle/custom/bndProjects.gradle``` file.
@@ -461,6 +461,13 @@ This task is automatically disabled when no release repository is defined.
 This task will invoke the ```release``` task on all projects on which the
 project is dependent, after which the ```release``` task is invoked on the
 project itself.
+
+### export.<name>
+
+This task will export the ```<name>.bndrun``` file in the project to an
+executable jar.
+
+This task is only setup the project contains a ```<name>.bndrun``` file.
 
 ### export
 

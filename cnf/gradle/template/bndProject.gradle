@@ -337,24 +337,21 @@ task releaseNeeded {
   dependsOn     release
 }
 
-task export {
-  description   "Export bndrun files to runable jars."
-  group         "Export"
-  dependsOn     bundle
-  enabled       bnd_doExport
 
-  if (enabled) {
-    inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
-    outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
-
-    doLast {
-      def exportDir = file(bnd_exportDir)
-      if ((!exportDir.exists() && !exportDir.mkdirs()) || !exportDir.isDirectory()) {
-        throw new GradleException("Could not create directory $exportDir")
-      }
-      bnd_runFiles.each { f ->
-        def runFile = relativePath(f)
-        def jarFile = runFile.replaceAll("\\.bndrun\$", ".jar")
+tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnable jar.') { taskName ->
+  if (taskName.startsWith('export.')) {
+    def bndrun = taskName - 'export.'
+    task(taskName) {
+      description   "Export the ${bndrun}.bndrun file to a runnable jar."
+      group         "Export"
+      dependsOn     bundle
+      def runFile = relativePath("${bndrun}.bndrun")
+      def jarFile = "${bndrun}.jar"
+      doLast {
+        def exportDir = file(bnd_exportDir)
+        if ((!exportDir.exists() && !exportDir.mkdirs()) || !exportDir.isDirectory()) {
+          throw new GradleException("Could not create directory $exportDir")
+        }
         try {
           bnd_project.export(runFile, false, file("$bnd_exportDir/$jarFile"))
         } catch (Exception e) {
@@ -365,6 +362,24 @@ task export {
     }
   }
 }
+
+
+task export {
+  description   "Export bndrun files to runnable jars."
+  group         "Export"
+  dependsOn     bundle
+  enabled       bnd_doExport
+
+  if (enabled) {
+    inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
+    outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
+
+    bnd_runFiles.each {
+      dependsOn tasks.getByPath("export.${it.name - '.bndrun'}")
+    }
+  }
+}
+
 
 task bundleTest {
   description   "Run OSGi tests."

@@ -83,9 +83,10 @@ digraph GradleSetup {
     subgraph cluster23 {
       label="";
       style=invis;
-      cleanBnd             [shape=box, style=filled, fillcolor=cyan     , label="clean"               ]
-      bndproperties        [shape=box, style=filled, fillcolor=cyan     , label="bndproperties"       ]
-      export               [shape=box, style=filled, fillcolor=cyan     , label="export"              ]
+      cleanBnd             [shape=box,   style=filled, fillcolor=cyan   , label="clean"               ]
+      bndproperties        [shape=box,   style=filled, fillcolor=cyan   , label="bndproperties"       ]
+      exportX              [shape=box3d, style=filled, fillcolor=cyan   , label="export.<name>"       ]
+      export               [shape=box,   style=filled, fillcolor=cyan   , label="export"              ]
     }
 
   subgraph cluster100 {
@@ -108,7 +109,8 @@ digraph GradleSetup {
     bundle                 -> bundleTest
     bundle                 -> test
     bundle                 -> release
-    bundle                 -> export
+    bundle                 -> exportX
+    exportX                -> export
     bundleTest             -> check
     release                -> releaseNeeded
     releaseNeeded          -> releaseNeeded      [color=red   ]
