@@ -411,7 +411,7 @@ apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/bndProjects.gra
 /*
  * Print bnd project warnings and errors and exit when errors are not allowed.
  */
-void checkErrors() {
+private void checkErrors() {
   assert(project != null           )
   assert(hasProperty("bnd_project"))
 
@@ -438,6 +438,6 @@ void checkErrors() {
 /*
  * Parse a boolean the same way bnd parses it.
  */
-boolean parseBoolean(String value) {
+private boolean parseBoolean(String value) {
   return ("on".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value))
 }
