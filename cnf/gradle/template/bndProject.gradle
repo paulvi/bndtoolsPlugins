@@ -404,10 +404,6 @@ bnd_project.dependson.each {
 }
 
 
-/* Load the build customisations */
-apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/bndProjects.gradle")
-
-
 /*
  * Print bnd project warnings and errors and exit when errors are not allowed.
  */
@@ -441,3 +437,7 @@ private void checkErrors() {
 private boolean parseBoolean(String value) {
   return 'on'.equalsIgnoreCase(value) || 'true'.equalsIgnoreCase(value)
 }
+
+
+/* Load the build customisations */
+apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/bndProjects.gradle")
