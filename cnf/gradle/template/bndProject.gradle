@@ -158,9 +158,6 @@ ext.bndJavacTarget                  =              bnd("javac.target", true )
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE    , false))
 ext.bndReleaseRepo                  =              bnd(Constants.RELEASEREPO, false)
 
-/* File trees */
-ext.bndRunFiles                     = fileTree(projectDir).include("*.bndrun")
-
 /* Task skipping instructions */
 ext.bndNoJunit1                     = parseBoolean(bnd(Constants.NOJUNIT    , false))
 ext.bndNoJunit2                     = parseBoolean(bnd("no.junit"           , false))
@@ -173,7 +170,6 @@ ext.bndDoBundle                     = !bndNoBundles
 ext.bndDoRelease                    = !bndReleaseRepo.isEmpty()
 ext.bndDoJUnitTests                 = !(bndNoJunit1    || bndNoJunit2)
 ext.bndDoBundleTests                = !(bndNoJunitOsgi || bndTestCases.isEmpty())
-ext.bndDoExport                     = !bndRunFiles.isEmpty()
 
 
 /* A bnd project is a java project */
@@ -312,19 +308,21 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
     def bndrun = taskName - 'export.'
     task(taskName) {
       description   "Export the ${bndrun}.bndrun file to a runnable jar."
-      group         "Export"
-      dependsOn     bundle
-      def runFile = relativePath("${bndrun}.bndrun")
-      def jarFile = "${bndrun}.jar"
+      dependsOn bundle
+      group 'export'
+      def runFile = file("${bndrun}.bndrun")
+      def exportFile = file("${bndExportDir}/${bndrun}.jar")
+      outputs.files exportFile
       doLast {
         def exportDir = file(bndExportDir)
         if ((!exportDir.exists() && !exportDir.mkdirs()) || !exportDir.isDirectory()) {
-          throw new GradleException("Could not create directory $exportDir")
+          throw new GradleException("Could not create directory ${exportDir}")
         }
+        logger.info "Exporting: ${runFile.absolutePath} to ${exportFile.absolutePath}"
         try {
-          bndProject.export(runFile, false, file("$bndExportDir/$jarFile"))
+          bndProject.export(relativePath(runFile), false, exportFile)
         } catch (Exception e) {
-          throw new GradleException("Exporting $runFile of project $project.name failed", e)
+          throw new GradleException("Exporting ${runFile} of project ${project.name} failed", e)
         }
         checkErrors()
       }
@@ -333,19 +331,14 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
 }
 
 
-task export {
-  description   "Export bndrun files to runnable jars."
-  group         "Export"
-  dependsOn     bundle
-  enabled       bndDoExport
+task('export') {
+  description   "Export all the bndrun files to runnable jars."
+  group 'export'
 
-  if (enabled) {
-    inputs.files  bndProject.deliverables.collect { it.file }, new File("$bndTargetDir/" + Constants.BUILDFILES), bndRunFiles
-    outputs.files { fileTree(projectDir).include("$bndExportDir/*.jar") }
-
-    bndRunFiles.each {
-      dependsOn tasks.getByPath("export.${it.name - '.bndrun'}")
-    }
+  fileTree(projectDir) {
+    include '*.bndrun'
+  }.each {
+    dependsOn tasks.getByPath("export.${it.name - '.bndrun'}")
   }
 }
 
