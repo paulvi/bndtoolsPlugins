@@ -408,27 +408,29 @@ bnd_project.dependson.each {
  * Print bnd project warnings and errors and exit when errors are not allowed.
  */
 private void checkErrors() {
-  assert(project != null           )
-  assert(hasProperty("bnd_project"))
-
-  def errorCount = 0
-
+  bnd_project.getInfo(bnd_project.workspace, "${bnd_project.workspace.base.name} :")
+  def int errorCount = 0
   bnd_project.warnings.each {
-    logger.warn  "Warning: " + it
+    project.logger.warn "Warning: ${it}"
   }
+
   bnd_project.errors.each {
-    logger.error "Error  : " + it
+    project.logger.error "Error  : ${it}"
     errorCount++
   }
+
   if (!bnd_project.isOk()) {
-    def str = "even though no errors were reported"
+    def str = 'even though no errors were reported'
     if (errorCount == 1) {
-      str = "$errorCount error was reported"
+      str = 'one error was reported'
     } else if (errorCount > 1) {
-      str = "$errorCount errors were reported"
+      str = "${errorCount} errors were reported"
     }
-    throw new GradleException("Project $project.name is invalid, " + str)
+    throw new GradleException("Project ${bnd_project.name} is invalid, ${str}")
   }
+
+  bnd_project.warnings.clear()
+  bnd_project.errors.clear()
 }
 
 /*
