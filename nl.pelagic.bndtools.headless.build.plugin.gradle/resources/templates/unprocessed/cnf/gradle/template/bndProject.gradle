@@ -411,14 +411,10 @@ task bndproperties {
     println "Project $project.name"
     println "------------------------------------------------------------"
     println ""
-
-    def keys = []
-    bnd_flattenedProperties.each {
-      keys += it.key
-    }
-
-    keys.sort({ s1, s2 -> return s1.compareTo(s2)}).each {
-      println String.format("%s: %s", it, getBndProjectProperty(it, false))
+    bnd_project.getPropertyKeys(true).sort({
+      s1, s2 -> s1.compareTo(s2)
+    }).each {
+      println "${it}: ${getBndProjectProperty(it, false)}"
     }
   }
 }
