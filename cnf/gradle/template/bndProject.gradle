@@ -291,7 +291,7 @@ task bundle {
   group         "Build"
   inputs.files  { getBundleInputFiles()  }
   outputs.files { getBundleOutputFiles() }
-  onlyIf        { bnd_doBundle           }
+  enabled       bnd_doBundle
   dependsOn     classes
 
   doLast {
@@ -312,7 +312,7 @@ task release {
   description   "Release OSGi bundle(s) into the release repository."
   group         "Release"
   inputs.files  { getBundleOutputFiles() }
-  onlyIf        { bnd_doRelease          }
+  enabled       bnd_doRelease
   dependsOn     bundle
 
   doLast {
@@ -336,7 +336,7 @@ task export {
   group         "Export"
   inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
   outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
-  onlyIf        { bnd_doExport                                         }
+  enabled       bnd_doExport
   dependsOn     bundle
 
   doLast {
@@ -361,7 +361,7 @@ task bundleTest {
   description   "Run OSGi tests."
   group         "Verification"
   inputs.files  { getBundleOutputFiles() }
-  onlyIf        { bnd_doBundleTests      }
+  enabled       bnd_doBundleTests
   dependsOn     bundle
 
   doLast {
@@ -405,7 +405,7 @@ jar.enabled                  = false
 jar.dependsOn               += [bundle                           ]
 
 test.dependsOn              += [bundle                           ]
-test.onlyIf                    { bnd_doJUnitTests }
+test.enabled                   bnd_doJUnitTests
 
 check.dependsOn             += [bundleTest                       ]
 
