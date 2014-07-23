@@ -51,12 +51,6 @@ String getBndProjectProperty(String key, boolean throwOnNotSet) {
   return value.trim()
 }
 
-/*
- * Parse a boolean the same way bnd parses it.
- */
-boolean parseBoolean(String value) {
-  return ("on".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value))
-}
 
 /*
  * Determine which files will be included in the bundles of a project.
@@ -122,34 +116,6 @@ List<File> bndPathToFileList(Collection<Container> path) {
   }
 
   return files
-}
-
-
-/*
- * Print bnd project warnings and errors and exit when errors are not allowed.
- */
-void checkErrors() {
-  assert(project != null           )
-  assert(hasProperty("bnd_project"))
-
-  def errorCount = 0
-
-  bnd_project.warnings.each {
-    logger.warn  "Warning: " + it
-  }
-  bnd_project.errors.each {
-    logger.error "Error  : " + it
-    errorCount++
-  }
-  if (!bnd_project.isOk()) {
-    def str = "even though no errors were reported"
-    if (errorCount == 1) {
-      str = "$errorCount error was reported"
-    } else if (errorCount > 1) {
-      str = "$errorCount errors were reported"
-    }
-    throw new GradleException("Project $project.name is invalid, " + str)
-  }
 }
 
 
@@ -440,3 +406,38 @@ bnd_project.dependson.each {
 
 /* Load the build customisations */
 apply from: rootProject.file("$rootProject.bnd_cnf/gradle/custom/bndProjects.gradle")
+
+
+/*
+ * Print bnd project warnings and errors and exit when errors are not allowed.
+ */
+void checkErrors() {
+  assert(project != null           )
+  assert(hasProperty("bnd_project"))
+
+  def errorCount = 0
+
+  bnd_project.warnings.each {
+    logger.warn  "Warning: " + it
+  }
+  bnd_project.errors.each {
+    logger.error "Error  : " + it
+    errorCount++
+  }
+  if (!bnd_project.isOk()) {
+    def str = "even though no errors were reported"
+    if (errorCount == 1) {
+      str = "$errorCount error was reported"
+    } else if (errorCount > 1) {
+      str = "$errorCount errors were reported"
+    }
+    throw new GradleException("Project $project.name is invalid, " + str)
+  }
+}
+
+/*
+ * Parse a boolean the same way bnd parses it.
+ */
+boolean parseBoolean(String value) {
+  return ("on".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value))
+}
