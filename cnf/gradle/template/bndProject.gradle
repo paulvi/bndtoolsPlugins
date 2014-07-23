@@ -277,6 +277,7 @@ task bundle {
   group         "Build"
   inputs.files  { getBundleInputFiles()  }
   outputs.files { getBundleOutputFiles() }
+  dependsOn     classes
 
   doLast {
     try {
@@ -293,9 +294,10 @@ task bundle {
 }
 
 task release {
-  description  "Release OSGi bundle(s) into the release repository."
-  group        "Release"
-  inputs.files { getBundleOutputFiles() }
+  description   "Release OSGi bundle(s) into the release repository."
+  group         "Release"
+  inputs.files  { getBundleOutputFiles() }
+  dependsOn     bundle
 
   doLast {
     try {
@@ -308,8 +310,9 @@ task release {
 }
 
 task releaseNeeded {
-  description "Release OSGi bundle(s) and those of all projects this project depends on."
-  group       "Release"
+  description   "Release OSGi bundle(s) and those of all projects this project depends on."
+  group         "Release"
+  dependsOn     release
 }
 
 task export {
@@ -317,6 +320,7 @@ task export {
   group         "Export"
   inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
   outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
+  dependsOn     bundle
 
   doLast {
     def exportDir = file(bnd_exportDir)
@@ -337,9 +341,10 @@ task export {
 }
 
 task bundleTest {
-  description  "Run OSGi tests."
-  group        "Verification"
-  inputs.files { getBundleOutputFiles() }
+  description   "Run OSGi tests."
+  group         "Verification"
+  inputs.files  { getBundleOutputFiles() }
+  dependsOn     bundle
 
   doLast {
     try {
@@ -379,13 +384,8 @@ task bndproperties {
  */
 
 jar.enabled                  = false
-
-bundle.dependsOn            += [classes                          ]
 jar.dependsOn               += [bundle                           ]
-release.dependsOn           += [bundle                           ]
-releaseNeeded.dependsOn     += [release                          ]
-export.dependsOn            += [bundle                           ]
-bundleTest.dependsOn        += [bundle                           ]
+
 test.dependsOn              += [bundle                           ]
 check.dependsOn             += [bundleTest                       ]
 
