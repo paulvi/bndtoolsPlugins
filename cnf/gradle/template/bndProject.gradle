@@ -304,6 +304,27 @@ task releaseNeeded {
 }
 
 
+task bundleTest {
+  description   "Run OSGi tests."
+  group         "Verification"
+  enabled       bndDoBundleTests
+  dependsOn     bundle
+
+  if (enabled) {
+    inputs.files  { getBundleOutputFiles() }
+
+    doLast {
+      try {
+        bndProject.test()
+      } catch (Exception e) {
+        throw new GradleException("Running OSGi tests in project $project.name failed", e)
+      }
+      checkErrors()
+    }
+  }
+}
+
+
 tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnable jar.') { taskName ->
   if (taskName.startsWith('export.')) {
     def bndrun = taskName - 'export.'
@@ -346,26 +367,6 @@ task export {
   }
 }
 
-
-task bundleTest {
-  description   "Run OSGi tests."
-  group         "Verification"
-  enabled       bndDoBundleTests
-  dependsOn     bundle
-
-  if (enabled) {
-    inputs.files  { getBundleOutputFiles() }
-
-    doLast {
-      try {
-        bndProject.test()
-      } catch (Exception e) {
-        throw new GradleException("Running OSGi tests in project $project.name failed", e)
-      }
-      checkErrors()
-    }
-  }
-}
 
 task bndproperties {
   description "Display bnd properties."
