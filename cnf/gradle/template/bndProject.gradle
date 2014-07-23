@@ -213,6 +213,20 @@ ext.bnd_releaseRepo                  =              getBndProjectProperty(Consta
 /* File trees */
 ext.bnd_runFiles                     = fileTree(projectDir).include("*.bndrun")
 
+/* Task skipping instructions */
+ext.bnd_noJunit1                     = parseBoolean(getBndProjectProperty(Constants.NOJUNIT    , false))
+ext.bnd_noJunit2                     = parseBoolean(getBndProjectProperty("no.junit"           , false))
+ext.bnd_noJunitOsgi                  = parseBoolean(getBndProjectProperty(Constants.NOJUNITOSGI, false))
+ext.bnd_testCases                    =              getBndProjectProperty(Constants.TESTCASES  , false)
+ext.bnd_noBundles                    = bnd_project.isNoBundles()
+
+/* Task skipping booleans */
+ext.bnd_doBundle                     = !bnd_noBundles
+ext.bnd_doRelease                    = !bnd_releaseRepo.isEmpty()
+ext.bnd_doJUnitTests                 = !(bnd_noJunit1    || bnd_noJunit2)
+ext.bnd_doBundleTests                = !(bnd_noJunitOsgi || bnd_testCases.isEmpty())
+ext.bnd_doExport                     = !bnd_runFiles.isEmpty()
+
 
 /* A bnd project is a java project */
 apply plugin: "java"
@@ -277,6 +291,7 @@ task bundle {
   group         "Build"
   inputs.files  { getBundleInputFiles()  }
   outputs.files { getBundleOutputFiles() }
+  onlyIf        { bnd_doBundle           }
   dependsOn     classes
 
   doLast {
@@ -297,6 +312,7 @@ task release {
   description   "Release OSGi bundle(s) into the release repository."
   group         "Release"
   inputs.files  { getBundleOutputFiles() }
+  onlyIf        { bnd_doRelease          }
   dependsOn     bundle
 
   doLast {
@@ -320,6 +336,7 @@ task export {
   group         "Export"
   inputs.files  { bnd_runFiles + getBundleOutputFiles()                }
   outputs.files { fileTree(projectDir).include("$bnd_exportDir/*.jar") }
+  onlyIf        { bnd_doExport                                         }
   dependsOn     bundle
 
   doLast {
@@ -344,6 +361,7 @@ task bundleTest {
   description   "Run OSGi tests."
   group         "Verification"
   inputs.files  { getBundleOutputFiles() }
+  onlyIf        { bnd_doBundleTests      }
   dependsOn     bundle
 
   doLast {
@@ -387,36 +405,14 @@ jar.enabled                  = false
 jar.dependsOn               += [bundle                           ]
 
 test.dependsOn              += [bundle                           ]
+test.onlyIf                    { bnd_doJUnitTests }
+
 check.dependsOn             += [bundleTest                       ]
 
 bnd_project.dependson.each {
   compileJava.dependsOn     += [":" + it.name + ":bundle"        ]
   releaseNeeded.dependsOn   += [":" + it.name + ":releaseNeeded" ]
 }
-
-
-/*
- * Setup task skipping
- */
-
-ext.bnd_noJunit1       = parseBoolean(getBndProjectProperty(Constants.NOJUNIT    , false))
-ext.bnd_noJunit2       = parseBoolean(getBndProjectProperty("no.junit"           , false))
-ext.bnd_noJunitOsgi    = parseBoolean(getBndProjectProperty(Constants.NOJUNITOSGI, false))
-ext.bnd_testCases      =              getBndProjectProperty(Constants.TESTCASES  , false)
-ext.bnd_noBundles      = bnd_project.isNoBundles()
-
-ext.bnd_doBundle       = !bnd_noBundles
-ext.bnd_doRelease      = !bnd_releaseRepo.isEmpty()
-ext.bnd_doJUnitTests   = !(bnd_noJunit1    || bnd_noJunit2)
-ext.bnd_doBundleTests  = !(bnd_noJunitOsgi || bnd_testCases.isEmpty())
-ext.bnd_doExport       = !bnd_runFiles.isEmpty()
-
-
-bundle.onlyIf            { bnd_doBundle      }
-release.onlyIf           { bnd_doRelease     }
-test.onlyIf              { bnd_doJUnitTests  }
-bundleTest.onlyIf        { bnd_doBundleTests }
-export.onlyIf            { bnd_doExport      }
 
 
 /* Load the build customisations */
