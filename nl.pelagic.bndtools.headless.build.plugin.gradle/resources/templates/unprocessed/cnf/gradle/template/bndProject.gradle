@@ -318,15 +318,15 @@ task release {
   enabled       bnd_doRelease
 
   if (enabled) {
-    inputs.files  { getBundleOutputFiles() }
+    inputs.files  { bnd_project.deliverables.collect { it.file } }
 
     doLast {
       try {
         bnd_project.release(bnd_releaseRepo, false)
-        printBndProjectWarningsAndErrors()
       } catch (Exception e) {
         throw new GradleException("Releasing OSGi bundle(s) of project $project.name failed", e)
       }
+      printBndProjectWarningsAndErrors()
     }
   }
 }
