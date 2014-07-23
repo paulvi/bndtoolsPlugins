@@ -128,7 +128,7 @@ List<File> bndPathToFileList(Collection<Container> path) {
 /*
  * Print bnd project warnings and errors and exit when errors are not allowed.
  */
-void printBndProjectWarningsAndErrors() {
+void checkErrors() {
   assert(project != null           )
   assert(hasProperty("bnd_project"))
 
@@ -178,7 +178,7 @@ bnd_project.setProperty("environment"  , "gradle")
 bnd_project.setDelayRunDependencies(true)
 bnd_project.prepare()
 if (!bnd_project.isValid()) {
-  printBndProjectWarningsAndErrors()
+  checkErrors()
   throw new GradleException("Project $project is not a valid bnd project")
 }
 
@@ -303,7 +303,7 @@ task bundle {
           throw new GradleException("Could not create directory $targetDir")
         }
         bnd_project.build()
-        printBndProjectWarningsAndErrors()
+        checkErrors()
       } catch (Exception e) {
         throw new GradleException("Building OSGi bundle(s) of project $project.name failed", e)
       }
@@ -326,7 +326,7 @@ task release {
       } catch (Exception e) {
         throw new GradleException("Releasing OSGi bundle(s) of project $project.name failed", e)
       }
-      printBndProjectWarningsAndErrors()
+      checkErrors()
     }
   }
 }
@@ -357,7 +357,7 @@ task export {
         def jarFile = runFile.replaceAll("\\.bndrun\$", ".jar")
         try {
           bnd_project.export(runFile, false, file("$bnd_exportDir/$jarFile"))
-          printBndProjectWarningsAndErrors()
+          checkErrors()
         } catch (Exception e) {
           throw new GradleException("Exporting $runFile of project $project.name failed", e)
         }
@@ -378,7 +378,7 @@ task bundleTest {
     doLast {
       try {
         bnd_project.test()
-        printBndProjectWarningsAndErrors()
+        checkErrors()
       } catch (Exception e) {
         throw new GradleException("Running OSGi tests in project $project.name failed", e)
       }
