@@ -372,11 +372,11 @@ task bndproperties {
   group       "Help"
 
   doLast {
-    println ""
-    println "------------------------------------------------------------"
-    println "Project $project.name"
-    println "------------------------------------------------------------"
-    println ""
+    println()
+    println '------------------------------------------------------------'
+    println "Project ${project.name}"
+    println '------------------------------------------------------------'
+    println()
     bndProject.getPropertyKeys(true).sort({
       s1, s2 -> s1.compareTo(s2)
     }).each {
