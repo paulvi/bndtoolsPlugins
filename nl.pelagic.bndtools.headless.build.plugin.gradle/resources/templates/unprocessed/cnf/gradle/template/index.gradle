@@ -9,11 +9,11 @@
  * Bundle repository indexing tasks.
  */
 
-assert(hasProperty("gradleBuild_indexDirectories"    ))
-assert(hasProperty("gradleBuild_indexOBRUncompressed"))
-assert(hasProperty("gradleBuild_indexOBRCompressed"  ))
-assert(hasProperty("gradleBuild_indexR5Uncompressed" ))
-assert(hasProperty("gradleBuild_indexR5Compressed"   ))
+assert(hasProperty("gradleBuildIndexDirectories"    ))
+assert(hasProperty("gradleBuildIndexOBRUncompressed"))
+assert(hasProperty("gradleBuildIndexOBRCompressed"  ))
+assert(hasProperty("gradleBuildIndexR5Uncompressed" ))
+assert(hasProperty("gradleBuildIndexR5Compressed"   ))
 
 
 /*
@@ -36,7 +36,7 @@ FileTree getFileTreeInstance(String propertyName) {
  * Create repository indexes
  *
  * Syntax:
- * ext.gradleBuild_indexDirectories = \
+ * ext.gradleBuildIndexDirectories = \
  *   "<root directory>;<name>;<name of fileTree property>, ..."
  *
  *  root directory           : mandatory.
@@ -46,29 +46,29 @@ FileTree getFileTreeInstance(String propertyName) {
  *                             below the root directory will be indexed
  */
 void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
-  assert(hasProperty("gradleBuild_indexDirectories"))
+  assert(hasProperty("gradleBuildIndexDirectories"))
 
   def indexerClasspath
   def indexerMain
   if (!r5) {
-    assert(rootProject.hasProperty("gradleBuild_bindexJar"))
-    assert(rootProject.hasProperty("gradleBuild_bindexMain"))
+    assert(rootProject.hasProperty("gradleBuildBindexJar"))
+    assert(rootProject.hasProperty("gradleBuildBindexMain"))
 
-    indexerClasspath    = rootProject.files(rootProject.gradleBuild_bindexJar )
-    indexerMain         =                   rootProject.gradleBuild_bindexMain
+    indexerClasspath    = rootProject.files(rootProject.gradleBuildBindexJar )
+    indexerMain         =                   rootProject.gradleBuildBindexMain
   } else {
-    assert(rootProject.hasProperty("gradleBuild_repoindexJar"))
-    assert(rootProject.hasProperty("gradleBuild_repoindexMain"))
+    assert(rootProject.hasProperty("gradleBuildRepoindexJar"))
+    assert(rootProject.hasProperty("gradleBuildRepoindexMain"))
 
-    indexerClasspath    = rootProject.files(rootProject.gradleBuild_repoindexJar )
-    indexerMain         =                   rootProject.gradleBuild_repoindexMain
+    indexerClasspath    = rootProject.files(rootProject.gradleBuildRepoindexJar )
+    indexerMain         =                   rootProject.gradleBuildRepoindexMain
   }
 
-  gradleBuild_indexDirectories.trim().split("\\s*,\\s*").each { indexDirectory ->
+  gradleBuildIndexDirectories.trim().split("\\s*,\\s*").each { indexDirectory ->
     def parts              = indexDirectory.trim().split("\\s*;\\s*")
 
     if (parts.length > 3) {
-        throw new GradleException("Too many parts to the indexing configuration \"$gradleBuild_indexDirectories\"")
+        throw new GradleException("Too many parts to the indexing configuration \"$gradleBuildIndexDirectories\"")
     }
 
     if (parts.length > 1) {
@@ -171,15 +171,15 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
  */
 
 task index {
-  description "Generate OBR and R5 repository indexes (set the '$gradleBuild_indexDirectoriesProperty' property)"
+  description "Generate OBR and R5 repository indexes (set the '$gradleBuildIndexDirectoriesProperty' property)"
   group       "Release"
 
   doLast {
-    if (gradleBuild_indexOBRUncompressed || gradleBuild_indexOBRCompressed) {
-      createIndexes(false, gradleBuild_indexOBRUncompressed, gradleBuild_indexOBRCompressed)
+    if (gradleBuildIndexOBRUncompressed || gradleBuildIndexOBRCompressed) {
+      createIndexes(false, gradleBuildIndexOBRUncompressed, gradleBuildIndexOBRCompressed)
     }
-    if (gradleBuild_indexR5Uncompressed  || gradleBuild_indexR5Compressed ) {
-      createIndexes(true , gradleBuild_indexR5Uncompressed , gradleBuild_indexR5Compressed )
+    if (gradleBuildIndexR5Uncompressed  || gradleBuildIndexR5Compressed ) {
+      createIndexes(true , gradleBuildIndexR5Uncompressed , gradleBuildIndexR5Compressed )
     }
   }
 }
@@ -194,11 +194,11 @@ task index {
  * Setup task skipping
  */
 
-ext.gradleBuild_doIndex =
-  !gradleBuild_indexDirectories.isEmpty() &&
-   (gradleBuild_indexOBRUncompressed
-    || gradleBuild_indexOBRCompressed
-    || gradleBuild_indexR5Uncompressed
-    || gradleBuild_indexR5Compressed  )
+ext.gradleBuildDoIndex =
+  !gradleBuildIndexDirectories.isEmpty() &&
+   (gradleBuildIndexOBRUncompressed
+    || gradleBuildIndexOBRCompressed
+    || gradleBuildIndexR5Uncompressed
+    || gradleBuildIndexR5Compressed  )
 
-index.onlyIf    { gradleBuild_doIndex }
+index.onlyIf    { gradleBuildDoIndex }

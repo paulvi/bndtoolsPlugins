@@ -12,20 +12,20 @@
  *       file can be applied.
  */
 
-assert(project != rootProject                       )
-assert(hasProperty("bndSrcBinDir"                  ))
-assert(hasProperty("bndSrcDir"                     ))
-assert(hasProperty("bndTestSrcBinDir"              ))
-assert(hasProperty("bndTestSrcDir"                 ))
-assert(hasProperty("gradleBuild_libsDirName"       ))
-assert(hasProperty("gradleBuild_testReportDirName" ))
-assert(hasProperty("gradleBuild_testResultsDirName"))
+assert(project != rootProject                      )
+assert(hasProperty("bndSrcBinDir"                 ))
+assert(hasProperty("bndSrcDir"                    ))
+assert(hasProperty("bndTestSrcBinDir"             ))
+assert(hasProperty("bndTestSrcDir"                ))
+assert(hasProperty("gradleBuildLibsDirName"       ))
+assert(hasProperty("gradleBuildTestReportDirName" ))
+assert(hasProperty("gradleBuildTestResultsDirName"))
 
 
 /* Gradle directory settings */
-libsDirName                            = gradleBuild_libsDirName
-testResultsDirName                     = gradleBuild_testResultsDirName
-testReportDirName                      = gradleBuild_testReportDirName
+libsDirName                            = gradleBuildLibsDirName
+testResultsDirName                     = gradleBuildTestResultsDirName
+testReportDirName                      = gradleBuildTestReportDirName
 
 /* Java source code source set */
 sourceSets.main.java.srcDirs           = files(bndProject.sourcePath.collect { relativePath(it) })

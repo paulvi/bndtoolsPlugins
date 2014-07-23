@@ -345,7 +345,7 @@ The build has the following flow:
     * Gradle projects
 
       * The default tasks are setup (specified by
-        the ```gradleBuild_nonBndProjectsDefaultTasks``` property).
+        the ```gradleBuildNonBndProjectsDefaultTasks``` property).
 
       * Build customisations are loaded from
         the ```cnf/gradle/custom/nonBndProjects.gradle``` file.
@@ -353,7 +353,7 @@ The build has the following flow:
     * bnd projects
 
       * The default tasks are setup (specified by
-        the ```gradleBuild_bndProjectsDefaultTasks``` property).
+        the ```gradleBuildBndProjectsDefaultTasks``` property).
 
       * The bnd project build is setup by loading
         the ```cnf/gradle/template/bndProject.gradle``` file.
@@ -403,7 +403,7 @@ The build has the following flow:
       the ```cnf/gradle/custom/settings-rootProject.gradle``` file.
 
     * The default tasks are setup (specified by
-      the ```gradleBuild_rootProjectDefaultTasks``` property).
+      the ```gradleBuildRootProjectDefaultTasks``` property).
 
     * The wrapper and distclean tasks are setup.
 
@@ -512,7 +512,7 @@ This task can create one or more of the following:
 These indexes are generated from/for one or more configured directories.
 
 Which directories are indexed is controlled by
-the ```gradleBuild_indexDirectories``` property. Its **syntax** is:
+the ```gradleBuildIndexDirectories``` property. Its **syntax** is:
 
 ```
 <root directory>;<name>;<name of fileTree property>, ...
@@ -543,18 +543,18 @@ or when no OBR indexes **and** no R5 indexes are configured to be created
 
 OBR index generation is controlled by the properties
 
-* &nbsp;```gradleBuild_indexOBRUncompressed```: if set to ```true``` then an
+* &nbsp;```gradleBuildIndexOBRUncompressed```: if set to ```true``` then an
   uncompressed OBR index is generated.
 
-* &nbsp;```gradleBuild_indexOBRCompressed``` if set to ```true``` then a
+* &nbsp;```gradleBuildIndexOBRCompressed``` if set to ```true``` then a
   compressed OBR index is generated.
 
 R5 index generation is controlled by the properties
 
-* &nbsp;```gradleBuild_indexR5Uncompressed```: if set to ```true``` then an
+* &nbsp;```gradleBuildIndexR5Uncompressed```: if set to ```true``` then an
   uncompressed R5 index is generated.
 
-* &nbsp;```gradleBuild_indexR5Compressed``` if set to ```true``` then a
+* &nbsp;```gradleBuildIndexR5Compressed``` if set to ```true``` then a
   compressed R5 index is generated.
 
 ### cleanNeeded
@@ -696,13 +696,13 @@ named ```bnd```.
 assert(project != rootProject)
 
 /* Index task overrides */
-ext.bndDistIndexRoot                 = "bundles"
-ext.bndDistIndexDirectories          = fileTree(bndDistIndexRoot).include("**/*.jar").exclude("**/*-latest.jar")
-ext.gradleBuild_indexDirectories     = "$bndDistIndexRoot;bnd;bndDistIndexDirectories"
-ext.gradleBuild_indexOBRUncompressed = true
-ext.gradleBuild_indexOBRCompressed   = true
-ext.gradleBuild_indexR5Uncompressed  = true
-ext.gradleBuild_indexR5Compressed    = true
+ext.bndDistIndexRoot                = "bundles"
+ext.bndDistIndexDirectories         = fileTree(bndDistIndexRoot).include("**/*.jar").exclude("**/*-latest.jar")
+ext.gradleBuildIndexDirectories     = "$bndDistIndexRoot;bnd;bndDistIndexDirectories"
+ext.gradleBuildIndexOBRUncompressed = true
+ext.gradleBuildIndexOBRCompressed   = true
+ext.gradleBuildIndexR5Uncompressed  = true
+ext.gradleBuildIndexR5Compressed    = true
 ```
 
 ## Bnd

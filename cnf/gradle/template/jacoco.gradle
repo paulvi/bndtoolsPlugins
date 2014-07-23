@@ -9,33 +9,33 @@
  * Add tasks that are relevant to Java projects.
  */
 
-assert(project != rootProject                               )
-assert(hasProperty("bndTargetDir"                          ))
-assert(hasProperty("gradleBuild_jacocoReportsDir"          ))
-assert(hasProperty("gradleBuild_jacocoXmlReport"           ))
-assert(hasProperty("gradleBuild_jacocoCsvReport"           ))
-assert(hasProperty("gradleBuild_jacocoHtmlDir"             ))
+assert(project != rootProject                              )
+assert(hasProperty("bndTargetDir"                         ))
+assert(hasProperty("gradleBuildJacocoReportsDir"          ))
+assert(hasProperty("gradleBuildJacocoXmlReport"           ))
+assert(hasProperty("gradleBuildJacocoCsvReport"           ))
+assert(hasProperty("gradleBuildJacocoHtmlDir"             ))
 
 
 apply plugin: "jacoco"
 
 
 jacoco {
-  reportsDir     = file("$bndTargetDir/$gradleBuild_jacocoReportsDir")
+  reportsDir     = file("$bndTargetDir/$gradleBuildJacocoReportsDir")
 }
 
 
-if (hasProperty("gradleBuild_jacocoToolVersion")) {
+if (hasProperty("gradleBuildJacocoToolVersion")) {
   jacoco {
-    toolVersion  = gradleBuild_jacocoToolVersion
+    toolVersion  = gradleBuildJacocoToolVersion
   }
 }
 
 
 jacocoTestReport {
     reports {
-        xml.enabled      gradleBuild_jacocoXmlReport
-        csv.enabled      gradleBuild_jacocoCsvReport
-        html.destination file("$bndTargetDir/$gradleBuild_jacocoReportsDir/$gradleBuild_jacocoHtmlDir")
+        xml.enabled      gradleBuildJacocoXmlReport
+        csv.enabled      gradleBuildJacocoCsvReport
+        html.destination file("$bndTargetDir/$gradleBuildJacocoReportsDir/$gradleBuildJacocoHtmlDir")
     }
 }

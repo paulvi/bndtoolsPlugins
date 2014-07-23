@@ -23,12 +23,12 @@ assert(hasProperty("bndCnf"))
 apply from: file("$bndCnf/gradle/template/settings-rootProject.gradle")
 
 
-assert(hasProperty("gradleBuild_gradleVersion"))
-assert(hasProperty("gradleBuild_rootProjectDefaultTasks"))
+assert(hasProperty("gradleBuildGradleVersion"          ))
+assert(hasProperty("gradleBuildRootProjectDefaultTasks"))
 
 
 defaultTasks.clear()
-gradleBuild_rootProjectDefaultTasks.each {
+gradleBuildRootProjectDefaultTasks.each {
   defaultTasks += it
 }
 
@@ -42,7 +42,7 @@ task wrapper(type: Wrapper) {
   description     "Download Gradle and generate wrapper scripts."
   group           "Build Setup"
 
-  gradleVersion = gradleBuild_gradleVersion
+  gradleVersion = gradleBuildGradleVersion
   jarFile       = file(".gradle-wrapper/gradle-wrapper.jar")
 }
 

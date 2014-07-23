@@ -9,9 +9,9 @@
  * Determine the build dependencies.
  */
 
-assert(project == rootProject                    )
-assert(hasProperty("bndCnf")                     )
-assert(hasProperty("gradleBuild_buildProperties"))
+assert(project == rootProject                   )
+assert(hasProperty("bndCnf")                    )
+assert(hasProperty("gradleBuildBuildProperties"))
 
 
 /*
@@ -22,10 +22,10 @@ assert(hasProperty("gradleBuild_buildProperties"))
  * URL dependencies are downloaded into the configured cache directory.
  */
 void addToBuildDependencies(Set<String> evaluatedDependencies, String extension, boolean asUrl) {
-  assert(evaluatedDependencies != null                  )
-  assert(extension != null && !extension.isEmpty()      )
-  assert(hasProperty("bndBuildProperties"              ))
-  assert(hasProperty("gradleBuild_dependenciesCacheDir"))
+  assert(evaluatedDependencies != null                 )
+  assert(extension != null && !extension.isEmpty()     )
+  assert(hasProperty("bndBuildProperties"             ))
+  assert(hasProperty("gradleBuildDependenciesCacheDir"))
 
   def propKeyExtensionRegex = "\\." + extension + "\$"
   bndBuildProperties
@@ -57,7 +57,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
             dependencyFile     = file(dependencyFileName)
           } else {
             def urlBaseName    = new File(url.path).name
-            dependencyFileName = "$gradleBuild_dependenciesCacheDir/$urlBaseName"
+            dependencyFileName = "$gradleBuildDependenciesCacheDir/$urlBaseName"
             dependencyFile     = file(dependencyFileName)
 
             /* Download from the URL when needed */
@@ -101,13 +101,13 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
 
 
 /* Ensure the build properties file exists */
-if (!file(gradleBuild_buildProperties).exists()) {
-  throw new GradleException("Build properties file \"$gradleBuild_buildProperties\" does not exist")
+if (!file(gradleBuildBuildProperties).exists()) {
+  throw new GradleException("Build properties file \"$gradleBuildBuildProperties\" does not exist")
 }
 
 /* Load the build properties */
 ext.bndBuildProperties = new Properties()
-file(gradleBuild_buildProperties).withReader {
+file(gradleBuildBuildProperties).withReader {
   reader -> bndBuildProperties.load(reader)
 }
 

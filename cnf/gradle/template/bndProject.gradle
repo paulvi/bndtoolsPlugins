@@ -125,15 +125,15 @@ List<File> bndPathToFileList(Collection<Container> path) {
  * Bnd Project
  */
 
-assert(rootProject.hasProperty("bndCnf"                          ))
-assert(            hasProperty("bndProject"                      ))
-assert(            hasProperty("gradleBuild_compileDeprecation"  ))
-assert(            hasProperty("gradleBuild_compileFork"         ))
-assert(            hasProperty("gradleBuild_compileVerbose"      ))
-assert(            hasProperty("gradleBuild_exportDir"           ))
-assert(            hasProperty("gradleBuild_testEnableAssertions"))
-assert(            hasProperty("gradleBuild_testIgnoreFailures"  ))
-assert(            hasProperty("gradleBuild_testMaxParallelForks"))
+assert(rootProject.hasProperty("bndCnf"                         ))
+assert(            hasProperty("bndProject"                     ))
+assert(            hasProperty("gradleBuildCompileDeprecation"  ))
+assert(            hasProperty("gradleBuildCompileFork"         ))
+assert(            hasProperty("gradleBuildCompileVerbose"      ))
+assert(            hasProperty("gradleBuildExportDir"           ))
+assert(            hasProperty("gradleBuildTestEnableAssertions"))
+assert(            hasProperty("gradleBuildTestIgnoreFailures"  ))
+assert(            hasProperty("gradleBuildTestMaxParallelForks"))
 
 
 /* Declare that we're in the offline build */
@@ -157,7 +157,7 @@ ext.bndSrcBinDir                    = relativePath(bndProject.srcOutput         
 ext.bndTestSrcDir                   = relativePath(bndProject.testSrc           )
 ext.bndTestSrcBinDir                = relativePath(bndProject.testOutput        )
 ext.bndTargetDir                    = relativePath(bndProject.targetDir         )
-ext.bndExportDir                    = "$bndTargetDir/$gradleBuild_exportDir"
+ext.bndExportDir                    = "$bndTargetDir/$gradleBuildExportDir"
 
 /* Classpaths */
 ext.bndClassPath                    = bndPathToFileList(bndProject.buildpath    )
@@ -209,7 +209,7 @@ if (!bndClassPathBoot.isEmpty()) {
   def classPathBootAsPath = files(bndClassPathBoot).asPath
   compileJava.options.compilerArgs          += ["-Xbootclasspath/p:$classPathBootAsPath"]
   compileTestJava.options.compilerArgs      += ["-Xbootclasspath/p:$classPathBootAsPath"]
-  ext.gradleBuild_compileFork                = true
+  ext.gradleBuildCompileFork                 = true
 }
 
 /* Setup java compiler options */
@@ -221,25 +221,25 @@ if (bndJavacTarget ==~ "^\\d+\\.\\d+\$") {
 }
 compileJava.options.debug                    = bndDebug
 compileJava.options.listFiles                = bndVerbose
-compileJava.options.verbose                  = gradleBuild_compileVerbose
-compileJava.options.fork                     = gradleBuild_compileFork || (bndJavac != "javac")
-compileJava.options.deprecation              = gradleBuild_compileDeprecation
+compileJava.options.verbose                  = gradleBuildCompileVerbose
+compileJava.options.fork                     = gradleBuildCompileFork || (bndJavac != "javac")
+compileJava.options.deprecation              = gradleBuildCompileDeprecation
 compileJava.options.forkOptions.setExecutable(bndJavac)
 
 compileTestJava.options.debug                = bndDebug
 compileTestJava.options.listFiles            = bndVerbose
-compileTestJava.options.verbose              = gradleBuild_compileVerbose
-compileTestJava.options.fork                 = gradleBuild_compileFork || (bndJavac != "javac")
-compileTestJava.options.deprecation          = gradleBuild_compileDeprecation
+compileTestJava.options.verbose              = gradleBuildCompileVerbose
+compileTestJava.options.fork                 = gradleBuildCompileFork || (bndJavac != "javac")
+compileTestJava.options.deprecation          = gradleBuildCompileDeprecation
 compileTestJava.options.forkOptions.setExecutable(bndJavac)
 
 /* Setup test options */
-test.enableAssertions                        = gradleBuild_testEnableAssertions
-test.ignoreFailures                          = gradleBuild_testIgnoreFailures
-test.maxParallelForks                        = gradleBuild_testMaxParallelForks
+test.enableAssertions                        = gradleBuildTestEnableAssertions
+test.ignoreFailures                          = gradleBuildTestIgnoreFailures
+test.maxParallelForks                        = gradleBuildTestMaxParallelForks
 
 /* Override the javadoc bootclasspath */
-ext.gradleBuild_javadocClassPathBoot = bndClassPathBoot
+ext.gradleBuildJavadocClassPathBoot = bndClassPathBoot
 
 /*
  * Setup tasks

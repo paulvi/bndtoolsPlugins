@@ -30,10 +30,10 @@ ext.bndCnf = cnfs.get(0)
 apply from: file("$bndCnf/gradle/template/settings-workspace.gradle")
 
 /* Logging */
-assert(hasProperty("gradleBuild_loggingCaptureStandardOutput"))
-assert(hasProperty("gradleBuild_loggingLevel"))
-logging.captureStandardOutput   gradleBuild_loggingCaptureStandardOutput
-logging.level                 = gradleBuild_loggingLevel
+assert(hasProperty("gradleBuildLoggingCaptureStandardOutput"))
+assert(hasProperty("gradleBuildLoggingLevel"))
+logging.captureStandardOutput   gradleBuildLoggingCaptureStandardOutput
+logging.level                 = gradleBuildLoggingLevel
 
 /* Determine the build dependencies */
 apply from: file("$bndCnf/gradle/template/buildDependencies.gradle")

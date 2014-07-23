@@ -46,20 +46,20 @@ allprojects { project ->
 subprojects { project ->
   def bndProject = rootProject.bndWorkspace.getProject(project.projectDir)
   if (bndProject == null) {
-    assert(project.hasProperty("gradleBuild_nonBndProjectsDefaultTasks"))
+    assert(project.hasProperty("gradleBuildNonBndProjectsDefaultTasks"))
 
     defaultTasks.clear()
-    project.gradleBuild_nonBndProjectsDefaultTasks.each {
+    project.gradleBuildNonBndProjectsDefaultTasks.each {
       defaultTasks += it
     }
 
     /* Load the build customisations */
     apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/nonBndProjects.gradle")
   } else {
-    assert(project.hasProperty("gradleBuild_bndProjectsDefaultTasks"))
+    assert(project.hasProperty("gradleBuildBndProjectsDefaultTasks"))
 
     defaultTasks.clear()
-    project.gradleBuild_bndProjectsDefaultTasks.each {
+    project.gradleBuildBndProjectsDefaultTasks.each {
       defaultTasks += it
     }
 
