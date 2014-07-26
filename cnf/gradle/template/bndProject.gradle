@@ -166,12 +166,19 @@ task('bundle') {
       if ((!targetDir.exists() && !targetDir.mkdirs()) || !targetDir.isDirectory()) {
         throw new GradleException("Could not create directory $targetDir")
       }
+      def built = null
       try {
-        bndProject.build()
+        built = bndProject.build()
       } catch (Exception e) {
         throw new GradleException("Building OSGi bundle(s) of project $project.name failed", e)
       }
       checkErrors()
+      if (built != null) {
+        logger.info 'Generated bundles:'
+        built.each {
+          logger.info "${it}"
+        }
+      }
     }
   }
 }
