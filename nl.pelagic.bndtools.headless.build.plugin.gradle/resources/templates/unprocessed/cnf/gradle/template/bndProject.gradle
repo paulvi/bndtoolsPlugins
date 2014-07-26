@@ -69,7 +69,6 @@ ext.bndJavacTarget                  =              bnd("javac.target", true )
 
 /* Other settings */
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE    , false))
-ext.bndReleaseRepo                  =              bnd(Constants.RELEASEREPO, false)
 
 /* Task skipping instructions */
 ext.bndNoJunit1                     = parseBoolean(bnd(Constants.NOJUNIT    , false))
@@ -193,7 +192,7 @@ task('release') {
 
     doLast {
       try {
-        bndProject.release(bndReleaseRepo, false)
+        bndProject.release()
       } catch (Exception e) {
         throw new GradleException("Releasing OSGi bundle(s) of project $project.name failed", e)
       }
