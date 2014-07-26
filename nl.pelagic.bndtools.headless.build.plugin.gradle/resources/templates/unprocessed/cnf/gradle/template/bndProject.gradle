@@ -78,7 +78,6 @@ ext.bndNoJunitOsgi                  = parseBoolean(bnd(Constants.NOJUNITOSGI, fa
 ext.bndTestCases                    =              bnd(Constants.TESTCASES  , false)
 
 /* Task skipping booleans */
-ext.bndDoRelease                    = !bndReleaseRepo.isEmpty()
 ext.bndDoJUnitTests                 = !(bndNoJunit1    || bndNoJunit2)
 ext.bndDoBundleTests                = !(bndNoJunitOsgi || bndTestCases.isEmpty())
 
@@ -187,7 +186,7 @@ task('release') {
   description   'Release OSGi bundle(s) into the release repository.'
   dependsOn     bundle
   group         'release'
-  enabled       bndDoRelease
+  enabled       !bnd(Constants.RELEASEREPO, false).isEmpty()
 
   if (enabled) {
     inputs.files  { bndProject.deliverables.collect { it.file } }
