@@ -159,7 +159,7 @@ task('bundle') {
       exclude sourceSets.test.output.files.collect { relativePath(it) }
       exclude relativePath(buildDir)
     }
-    outputs.files bndProject.deliverables.collect { it.file }, new File("$bndTargetDir/" + Constants.BUILDFILES)
+    outputs.files bndProject.deliverables.collect { it.file }, new File(buildDir, Constants.BUILDFILES)
 
     doLast {
       def targetDir = file(bndTargetDir)
