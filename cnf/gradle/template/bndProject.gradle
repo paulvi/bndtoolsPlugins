@@ -238,7 +238,7 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
         try {
           bndProject.export(relativePath(runFile), false, exportFile)
         } catch (Exception e) {
-          throw new GradleException("Exporting ${runFile} of project ${project.name} failed", e)
+          throw new GradleException("Export of ${runFile} failed", e)
         }
         checkErrors()
       }
