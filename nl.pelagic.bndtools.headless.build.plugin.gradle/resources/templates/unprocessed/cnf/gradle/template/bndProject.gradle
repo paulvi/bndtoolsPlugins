@@ -73,12 +73,9 @@ ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE    , fa
 /* Task skipping instructions */
 ext.bndNoJunit1                     = parseBoolean(bnd(Constants.NOJUNIT    , false))
 ext.bndNoJunit2                     = parseBoolean(bnd("no.junit"           , false))
-ext.bndNoJunitOsgi                  = parseBoolean(bnd(Constants.NOJUNITOSGI, false))
-ext.bndTestCases                    =              bnd(Constants.TESTCASES  , false)
 
 /* Task skipping booleans */
 ext.bndDoJUnitTests                 = !(bndNoJunit1    || bndNoJunit2)
-ext.bndDoBundleTests                = !(bndNoJunitOsgi || bndTestCases.isEmpty())
 
 
 /* A bnd project is a java project */
@@ -211,7 +208,7 @@ task('releaseNeeded') {
 task('bundleTest') {
   description   "Run OSGi tests."
   group         'verification'
-  enabled       bndDoBundleTests
+  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, false)) || bnd(Constants.TESTCASES, false).isEmpty())
   dependsOn     bundle
 
   if (enabled) {
