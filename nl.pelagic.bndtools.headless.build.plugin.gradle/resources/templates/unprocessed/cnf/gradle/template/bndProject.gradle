@@ -282,9 +282,9 @@ task releaseNeeded {
 }
 
 
-task bundleTest {
+task('bundleTest') {
   description   "Run OSGi tests."
-  group         "Verification"
+  group         'verification'
   enabled       bndDoBundleTests
   dependsOn     bundle
 
