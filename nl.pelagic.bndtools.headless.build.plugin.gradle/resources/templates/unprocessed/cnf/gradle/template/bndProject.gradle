@@ -76,10 +76,8 @@ ext.bndNoJunit1                     = parseBoolean(bnd(Constants.NOJUNIT    , fa
 ext.bndNoJunit2                     = parseBoolean(bnd("no.junit"           , false))
 ext.bndNoJunitOsgi                  = parseBoolean(bnd(Constants.NOJUNITOSGI, false))
 ext.bndTestCases                    =              bnd(Constants.TESTCASES  , false)
-ext.bndNoBundles                    = bndProject.isNoBundles()
 
 /* Task skipping booleans */
-ext.bndDoBundle                     = !bndNoBundles
 ext.bndDoRelease                    = !bndReleaseRepo.isEmpty()
 ext.bndDoJUnitTests                 = !(bndNoJunit1    || bndNoJunit2)
 ext.bndDoBundleTests                = !(bndNoJunitOsgi || bndTestCases.isEmpty())
@@ -147,7 +145,7 @@ task('bundle') {
   description   'Assembles OSGi bundle(s).'
   group         'build'
   dependsOn     classes
-  enabled       bndDoBundle
+  enabled       !bndProject.noBundles
 
   if (enabled) {
     /* bnd can include any class on the classpath */
