@@ -68,7 +68,7 @@ ext.bndJavacSource                  =              bnd("javac.source", true )
 ext.bndJavacTarget                  =              bnd("javac.target", true )
 
 /* Other settings */
-ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE    , false))
+ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, false))
 
 
 /* A bnd project is a java project */
@@ -223,7 +223,7 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
   if (taskName.startsWith('export.')) {
     def bndrun = taskName - 'export.'
     task(taskName) {
-      description   "Export the ${bndrun}.bndrun file to a runnable jar."
+      description "Export the ${bndrun}.bndrun file to a runnable jar."
       dependsOn bundle
       group 'export'
       def runFile = file("${bndrun}.bndrun")
@@ -248,7 +248,7 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
 
 
 task('export') {
-  description   "Export all the bndrun files to runnable jars."
+  description "Export all the bndrun files to runnable jars."
   group 'export'
 
   fileTree(projectDir) {
@@ -261,7 +261,7 @@ task('export') {
 
 task('bndproperties') {
   description "Display the bnd properties."
-  group       'help'
+  group 'help'
 
   doLast {
     println()
