@@ -230,9 +230,9 @@ clean.doLast {
   bndProject.clean()
 }
 
-task bundle {
-  description   "Assembles OSGi bundle(s)."
-  group         "Build"
+task('bundle') {
+  description   'Assembles OSGi bundle(s).'
+  group         'build'
   dependsOn     classes
   enabled       bndDoBundle
 
