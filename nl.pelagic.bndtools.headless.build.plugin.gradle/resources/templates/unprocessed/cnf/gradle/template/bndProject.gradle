@@ -227,7 +227,6 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
       group 'export'
       def runFile = file("${bndrun}.bndrun")
       def exportFile = new File(distsDir, "${bndrun}.jar")
-      outputs.files exportFile
       doLast {
         distsDir.mkdirs()
         logger.info "Exporting: ${runFile.absolutePath} to ${exportFile.absolutePath}"
