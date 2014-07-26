@@ -399,8 +399,8 @@ test.enabled                   bndDoJUnitTests
 check.dependsOn             += [bundleTest                       ]
 
 bndProject.dependson.each {
-  compileJava.dependsOn     += [":" + it.name + ":bundle"        ]
-  releaseNeeded.dependsOn   += [":" + it.name + ":releaseNeeded" ]
+  compileJava.dependsOn  (":${it.name}:bundle")
+  releaseNeeded.dependsOn(":${it.name}:releaseNeeded")
 }
 
 
