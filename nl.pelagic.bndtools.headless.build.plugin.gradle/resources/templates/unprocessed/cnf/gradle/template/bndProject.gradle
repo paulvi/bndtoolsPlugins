@@ -255,10 +255,10 @@ task bundle {
   }
 }
 
-task release {
-  description   "Release OSGi bundle(s) into the release repository."
-  group         "Release"
+task('release') {
+  description   'Release OSGi bundle(s) into the release repository.'
   dependsOn     bundle
+  group         'release'
   enabled       bndDoRelease
 
   if (enabled) {
@@ -275,10 +275,10 @@ task release {
   }
 }
 
-task releaseNeeded {
-  description   "Release OSGi bundle(s) and those of all projects this project depends on."
-  group         "Release"
+task('releaseNeeded') {
+  description   'Release OSGi bundle(s) and those of all projects the project depends on.'
   dependsOn     release
+  group         'release'
 }
 
 
