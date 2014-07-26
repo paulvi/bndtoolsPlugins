@@ -52,7 +52,6 @@ ext.bndSrcBinDir                    = relativePath(bndProject.srcOutput         
 ext.bndTestSrcDir                   = relativePath(bndProject.testSrc           )
 ext.bndTestSrcBinDir                = relativePath(bndProject.testOutput        )
 ext.bndTargetDir                    = relativePath(bndProject.targetDir         )
-ext.bndExportDir                    = "$bndTargetDir/$gradleBuildExportDir"
 
 /* Classpaths */
 ext.bndClassPath                    = bndPathToFileList(bndProject.buildpath    )
@@ -227,13 +226,10 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
       dependsOn bundle
       group 'export'
       def runFile = file("${bndrun}.bndrun")
-      def exportFile = file("${bndExportDir}/${bndrun}.jar")
+      def exportFile = new File(distsDir, "${bndrun}.jar")
       outputs.files exportFile
       doLast {
-        def exportDir = file(bndExportDir)
-        if ((!exportDir.exists() && !exportDir.mkdirs()) || !exportDir.isDirectory()) {
-          throw new GradleException("Could not create directory ${exportDir}")
-        }
+        distsDir.mkdirs()
         logger.info "Exporting: ${runFile.absolutePath} to ${exportFile.absolutePath}"
         try {
           bndProject.export(relativePath(runFile), false, exportFile)
