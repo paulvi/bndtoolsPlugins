@@ -70,13 +70,6 @@ ext.bndJavacTarget                  =              bnd("javac.target", true )
 /* Other settings */
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE    , false))
 
-/* Task skipping instructions */
-ext.bndNoJunit1                     = parseBoolean(bnd(Constants.NOJUNIT    , false))
-ext.bndNoJunit2                     = parseBoolean(bnd("no.junit"           , false))
-
-/* Task skipping booleans */
-ext.bndDoJUnitTests                 = !(bndNoJunit1    || bndNoJunit2)
-
 
 /* A bnd project is a java project */
 apply plugin: "java"
@@ -293,7 +286,7 @@ jar.dependsOn(bundle)
 jar.enabled = false
 
 test.dependsOn(bundle)
-test.enabled = bndDoJUnitTests
+test.enabled = !(parseBoolean(bnd(Constants.NOJUNIT, false)) || parseBoolean(bnd("no.junit", false)))
 
 check.dependsOn(bundleTest)
 
