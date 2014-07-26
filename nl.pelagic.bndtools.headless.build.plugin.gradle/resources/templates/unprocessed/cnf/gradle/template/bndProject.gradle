@@ -54,10 +54,10 @@ ext.bndTestSrcBinDir                = relativePath(bndProject.testOutput        
 ext.bndTargetDir                    = relativePath(bndProject.targetDir         )
 
 /* Classpaths */
-ext.bndClassPath                    = bndPathToFileList(bndProject.buildpath    )
-ext.bndClassPathBoot                = bndPathToFileList(bndProject.bootclasspath)
-ext.bndClassPathTest                = bndPathToFileList(bndProject.testpath     )
-ext.bndClassPathRun                 = bndPathToFileList(bndProject.runpath      )
+ext.bndClassPath                    = files(bndProject.buildpath.collect    { it.file })
+ext.bndClassPathBoot                = files(bndProject.bootclasspath.collect{ it.file })
+ext.bndClassPathTest                = files(bndProject.testpath.collect     { it.file })
+ext.bndClassPathRun                 = files(bndProject.runpath.collect      { it.file })
 
 /* Java compiler options */
 ext.bndDebug                        = parseBoolean(bnd("javac.debug" , false))
@@ -115,7 +115,7 @@ test.ignoreFailures                          = gradleBuildTestIgnoreFailures
 test.maxParallelForks                        = gradleBuildTestMaxParallelForks
 
 /* Override the javadoc bootclasspath */
-ext.gradleBuildJavadocClassPathBoot = bndClassPathBoot
+ext.gradleBuildJavadocClassPathBoot          = bndClassPathBoot.asType(List)
 
 /*
  * Setup tasks
@@ -344,23 +344,6 @@ String bnd(String key, boolean throwOnNotSet) {
     value = ""
   }
   return value.trim()
-}
-
-
-/*
- * Convert a bnd (class)path to a gradle file collection.
- */
-List<File> bndPathToFileList(Collection<Container> path) {
-  def files = new LinkedList<File>()
-  if (path != null) {
-    path.each {
-      if (!files.contains(it.file)) {
-        files.add(it.file)
-      }
-    }
-  }
-
-  return files
 }
 
 
