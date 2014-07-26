@@ -109,7 +109,7 @@ digraph GradleSetup {
     bundle                 -> bundleTest
     bundle                 -> test
     bundle                 -> release
-    bundle                 -> exportX
+    assemble               -> exportX
     exportX                -> export
     bundleTest             -> check
     release                -> releaseNeeded

@@ -223,7 +223,7 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
     def bndrun = taskName - 'export.'
     task(taskName) {
       description "Export the ${bndrun}.bndrun file to a runnable jar."
-      dependsOn bundle
+      dependsOn assemble
       group 'export'
       def runFile = file("${bndrun}.bndrun")
       def exportFile = new File(distsDir, "${bndrun}.jar")
