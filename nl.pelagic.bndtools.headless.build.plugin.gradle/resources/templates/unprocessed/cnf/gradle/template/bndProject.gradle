@@ -161,7 +161,17 @@ task('bundle') {
   enabled       bndDoBundle
 
   if (enabled) {
-    inputs.files  { getBundleInputFiles()  }
+    /* bnd can include any class on the classpath */
+    inputs.files compileJava.classpath.collect {
+      it.file ? it : fileTree(it)
+    }
+    /* all other files in the project like bnd and resources */
+    inputs.files fileTree(projectDir) {
+      exclude sourceSets.main.java.srcDirs.collect { relativePath(it) }
+      exclude sourceSets.test.java.srcDirs.collect { relativePath(it) }
+      exclude sourceSets.test.output.files.collect { relativePath(it) }
+      exclude relativePath(buildDir)
+    }
     outputs.files bndProject.deliverables.collect { it.file }, new File("$bndTargetDir/" + Constants.BUILDFILES)
 
     doLast {
@@ -360,38 +370,6 @@ String bnd(String key, boolean throwOnNotSet) {
     value = ""
   }
   return value.trim()
-}
-
-
-/*
- * Determine which files will be included in the bundles of a project.
- */
-FileTree getBundleInputFiles() {
-  assert(project != null                )
-  assert(hasProperty("bndProject"      ))
-  assert(hasProperty("bndSrcDir"       ))
-  assert(hasProperty("bndSrcBinDir"    ))
-  assert(hasProperty("bndTestSrcDir"   ))
-  assert(hasProperty("bndTestSrcBinDir"))
-  assert(hasProperty("bndTargetDir"    ))
-
-  def tree = fileTree(projectDir)
-                    .exclude("$bndSrcDir/**"       )
-                    .exclude("$bndSrcBinDir/**"    )
-                    .exclude("$bndTestSrcDir/**"   )
-                    .exclude("$bndTestSrcBinDir/**")
-                    .exclude("$bndTargetDir/**"    )
-
-  def includedResources = fileTree(projectDir).include("$bndSrcBinDir/**")
-  bndProject.subBuilders.each { subBuilder ->
-    tree.each { f ->
-      if (!includedResources.contains(f) && subBuilder.isInScope([f])) {
-        includedResources.include(relativePath(f))
-      }
-    }
-  }
-
-  return includedResources
 }
 
 
