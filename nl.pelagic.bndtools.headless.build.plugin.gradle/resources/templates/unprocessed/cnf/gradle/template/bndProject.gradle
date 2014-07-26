@@ -124,10 +124,6 @@ ext.gradleBuildJavadocClassPathBoot = bndClassPathBoot
 /* Add tasks that are relevant to Java projects */
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")
 
-clean.doLast {
-  bndProject.clean()
-}
-
 task('bundle') {
   description   'Assembles OSGi bundle(s).'
   group         'build'
@@ -215,6 +211,11 @@ task('bundleTest') {
       checkErrors()
     }
   }
+}
+
+
+clean.doLast {
+  bndProject.clean()
 }
 
 
