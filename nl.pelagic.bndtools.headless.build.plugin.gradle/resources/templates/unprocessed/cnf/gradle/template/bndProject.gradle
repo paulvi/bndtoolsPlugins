@@ -31,17 +31,6 @@ buildscript {
  * Bnd Project
  */
 
-assert(rootProject.hasProperty("bndCnf"                         ))
-assert(            hasProperty("bndProject"                     ))
-assert(            hasProperty("gradleBuildCompileDeprecation"  ))
-assert(            hasProperty("gradleBuildCompileFork"         ))
-assert(            hasProperty("gradleBuildCompileVerbose"      ))
-assert(            hasProperty("gradleBuildExportDir"           ))
-assert(            hasProperty("gradleBuildTestEnableAssertions"))
-assert(            hasProperty("gradleBuildTestIgnoreFailures"  ))
-assert(            hasProperty("gradleBuildTestMaxParallelForks"))
-
-
 /* Declare that we're in the offline build */
 bndProject.setProperty("in.ant"       , "true"  )
 bndProject.setProperty("environment"  , "gradle")
@@ -358,10 +347,6 @@ private boolean parseBoolean(String value) {
  * throw an exception when the property is not set.
  */
 String bnd(String key, boolean throwOnNotSet) {
-  assert(project != null                       )
-  assert(key != null && !key.isEmpty()         )
-  assert(hasProperty("bndFlattenedProperties"))
-
   def value = bndFlattenedProperties.getProperty(key, null)
   if (value == null) {
     if (throwOnNotSet) {
