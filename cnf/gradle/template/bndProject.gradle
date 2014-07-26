@@ -28,82 +28,6 @@ buildscript {
 
 
 /*
- * Helper Methods
- */
-
-/*
- * Get a property from the project's flattened bnd properties.
- * Returns an empty string when the property is not set unless instructed to
- * throw an exception when the property is not set.
- */
-String bnd(String key, boolean throwOnNotSet) {
-  assert(project != null                       )
-  assert(key != null && !key.isEmpty()         )
-  assert(hasProperty("bndFlattenedProperties"))
-
-  def value = bndFlattenedProperties.getProperty(key, null)
-  if (value == null) {
-    if (throwOnNotSet) {
-      throw new GradleException("Bnd property \"$key\" not found in project $project.name")
-    }
-    value = ""
-  }
-  return value.trim()
-}
-
-
-/*
- * Determine which files will be included in the bundles of a project.
- */
-FileTree getBundleInputFiles() {
-  assert(project != null                )
-  assert(hasProperty("bndProject"      ))
-  assert(hasProperty("bndSrcDir"       ))
-  assert(hasProperty("bndSrcBinDir"    ))
-  assert(hasProperty("bndTestSrcDir"   ))
-  assert(hasProperty("bndTestSrcBinDir"))
-  assert(hasProperty("bndTargetDir"    ))
-
-  def tree = fileTree(projectDir)
-                    .exclude("$bndSrcDir/**"       )
-                    .exclude("$bndSrcBinDir/**"    )
-                    .exclude("$bndTestSrcDir/**"   )
-                    .exclude("$bndTestSrcBinDir/**")
-                    .exclude("$bndTargetDir/**"    )
-
-  def includedResources = fileTree(projectDir).include("$bndSrcBinDir/**")
-  bndProject.subBuilders.each { subBuilder ->
-    tree.each { f ->
-      if (!includedResources.contains(f) && subBuilder.isInScope([f])) {
-        includedResources.include(relativePath(f))
-      }
-    }
-  }
-
-  return includedResources
-}
-
-
-/*
- * Convert a bnd (class)path to a gradle file collection.
- */
-List<File> bndPathToFileList(Collection<Container> path) {
-  def files = new LinkedList<File>()
-  if (path != null) {
-    path.each {
-      if (!files.contains(it.file)) {
-        files.add(it.file)
-      }
-    }
-  }
-
-  return files
-}
-
-
-
-
-/*
  * Bnd Project
  */
 
@@ -415,6 +339,76 @@ private void checkErrors() {
  */
 private boolean parseBoolean(String value) {
   return 'on'.equalsIgnoreCase(value) || 'true'.equalsIgnoreCase(value)
+}
+
+
+/*
+ * Get a property from the project's flattened bnd properties.
+ * Returns an empty string when the property is not set unless instructed to
+ * throw an exception when the property is not set.
+ */
+String bnd(String key, boolean throwOnNotSet) {
+  assert(project != null                       )
+  assert(key != null && !key.isEmpty()         )
+  assert(hasProperty("bndFlattenedProperties"))
+
+  def value = bndFlattenedProperties.getProperty(key, null)
+  if (value == null) {
+    if (throwOnNotSet) {
+      throw new GradleException("Bnd property \"$key\" not found in project $project.name")
+    }
+    value = ""
+  }
+  return value.trim()
+}
+
+
+/*
+ * Determine which files will be included in the bundles of a project.
+ */
+FileTree getBundleInputFiles() {
+  assert(project != null                )
+  assert(hasProperty("bndProject"      ))
+  assert(hasProperty("bndSrcDir"       ))
+  assert(hasProperty("bndSrcBinDir"    ))
+  assert(hasProperty("bndTestSrcDir"   ))
+  assert(hasProperty("bndTestSrcBinDir"))
+  assert(hasProperty("bndTargetDir"    ))
+
+  def tree = fileTree(projectDir)
+                    .exclude("$bndSrcDir/**"       )
+                    .exclude("$bndSrcBinDir/**"    )
+                    .exclude("$bndTestSrcDir/**"   )
+                    .exclude("$bndTestSrcBinDir/**")
+                    .exclude("$bndTargetDir/**"    )
+
+  def includedResources = fileTree(projectDir).include("$bndSrcBinDir/**")
+  bndProject.subBuilders.each { subBuilder ->
+    tree.each { f ->
+      if (!includedResources.contains(f) && subBuilder.isInScope([f])) {
+        includedResources.include(relativePath(f))
+      }
+    }
+  }
+
+  return includedResources
+}
+
+
+/*
+ * Convert a bnd (class)path to a gradle file collection.
+ */
+List<File> bndPathToFileList(Collection<Container> path) {
+  def files = new LinkedList<File>()
+  if (path != null) {
+    path.each {
+      if (!files.contains(it.file)) {
+        files.add(it.file)
+      }
+    }
+  }
+
+  return files
 }
 
 
