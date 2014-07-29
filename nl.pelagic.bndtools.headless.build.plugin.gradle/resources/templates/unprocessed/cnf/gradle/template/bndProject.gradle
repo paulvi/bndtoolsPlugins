@@ -64,6 +64,7 @@ ext.bndJavacTarget                  =              bndThrow('javac.target')
 /* Other settings */
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
+buildDir = relativePath(bndProject.targetDir)
 
 /* A bnd project is a java project */
 apply plugin: "java"
