@@ -185,6 +185,10 @@ task('releaseNeeded') {
 }
 
 
+test {
+  enabled !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
+}
+
 task('bundleTest') {
   description 'Run OSGi tests.'
   group 'verification'
@@ -270,9 +274,6 @@ task('bndproperties') {
 
 jar.dependsOn(bundle)
 jar.enabled = false
-
-test.dependsOn(bundle)
-test.enabled = !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
 
 check.dependsOn(bundleTest)
 
