@@ -68,6 +68,9 @@ subprojects { project ->
 
     /* Apply the bnd project template */
     apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndProject.gradle")
+
+    /* Load the build customisations */
+    apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/bndProjects.gradle")
   }
 
   /* Load the build customisations */

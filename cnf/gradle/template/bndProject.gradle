@@ -353,6 +353,3 @@ String bndUnprocessed(String key, Object defaultValue) {
   return value
 }
 
-
-/* Load the build customisations */
-apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/bndProjects.gradle")
