@@ -192,7 +192,7 @@ task('releaseNeeded') {
 task('bundleTest') {
   description   "Run OSGi tests."
   group         'verification'
-  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, false)) || bnd(Constants.TESTCASES, false).isEmpty())
+  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, false)) || bndUnprocessed(Constants.TESTCASES, false).isEmpty())
   dependsOn     bundle
 
   if (enabled) {
@@ -340,6 +340,17 @@ String bnd(String key, boolean throwOnNotSet) {
     value = ""
   }
   return value.trim()
+}
+
+String bndUnprocessed(String key, Object defaultValue) {
+  def value = bndProject.getUnprocessedProperty(name, null)
+  if (value == null) {
+    value = defaultValue
+  }
+  if (value instanceof String) {
+    value = value.trim()
+  }
+  return value
 }
 
 
