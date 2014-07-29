@@ -61,7 +61,6 @@ ext.bndClassPathRun                 = files(bndProject.runpath.collect      { it
 
 /* Java compiler options */
 ext.bndDebug                        = parseBoolean(bnd("javac.debug" , false))
-ext.bndJava                         =              bnd("java"        , true )
 ext.bndJavac                        =              bnd("javac"       , true )
 ext.bndJavacSource                  =              bnd("javac.source", true )
 ext.bndJavacTarget                  =              bnd("javac.target", true )
