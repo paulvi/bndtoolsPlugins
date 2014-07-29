@@ -43,9 +43,6 @@ if (!bndProject.isValid()) {
   throw new GradleException("Project $project is not a valid bnd project")
 }
 
-/* Flatten/Resolve all bnd project properties */
-ext.bndFlattenedProperties          = bndProject.getFlattenedProperties(false)
-
 /* Source and output directory settings */
 ext.bndSrcDir                       = relativePath(bndProject.src               )
 ext.bndSrcBinDir                    = relativePath(bndProject.srcOutput         )
@@ -335,7 +332,7 @@ private boolean parseBoolean(String value) {
  * throw an exception when the property is not set.
  */
 String bnd(String key, boolean throwOnNotSet) {
-  def value = bndFlattenedProperties.getProperty(key, null)
+  def value = bndProject.getProperty(key, null)
   if (value == null) {
     if (throwOnNotSet) {
       throw new GradleException("Bnd property \"$key\" not found in project $project.name")
