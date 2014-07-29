@@ -192,8 +192,6 @@ task('bundleTest') {
   enabled !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bndUnprocessed(Constants.TESTCASES, '').empty)
 
   if (enabled) {
-    inputs.files  bndProject.deliverables.collect { it.file }, new File("$bndTargetDir/" + Constants.BUILDFILES)
-
     doLast {
       try {
         bndProject.test()
