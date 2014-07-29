@@ -236,7 +236,7 @@ release.enabled                      = false
 /* depend on all bnd projects in the workspace */
 rootProject.subprojects.each {
   if (it.hasProperty("bndProject")) {
-    p2Entry.dependsOn += [":" + it.name + ":bundle"]
+    p2Entry.dependsOn += [":" + it.name + ":jar"]
   }
 }
 
