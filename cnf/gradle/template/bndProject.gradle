@@ -36,7 +36,6 @@ bndProject.setDelayRunDependencies(true)
 bndProject.setProperty('in.ant', 'true')
 bndProject.setProperty('environment', 'gradle')
 
-/* Prepare the project */
 bndProject.prepare()
 if (!bndProject.isValid()) {
   checkErrors()
