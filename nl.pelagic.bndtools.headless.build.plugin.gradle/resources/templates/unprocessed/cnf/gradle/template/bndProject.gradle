@@ -288,9 +288,6 @@ bndProject.dependson.each {
 }
 
 
-/*
- * Print bnd project warnings and errors and exit when errors are not allowed.
- */
 private void checkErrors() {
   bndProject.getInfo(bndProject.workspace, "${bndProject.workspace.base.name} :")
   def int errorCount = 0
@@ -318,19 +315,12 @@ private void checkErrors() {
   bndProject.errors.clear()
 }
 
-/*
- * Parse a boolean the same way bnd parses it.
- */
+
 private boolean parseBoolean(String value) {
   return 'on'.equalsIgnoreCase(value) || 'true'.equalsIgnoreCase(value)
 }
 
 
-/*
- * Get a property from the project's flattened bnd properties.
- * Returns an empty string when the property is not set unless instructed to
- * throw an exception when the property is not set.
- */
 String bnd(String key, boolean throwOnNotSet) {
   def value = bndProject.getProperty(key, null)
   if (value == null) {
