@@ -380,10 +380,11 @@ The build has the following flow:
           to the source sets and their compiler options.
 
         * The ```bundle```, ```release```, ```releaseNeeded```, ```export```
-          , ```export.<name>```, ```bundleTest```, ```bndproperties```
-          and ```clean``` tasks are setup and their dependencies are configured
-          in such a way that they hook into the tasks that are setup by the
-          Java plugin (see [the tasks diagram](#svg)).
+          , ```export.<name>```, ```check```, ```checkNeeded```
+          , ```bndproperties``` and ```clean``` tasks are setup and their
+          dependencies are configured in such a way that they hook into the
+          tasks that are setup by the Java plugin
+          (see [the tasks diagram](#svg)).
 
         * Build customisations are loaded from
           the ```cnf/gradle/custom/bndProjects.gradle``` file.
@@ -438,7 +439,7 @@ task that are equivalent to those of the ```jar``` task.
 The ```bnd.bnd``` file describes how the OSGi bundle must be constructed and is
 therefore taken as input by bnd.
 
-### bundleTest
+### check
 
 This task instructs bnd to run bundle (integration) tests.
 
@@ -448,6 +449,12 @@ which instructs the Java runtime to run unit tests.
 Refer to the bnd manual/website for more details on how to setup bundle tests.
 
 This task is automatically disabled when no bundle tests have been defined.
+
+### checkNeeded
+
+This task will invoke the ```check``` task on all projects on which the
+project is dependent, after which the ```check``` task is invoked on the
+project itself.
 
 ### release
 

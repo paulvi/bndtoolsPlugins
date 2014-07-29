@@ -186,24 +186,26 @@ test {
   enabled !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
 }
 
-task('bundleTest') {
-  description 'Run OSGi tests.'
-  group 'verification'
+check {
   dependsOn assemble
   enabled !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bndUnprocessed(Constants.TESTCASES, '').empty)
-
   if (enabled) {
     doLast {
       try {
         bndProject.test()
       } catch (Exception e) {
-        throw new GradleException("Project ${bndProject.name} failed bundleTest", e)
+        throw new GradleException("Project ${bndProject.name} failed to test", e)
       }
       checkErrors()
     }
   }
 }
 
+task('checkNeeded') {
+  description 'Runs all checks on the project and all projects it depends on.'
+  dependsOn check
+  group 'verification'
+}
 
 clean.doLast {
   bndProject.clean()
@@ -272,10 +274,9 @@ task('bndproperties') {
 jar.dependsOn(bundle)
 jar.enabled = false
 
-check.dependsOn(bundleTest)
-
 bndProject.dependson.each {
   compileJava.dependsOn  (":${it.name}:bundle")
+  checkNeeded.dependsOn(":${it.name}:checkNeeded")
   releaseNeeded.dependsOn(":${it.name}:releaseNeeded")
 }
 
