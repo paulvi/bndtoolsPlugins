@@ -163,7 +163,7 @@ task('bundle') {
 }
 
 task('release') {
-  description 'Release OSGi bundle(s) into the release repository.'
+  description 'Release the project to the release repository.'
   dependsOn assemble
   group 'release'
   enabled !bnd(Constants.RELEASEREPO, '').empty
@@ -183,7 +183,7 @@ task('release') {
 }
 
 task('releaseNeeded') {
-  description 'Release OSGi bundle(s) and those of all projects the project depends on.'
+  description 'Release the project and all projects it depends on.'
   dependsOn release
   group 'release'
 }
