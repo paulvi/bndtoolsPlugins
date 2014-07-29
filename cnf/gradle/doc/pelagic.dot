@@ -1,10 +1,19 @@
+/*
+ * WARNING
+ *
+ * To create an SVG diagram from this file, install graphviz and run:
+ *   dot -Tsvg "$1.dot" -o "$1.svg"   (on a Linux   machine)
+ *   dot -Tsvg "%1.dot" -o "%1.svg"   (on a Windows machine)
+ */
+
+
 digraph GradleSetup {
   label="Gradle Build Setup"
   labelloc=t
   labeljust=l
 
   subgraph cluster1 {
-    label="Java Plugin";
+    label="Java Projects / Bnd Projects";
     labelloc=b
     labeljust=l
     style=filled;
@@ -18,6 +27,7 @@ digraph GradleSetup {
       processResources     [shape=box, style=filled, fillcolor=lightcyan, label="processResources"    ]
       classes              [shape=box, style=filled, fillcolor=lightcyan, label="classes"             ]
       jar                  [shape=box, style=filled, fillcolor=lightcyan, label="jar"                 ]
+      bundle               [shape=box, style=filled, fillcolor=cyan     , label="bundle"              ]
     }
 
     subgraph cluster12 {
@@ -27,8 +37,7 @@ digraph GradleSetup {
       processTestResources [shape=box, style=filled, fillcolor=lightcyan, label="processTestResources"]
       testClasses          [shape=box, style=filled, fillcolor=lightcyan, label="testClasses"         ]
       test                 [shape=box, style=filled, fillcolor=lightcyan, label="test"                ]
-      check                [shape=box, style=filled, fillcolor=cyan     , label="check"               ]
-      checkNeeded          [shape=box, style=filled, fillcolor=cyan     , label="checkNeeded"         ]
+      jacocoTestReport     [shape=box, style=filled, fillcolor=orange   , label="jacocoTestReport"    ]
     }
 
     subgraph cluster13 {
@@ -38,9 +47,40 @@ digraph GradleSetup {
       assemble             [shape=box, style=filled, fillcolor=lightcyan, label="assemble"            ]
     }
 
+    subgraph cluster14 {
+      label="";
+      style=invis;
+      check                [shape=box, style=filled, fillcolor=cyan     , label="check"               ]
+      checkNeeded          [shape=box, style=filled, fillcolor=cyan     , label="checkNeeded"         ]
+    }
+
+    subgraph cluster15 {
+      label="";
+      style=invis;
+      release              [shape=box, style=filled, fillcolor=cyan     , label="release"             ]
+      releaseNeeded        [shape=box, style=filled, fillcolor=cyan     , label="releaseNeeded"       ]
+    }
+
+    subgraph cluster16 {
+      label="";
+      style=invis;
+      exportX              [shape=box3d, style=filled, fillcolor=cyan   , label="export.<name>"       ]
+      export               [shape=box  , style=filled, fillcolor=cyan   , label="export"              ]
+    }
+
+    subgraph cluster17 {
+      label="";
+      style=invis;
+      findbugs             [shape=box, style=filled, fillcolor=orange   , label="findbugs"            ]
+      findbugsMain         [shape=box, style=filled, fillcolor=orange   , label="findbugsMain"        ]
+      findbugstest         [shape=box, style=filled, fillcolor=orange   , label="findbugstest"        ]
+      findbugsTest         [shape=box, style=filled, fillcolor=orange   , label="findbugsTest"        ]
+    }
+
     build                  [shape=box, style=filled, fillcolor=lightcyan, label="build"               ]
     javadoc                [shape=box, style=filled, fillcolor=lightcyan, label="javadoc"             ]
-    cleanJava              [shape=box, style=filled, fillcolor=lightcyan, label="clean"               ]
+    clean                  [shape=box, style=filled, fillcolor=cyan     , label="clean"               ]
+    bndproperties          [shape=box, style=filled, fillcolor=cyan     , label="bndproperties"       ]
 
     compileJava            -> classes
     processResources       -> classes
@@ -59,52 +99,6 @@ digraph GradleSetup {
     check                  -> checkNeeded
     checkNeeded            -> checkNeeded        [color=red   ]
     check                  -> build
-  }
-
-
-  subgraph cluster2 {
-    label="Bnd Projects";
-    labelloc=b
-    labeljust=l
-    style=filled;
-    fillcolor=lightgrey;
-    color=black;
-
-    subgraph cluster21 {
-      label="";
-      style=invis;
-      bundle               [shape=box, style=filled, fillcolor=cyan     , label="bundle"              ]
-    }
-
-    subgraph cluster22 {
-      label="";
-      style=invis;
-      release              [shape=box, style=filled, fillcolor=cyan     , label="release"             ]
-      releaseNeeded        [shape=box, style=filled, fillcolor=cyan     , label="releaseNeeded"       ]
-    }
-
-    subgraph cluster23 {
-      label="";
-      style=invis;
-      cleanBnd             [shape=box,   style=filled, fillcolor=cyan   , label="clean"               ]
-      bndproperties        [shape=box,   style=filled, fillcolor=cyan   , label="bndproperties"       ]
-      exportX              [shape=box3d, style=filled, fillcolor=cyan   , label="export.<name>"       ]
-      export               [shape=box,   style=filled, fillcolor=cyan   , label="export"              ]
-    }
-
-  subgraph cluster100 {
-    label="Class Cycle Checks";
-    labelloc=t
-    labeljust=l
-    style=filled;
-    fillcolor=lightgrey;
-    color=black;
-
-    checkClassCycle        [shape=box, style=filled, fillcolor=cyan     , label="checkClassCycle"     ]
-
-    classes                -> checkClassCycle
-    checkClassCycle        -> bundle
-  }
 
     classes                -> bundle
     bundle                 -> compileJava        [color=red   ]
@@ -115,44 +109,6 @@ digraph GradleSetup {
     exportX                -> export
     release                -> releaseNeeded
     releaseNeeded          -> releaseNeeded      [color=red   ]
-  }
-
-
-  subgraph cluster3 {
-    label="Root Project";
-    labelloc=b
-    labeljust=l
-    style=filled;
-    fillcolor=lightgrey;
-    color=black;
-
-    wrapper                [shape=box, style=filled, fillcolor=cyan     , label="wrapper"             ]
-  }
-
-
-  subgraph cluster4 {
-    label="Java Projects";
-    labelloc=b
-    labeljust=l
-    style=filled;
-    fillcolor=lightgrey;
-    color=black;
-
-    subgraph cluster41 {
-      label="";
-      style=invis;
-      findbugstest         [shape=box, style=filled, fillcolor=cyan     , label="findbugstest"        ]
-      findbugsTest         [shape=box, style=filled, fillcolor=cyan     , label="findbugsTest"        ]
-    }
-
-    subgraph cluster42 {
-      label="";
-      style=invis;
-      findbugs             [shape=box, style=filled, fillcolor=cyan     , label="findbugs"            ]
-      findbugsMain         [shape=box, style=filled, fillcolor=cyan     , label="findbugsMain"        ]
-    }
-
-    jacocoTestReport       [shape=box, style=filled, fillcolor=cyan     , label="jacocoTestReport"    ]
 
     classes                -> findbugsMain
     testClasses            -> findbugsTest
@@ -164,7 +120,19 @@ digraph GradleSetup {
   }
 
 
-  subgraph cluster5 {
+  subgraph cluster2 {
+    label="Root Project";
+    labelloc=b
+    labeljust=l
+    style=filled;
+    fillcolor=lightgrey;
+    color=black;
+
+    wrapper                [shape=box, style=filled, fillcolor=orange   , label="wrapper"             ]
+  }
+
+
+ subgraph cluster3 {
     label="All Projects";
     labelloc=b
     labeljust=l
@@ -172,29 +140,31 @@ digraph GradleSetup {
     fillcolor=lightgrey;
     color=black;
 
-    subgraph cluster21 {
+    subgraph cluster31 {
       label="";
       style=invis;
-      index                [shape=box, style=filled, fillcolor=cyan     , label="index"               ]
+      index                [shape=box, style=filled, fillcolor=orange   , label="index"               ]
     }
 
-    subgraph cluster22 {
+    subgraph cluster32 {
       label="";
       style=invis;
-      clean                [shape=box, style=filled, fillcolor=lightcyan, label="clean"               ]
-      cleanNeeded          [shape=box, style=filled, fillcolor=cyan     , label="cleanNeeded"         ]
-      distclean            [shape=box, style=filled, fillcolor=cyan     , label="distclean"           ]
-      distcleanNeeded      [shape=box, style=filled, fillcolor=cyan     , label="distcleanNeeded"     ]
+      cleanAll             [shape=box, style=filled, fillcolor=orange   , label="clean"               ]
+      cleanAllNeeded       [shape=box, style=filled, fillcolor=orange   , label="cleanNeeded"         ]
+      distclean            [shape=box, style=filled, fillcolor=orange   , label="distclean"           ]
+      distcleanNeeded      [shape=box, style=filled, fillcolor=orange   , label="distcleanNeeded"     ]
     }
 
-    clean                  -> cleanNeeded        [color=blue  ]
-    cleanNeeded            -> cleanNeeded        [color=red   ]
-    clean                  -> distclean          [color=blue  ]
+    clean                  -> cleanAll           [color=blue  ]
+    cleanAll               -> cleanAllNeeded     [color=blue  ]
+    cleanAllNeeded         -> cleanAllNeeded     [color=red   ]
+    cleanAll               -> distclean          [color=blue  ]
     distclean              -> distcleanNeeded
     distcleanNeeded        -> distcleanNeeded    [color=red   ]
   }
 
-  subgraph cluster7 {
+
+  subgraph cluster4 {
     label="Build Project";
     labelloc=b
     labeljust=l
@@ -211,15 +181,15 @@ digraph GradleSetup {
     p2PelagicPlugins       [shape=box, style=filled, fillcolor=none      , label="p2PelagicPlugins"      ]
     p2Plugins              [shape=box, style=filled, fillcolor=none      , label="p2Plugins"             ]
 
-    p2                     [shape=box, style=filled, fillcolor=cyan      , label="p2"                    ]
+    p2                     [shape=box, style=filled, fillcolor=yellow    , label="p2"                    ]
 
-    indexBuild             [shape=box, style=filled, fillcolor=cyan      , label="index"                 ]
+    indexBuild             [shape=box, style=filled, fillcolor=yellow    , label="index"                 ]
 
     distCompositePlugins   [shape=box, style=filled, fillcolor=none      , label="distCompositePlugins"  ]
     distZipPlugins         [shape=box, style=filled, fillcolor=none      , label="distZipPlugins"        ]
-    dist                   [shape=box, style=filled, fillcolor=cyan      , label="dist"                  ]
+    dist                   [shape=box, style=filled, fillcolor=yellow    , label="dist"                  ]
 
-    bundle                 -> p2Entry            [color=red   ]
+    jar                    -> p2Entry            [color=red   ]
 
     p2Entry                -> p2FeaturesTree
     p2FeaturesTree         -> p2FeaturesGradlePlugin
