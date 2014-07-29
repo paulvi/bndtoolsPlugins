@@ -47,7 +47,6 @@ ext.bndSrcDir                       = relativePath(bndProject.src               
 ext.bndSrcBinDir                    = relativePath(bndProject.srcOutput         )
 ext.bndTestSrcDir                   = relativePath(bndProject.testSrc           )
 ext.bndTestSrcBinDir                = relativePath(bndProject.testOutput        )
-ext.bndTargetDir                    = relativePath(bndProject.targetDir         )
 
 /* Classpaths */
 ext.bndClassPath                    = files(bndProject.buildpath.collect    { it.file })
@@ -138,10 +137,7 @@ task('bundle') {
     outputs.files bndProject.deliverables.collect { it.file }, new File(buildDir, Constants.BUILDFILES)
 
     doLast {
-      def targetDir = file(bndTargetDir)
-      if ((!targetDir.exists() && !targetDir.mkdirs()) || !targetDir.isDirectory()) {
-        throw new GradleException("Could not create directory $targetDir")
-      }
+      buildDir.mkdirs()
       def built = null
       try {
         built = bndProject.build()
