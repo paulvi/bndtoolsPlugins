@@ -183,6 +183,7 @@ task('releaseNeeded') {
 
 
 test {
+  dependsOn bundle
   enabled !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
 }
 
