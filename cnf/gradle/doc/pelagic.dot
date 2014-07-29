@@ -106,7 +106,7 @@ digraph GradleSetup {
     classes                -> bundle
     bundle                 -> compileJava        [color=red   ]
     bundle                 -> jar                [style=dashed]
-    bundle                 -> bundleTest
+    assemble               -> bundleTest
     bundle                 -> test
     assemble               -> release
     assemble               -> exportX
