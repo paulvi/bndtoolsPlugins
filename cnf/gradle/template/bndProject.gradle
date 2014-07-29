@@ -77,7 +77,7 @@ apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.grad
 dependencies.add("compile"    , files(bndClassPath    ))
 dependencies.add("testCompile", files(bndClassPathTest))
 
-if (!bndClassPathBoot.isEmpty()) {
+if (!bndClassPathBoot.empty) {
   def classPathBootAsPath = files(bndClassPathBoot).asPath
   compileJava.options.compilerArgs          += ["-Xbootclasspath/p:$classPathBootAsPath"]
   compileTestJava.options.compilerArgs      += ["-Xbootclasspath/p:$classPathBootAsPath"]
@@ -166,7 +166,7 @@ task('release') {
   description   'Release OSGi bundle(s) into the release repository.'
   dependsOn     bundle
   group         'release'
-  enabled       !bnd(Constants.RELEASEREPO, '').isEmpty()
+  enabled       !bnd(Constants.RELEASEREPO, '').empty
 
   if (enabled) {
     inputs.files  { bndProject.deliverables.collect { it.file } }
@@ -192,7 +192,7 @@ task('releaseNeeded') {
 task('bundleTest') {
   description   "Run OSGi tests."
   group         'verification'
-  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bndUnprocessed(Constants.TESTCASES, '').isEmpty())
+  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bndUnprocessed(Constants.TESTCASES, '').empty)
   dependsOn     bundle
 
   if (enabled) {
