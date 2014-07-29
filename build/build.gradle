@@ -17,20 +17,15 @@ ext.bndEclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPubl
  * Helper Methods
  */
 
-/*
- * Get a property from the project's flattened bnd properties.
- * Returns an empty string when the property is not set unless instructed to
- * throw an exception when the property is not set.
- */
-String bnd(String key, boolean throwOnNotSet) {
+Object bndThrow(String key) {
   def value = bndProject.getProperty(key, null)
   if (value == null) {
-    if (throwOnNotSet) {
-      throw new GradleException("Bnd property \"$key\" not found in project $project.name")
-    }
-    value = ""
+    throw new GradleException("Bnd property \"$key\" not found in project $project.name")
   }
-  return value.trim()
+  if (value instanceof String) {
+    value = value.trim()
+  }
+  return value
 }
 
 /*
@@ -136,10 +131,10 @@ task p2Entry {
  */
 
 ext.p2Timestamp   = "" + System.currentTimeMillis()
-ext.gitShaShort   = bnd("Git-SHA", true).replaceAll("([0-9a-fA-F]{7}).*", "\$1")
+ext.gitShaShort   = bndThrow('Git-SHA').replaceAll("([0-9a-fA-F]{7}).*", "\$1")
 ext.masterVersion = String.format("%s.%s-%s-g%s",
-                       bnd("base-version", true),
-                       bnd("base-version-qualifier", true),
+                       bndThrow('base-version'),
+                       bndThrow('base-version-qualifier'),
                        new Date().format('yyyyMMdd-HHmmss').toString(),
                        gitShaShort)
 

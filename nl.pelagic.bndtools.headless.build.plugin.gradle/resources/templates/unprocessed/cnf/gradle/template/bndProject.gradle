@@ -57,13 +57,13 @@ ext.bndClassPathTest                = files(bndProject.testpath.collect     { it
 ext.bndClassPathRun                 = files(bndProject.runpath.collect      { it.file })
 
 /* Java compiler options */
-ext.bndDebug                        = parseBoolean(bnd('javac.debug' , true))
-ext.bndJavac                        =              bnd('javac'       , true)
-ext.bndJavacSource                  =              bnd('javac.source', true)
-ext.bndJavacTarget                  =              bnd('javac.target', true)
+ext.bndDebug                        = parseBoolean(bndThrow('javac.debug'))
+ext.bndJavac                        =              bndThrow('javac'       )
+ext.bndJavacSource                  =              bndThrow('javac.source')
+ext.bndJavacTarget                  =              bndThrow('javac.target')
 
 /* Other settings */
-ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, false))
+ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
 
 /* A bnd project is a java project */
@@ -166,7 +166,7 @@ task('release') {
   description   'Release OSGi bundle(s) into the release repository.'
   dependsOn     bundle
   group         'release'
-  enabled       !bnd(Constants.RELEASEREPO, false).isEmpty()
+  enabled       !bnd(Constants.RELEASEREPO, '').isEmpty()
 
   if (enabled) {
     inputs.files  { bndProject.deliverables.collect { it.file } }
@@ -192,7 +192,7 @@ task('releaseNeeded') {
 task('bundleTest') {
   description   "Run OSGi tests."
   group         'verification'
-  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, false)) || bndUnprocessed(Constants.TESTCASES, false).isEmpty())
+  enabled       !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bndUnprocessed(Constants.TESTCASES, '').isEmpty())
   dependsOn     bundle
 
   if (enabled) {
@@ -264,7 +264,7 @@ task('bndproperties') {
     bndProject.getPropertyKeys(true).sort({
       s1, s2 -> s1.compareTo(s2)
     }).each {
-      println "${it}: ${bnd(it, false)}"
+      println "${it}: ${bnd(it, '')}"
     }
   }
 }
@@ -278,7 +278,7 @@ jar.dependsOn(bundle)
 jar.enabled = false
 
 test.dependsOn(bundle)
-test.enabled = !(parseBoolean(bnd(Constants.NOJUNIT, false)) || parseBoolean(bnd("no.junit", false)))
+test.enabled = !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
 
 check.dependsOn(bundleTest)
 
@@ -321,19 +321,20 @@ private boolean parseBoolean(String value) {
 }
 
 
-String bnd(String key, boolean throwOnNotSet) {
+Object bndThrow(String key) {
   def value = bndProject.getProperty(key, null)
   if (value == null) {
-    if (throwOnNotSet) {
-      throw new GradleException("Bnd property \"$key\" not found in project $project.name")
-    }
-    value = ""
+    throw new GradleException("Bnd property \"$key\" not found in project $project.name")
   }
-  return value.trim()
+  if (value instanceof String) {
+    value = value.trim()
+  }
+  return value
 }
 
-String bndUnprocessed(String key, Object defaultValue) {
-  def value = bndProject.getUnprocessedProperty(name, null)
+
+Object bnd(String key, Object defaultValue) {
+  def value = bndProject.getProperty(key, null)
   if (value == null) {
     value = defaultValue
   }
@@ -343,3 +344,14 @@ String bndUnprocessed(String key, Object defaultValue) {
   return value
 }
 
+
+Object bndUnprocessed(String key, Object defaultValue) {
+  def value = bndProject.getUnprocessedProperty(name, null)
+  if (value == null) {
+    value = defaultValue
+  }
+  if (value instanceof String) {
+    value = value.trim()
+  }
+  return value
+}
