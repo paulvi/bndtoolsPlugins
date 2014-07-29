@@ -176,7 +176,7 @@ task('release') {
 }
 
 task('releaseNeeded') {
-  description 'Release the project and all projects it depends on.'
+  description 'Release this project and all projects it depends on to the release repository.'
   dependsOn release
   group 'release'
 }
@@ -203,7 +203,7 @@ check {
 }
 
 task('checkNeeded') {
-  description 'Runs all checks on the project and all projects it depends on.'
+  description 'Runs all checks on this project and all projects it depends on.'
   dependsOn check
   group 'verification'
 }
@@ -250,7 +250,7 @@ task('export') {
 
 
 task('bndproperties') {
-  description "Display the bnd properties."
+  description 'Display the bnd properties.'
   group 'help'
 
   doLast {
