@@ -9,7 +9,6 @@
  * Build template for bnd projects.
  */
 
-import aQute.bnd.build.Container
 import aQute.bnd.osgi.Constants
 
 
