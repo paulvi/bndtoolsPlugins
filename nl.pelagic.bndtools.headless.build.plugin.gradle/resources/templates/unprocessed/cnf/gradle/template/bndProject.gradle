@@ -163,19 +163,19 @@ task('bundle') {
 }
 
 task('release') {
-  description   'Release OSGi bundle(s) into the release repository.'
-  dependsOn     bundle
-  group         'release'
-  enabled       !bnd(Constants.RELEASEREPO, '').empty
+  description 'Release OSGi bundle(s) into the release repository.'
+  dependsOn assemble
+  group 'release'
+  enabled !bnd(Constants.RELEASEREPO, '').empty
 
   if (enabled) {
-    inputs.files  { bndProject.deliverables.collect { it.file } }
+    inputs.files bndProject.deliverables.collect { it.file }
 
     doLast {
       try {
         bndProject.release()
       } catch (Exception e) {
-        throw new GradleException("Releasing OSGi bundle(s) of project $project.name failed", e)
+        throw new GradleException("Project ${bndProject.name} failed to release", e)
       }
       checkErrors()
     }
@@ -183,9 +183,9 @@ task('release') {
 }
 
 task('releaseNeeded') {
-  description   'Release OSGi bundle(s) and those of all projects the project depends on.'
-  dependsOn     release
-  group         'release'
+  description 'Release OSGi bundle(s) and those of all projects the project depends on.'
+  dependsOn release
+  group 'release'
 }
 
 
