@@ -57,10 +57,10 @@ ext.bndClassPathTest                = files(bndProject.testpath.collect     { it
 ext.bndClassPathRun                 = files(bndProject.runpath.collect      { it.file })
 
 /* Java compiler options */
-ext.bndDebug                        = parseBoolean(bnd("javac.debug" , false))
-ext.bndJavac                        =              bnd("javac"       , true )
-ext.bndJavacSource                  =              bnd("javac.source", true )
-ext.bndJavacTarget                  =              bnd("javac.target", true )
+ext.bndDebug                        = parseBoolean(bnd('javac.debug' , true))
+ext.bndJavac                        =              bnd('javac'       , true)
+ext.bndJavacSource                  =              bnd('javac.source', true)
+ext.bndJavacTarget                  =              bnd('javac.target', true)
 
 /* Other settings */
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, false))
