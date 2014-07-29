@@ -39,7 +39,7 @@ bndProject.setProperty('environment', 'gradle')
 bndProject.prepare()
 if (!bndProject.isValid()) {
   checkErrors()
-  throw new GradleException("Project $project is not a valid bnd project")
+  throw new GradleException("Project ${bndProject.name} is not a valid bnd project")
 }
 
 /* Source and output directory settings */
@@ -145,7 +145,7 @@ task('bundle') {
       try {
         built = bndProject.build()
       } catch (Exception e) {
-        throw new GradleException("Building OSGi bundle(s) of project $project.name failed", e)
+        throw new GradleException("Project ${bndProject.name} failed to build", e)
       }
       checkErrors()
       if (built != null) {
@@ -198,7 +198,7 @@ task('bundleTest') {
       try {
         bndProject.test()
       } catch (Exception e) {
-        throw new GradleException("Running OSGi tests in project $project.name failed", e)
+        throw new GradleException("Project ${bndProject.name} failed bundleTest", e)
       }
       checkErrors()
     }
