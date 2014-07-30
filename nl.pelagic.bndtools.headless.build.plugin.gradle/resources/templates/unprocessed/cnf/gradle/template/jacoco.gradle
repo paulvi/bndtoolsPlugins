@@ -33,9 +33,10 @@ if (hasProperty("gradleBuildJacocoToolVersion")) {
 
 
 jacocoTestReport {
-    reports {
-        xml.enabled      gradleBuildJacocoXmlReport
-        csv.enabled      gradleBuildJacocoCsvReport
-        html.destination file("$bndTargetDir/$gradleBuildJacocoReportsDir/$gradleBuildJacocoHtmlDir")
-    }
+  dependsOn test
+  reports {
+      xml.enabled      gradleBuildJacocoXmlReport
+      csv.enabled      gradleBuildJacocoCsvReport
+      html.destination file("$bndTargetDir/$gradleBuildJacocoReportsDir/$gradleBuildJacocoHtmlDir")
+  }
 }
