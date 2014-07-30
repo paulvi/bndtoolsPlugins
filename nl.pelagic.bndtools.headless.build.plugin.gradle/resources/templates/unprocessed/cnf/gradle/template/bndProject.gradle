@@ -107,6 +107,13 @@ compileTestJava.options.fork                 = gradleBuildCompileFork || (bndJav
 compileTestJava.options.deprecation          = gradleBuildCompileDeprecation
 compileTestJava.options.forkOptions.setExecutable(bndJavac)
 
+ext.javacProfile = bnd('javac.profile', '')
+if (!javacProfile.empty) {
+  compileJava.options.compilerArgs          += ['-profile', javacProfile]
+  compileTestJava.options.compilerArgs      += ['-profile', javacProfile]
+}
+
+
 /*
  * Setup tasks
  */
@@ -116,7 +123,11 @@ compileJava {
   if (logger.isEnabled(LogLevel.INFO)) {
     doFirst {
       logger.info "Compile ${sourceSets.main.java.srcDirs} to ${destinationDir}"
-      logger.info "-source ${sourceCompatibility} -target ${targetCompatibility}"
+      if (javacProfile.empty) {
+        logger.info "-source ${sourceCompatibility} -target ${targetCompatibility}"
+      } else {
+        logger.info "-source ${sourceCompatibility} -target ${targetCompatibility} -profile ${javacProfile}"
+      }
       logger.info "-classpath ${classpath.asPath}"
       if (options.bootClasspath != null) {
         logger.info "-bootclasspath ${options.bootClasspath}"
@@ -296,6 +307,9 @@ task('echo') {
     println "javac:                  ${compileJava.options.forkOptions.executable}"
     println "javac.source:           ${sourceCompatibility}"
     println "javac.target:           ${targetCompatibility}"
+    if (!javacProfile.empty) {
+      println "javac.profile:          ${javacProfile}"
+    }
     println "target:                 ${buildDir}"
   }
 }
