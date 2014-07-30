@@ -1,1 +1,3 @@
 -nobundles
+-nojunit
+-nojunitosgi
