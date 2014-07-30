@@ -205,10 +205,12 @@ task('checkNeeded') {
   group 'verification'
 }
 
-clean.doLast {
-  bndProject.clean()
+clean {
+  deleteAllActions() // Replace the standard task actions
+  doLast {
+    bndProject.clean()
+  }
 }
-
 
 tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnable jar.') { taskName ->
   if (taskName.startsWith('export.')) {
