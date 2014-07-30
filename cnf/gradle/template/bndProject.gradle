@@ -158,7 +158,7 @@ task('release') {
   description 'Release the project to the release repository.'
   dependsOn assemble
   group 'release'
-  enabled !bnd(Constants.RELEASEREPO, '').empty
+  enabled !bnd(Constants.RELEASEREPO, 'unset').empty
 
   if (enabled) {
     inputs.files bndProject.deliverables.collect { it.file }
