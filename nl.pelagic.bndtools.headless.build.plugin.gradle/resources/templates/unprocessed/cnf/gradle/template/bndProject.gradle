@@ -111,6 +111,16 @@ compileTestJava.options.forkOptions.setExecutable(bndJavac)
  */
 
 compileJava {
+  if (logger.isEnabled(LogLevel.INFO)) {
+    doFirst {
+      logger.info "Compile ${sourceSets.main.java.srcDirs} to ${destinationDir}"
+      logger.info "-source ${sourceCompatibility} -target ${targetCompatibility}"
+      logger.info "-classpath ${classpath.asPath}"
+      if (options.bootClasspath != null) {
+        logger.info "-bootclasspath ${options.bootClasspath}"
+      }
+    }
+  }
   if (preCompileRefresh) {
     doFirst {
       logger.info 'Refreshing the bnd Project before compilation.'
