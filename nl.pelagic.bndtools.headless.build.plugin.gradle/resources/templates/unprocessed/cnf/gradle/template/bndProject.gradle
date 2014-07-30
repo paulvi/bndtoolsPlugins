@@ -126,7 +126,7 @@ jar {
     outputs.files bndProject.deliverables.collect { it.file }, new File(buildDir, Constants.BUILDFILES)
 
     doLast {
-      def built = null
+      def built
       try {
         built = bndProject.build()
       } catch (Exception e) {
