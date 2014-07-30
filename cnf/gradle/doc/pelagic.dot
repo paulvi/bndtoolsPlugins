@@ -93,6 +93,7 @@ digraph GradleSetup {
     javadoc                [shape=box, style=filled, fillcolor=lightcyan, label="javadoc"             ]
 
     clean                  [shape=box, style=filled, fillcolor=cyan     , label="clean"               ]
+    echo                   [shape=box, style=filled, fillcolor=cyan     , label="echo"                ]
     bndproperties          [shape=box, style=filled, fillcolor=cyan     , label="bndproperties"       ]
     jacocoTestReport       [shape=box, style=filled, fillcolor=orange   , label="jacocoTestReport"    ]
     findbugsMain           [shape=box, style=filled, fillcolor=orange   , label="findbugsMain"        ]

@@ -381,9 +381,9 @@ The build has the following flow:
 
         * The ```bundle```, ```release```, ```releaseNeeded```, ```export```
           , ```export.<name>```, ```check```, ```checkNeeded```
-          , ```bndproperties``` and ```clean``` tasks are setup and their
-          dependencies are configured in such a way that they hook into the
-          tasks that are setup by the Java plugin
+          , ```echo```, ```bndproperties``` and ```clean``` tasks are setup and
+          their dependencies are configured in such a way that they hook into
+          the tasks that are setup by the Java plugin
           (see [the tasks diagram](#svg)).
 
         * Build customisations are loaded from
@@ -483,6 +483,10 @@ jars.
 
 This task is automatically disabled when the project contains no ```*.bndrun```
 files.
+
+### echo
+
+This task displays some key bnd properties of the project.
 
 ### bndproperties
 
