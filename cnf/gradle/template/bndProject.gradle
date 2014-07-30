@@ -343,15 +343,18 @@ bndProject.dependson.each {
 
 private void checkErrors() {
   bndProject.getInfo(bndProject.workspace, "${bndProject.workspace.base.name} :")
+  def boolean failed = !bndProject.isOk()
   def int errorCount = 0
   bndProject.warnings.each {
     project.logger.warn "Warning: ${it}"
   }
+  bndProject.warnings.clear()
   bndProject.errors.each {
     project.logger.error "Error  : ${it}"
     errorCount++
   }
-  if (!bndProject.isOk()) {
+  bndProject.errors.clear()
+  if (failed) {
     def str = 'even though no errors were reported'
     if (errorCount == 1) {
       str = 'one error was reported'
@@ -360,10 +363,7 @@ private void checkErrors() {
     }
     throw new GradleException("Project ${bndProject.name} is invalid, ${str}")
   }
-  bndProject.warnings.clear()
-  bndProject.errors.clear()
 }
-
 
 private boolean parseBoolean(String value) {
   return 'on'.equalsIgnoreCase(value) || 'true'.equalsIgnoreCase(value)
@@ -380,8 +380,6 @@ Object bndThrow(String key) {
   }
   return value
 }
-
-
 Object bnd(String key, Object defaultValue) {
   def value = bndProject.getProperty(key, null)
   if (value == null) {
@@ -392,8 +390,6 @@ Object bnd(String key, Object defaultValue) {
   }
   return value
 }
-
-
 Object bndUnprocessed(String key, Object defaultValue) {
   def value = bndProject.getUnprocessedProperty(name, null)
   if (value == null) {
