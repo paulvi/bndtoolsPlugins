@@ -175,11 +175,10 @@ task('release') {
 }
 
 task('releaseNeeded') {
-  description 'Release this project and all projects it depends on to the release repository.'
+  description 'Release the project and all projects it depends on to the release repository.'
   dependsOn release
   group 'release'
 }
-
 
 test {
   enabled !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
@@ -201,7 +200,7 @@ check {
 }
 
 task('checkNeeded') {
-  description 'Runs all checks on this project and all projects it depends on.'
+  description 'Runs all checks on the project and all projects it depends on.'
   dependsOn check
   group 'verification'
 }
@@ -234,9 +233,8 @@ tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnab
   }
 }
 
-
 task('export') {
-  description "Export all the bndrun files to runnable jars."
+  description 'Export all the bndrun files to runnable jars.'
   group 'export'
 
   fileTree(projectDir) {
@@ -248,7 +246,7 @@ task('export') {
 
 
 task('bndproperties') {
-  description 'Display the bnd properties.'
+  description 'Displays the bnd properties.'
   group 'help'
 
   doLast {
