@@ -86,6 +86,7 @@ if (!bndClassPathBoot.empty) {
 }
 
 /* Setup java compiler options */
+ext.allSrcDirs                               = files(bndProject.allsourcepath)
 sourceCompatibility                          = bndJavacSource
 if (bndJavacTarget ==~ "^\\d+\\.\\d+\$") {
   targetCompatibility                        = bndJavacTarget
@@ -300,6 +301,7 @@ task('echo') {
     println "project.src:            ${files(sourceSets.main.java.srcDirs).asPath}"
     println "project.output:         ${compileJava.destinationDir}"
     println "project.buildpath:      ${compileJava.classpath.asPath}"
+    println "project.allsourcepath:  ${allSrcDirs.asPath}"
     println "project.testsrc:        ${files(sourceSets.test.java.srcDirs).asPath}"
     println "project.testoutput:     ${compileTestJava.destinationDir}"
     println "project.testpath:       ${compileTestJava.classpath.asPath}"
