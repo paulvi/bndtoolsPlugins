@@ -86,11 +86,12 @@ if (!bndClassPathBoot.empty) {
 }
 
 /* Setup java compiler options */
-sourceCompatibility                  = bndJavacSource
+sourceCompatibility                          = bndJavacSource
 if (bndJavacTarget ==~ "^\\d+\\.\\d+\$") {
-  targetCompatibility                = bndJavacTarget
+  targetCompatibility                        = bndJavacTarget
 } else {
   compileJava.options.compilerArgs          += ["-target", bndJavacTarget]
+  compileTestJava.options.compilerArgs      += ["-target", bndJavacTarget]
 }
 compileJava.options.debug                    = bndDebug
 compileJava.options.listFiles                = bndVerbose
