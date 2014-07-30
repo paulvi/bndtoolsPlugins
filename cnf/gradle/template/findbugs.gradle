@@ -46,6 +46,7 @@ findbugs {
 }
 
 findbugsMain {
+  dependsOn assemble
   reports {
     xml.enabled  = rootProject.hasProperty(gradleBuildFindbugsPropertyXmlReports) ? true  : false
     html.enabled = rootProject.hasProperty(gradleBuildFindbugsPropertyXmlReports) ? false : true
@@ -53,6 +54,7 @@ findbugsMain {
 }
 
 findbugsTest {
+  dependsOn test
   reports {
     xml.enabled  = rootProject.hasProperty(gradleBuildFindbugsPropertyXmlReports) ? true  : false
     html.enabled = rootProject.hasProperty(gradleBuildFindbugsPropertyXmlReports) ? false : true

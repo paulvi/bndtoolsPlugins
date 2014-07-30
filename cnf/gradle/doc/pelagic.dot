@@ -128,7 +128,7 @@ digraph GradleSetup {
     releaseNeeded          -> releaseNeeded      [color=red   ]
 
     assemble               -> findbugsMain
-    testClasses            -> findbugsTest
+    test                   -> findbugsTest
     findbugsMain           -> check              [color=green ]
     findbugsTest           -> check              [color=green ]
     test                   -> jacocoTestReport
