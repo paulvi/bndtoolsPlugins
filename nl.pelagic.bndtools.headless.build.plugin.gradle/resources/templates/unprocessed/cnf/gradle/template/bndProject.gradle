@@ -102,9 +102,6 @@ compileTestJava.options.fork                 = gradleBuildCompileFork || (bndJav
 compileTestJava.options.deprecation          = gradleBuildCompileDeprecation
 compileTestJava.options.forkOptions.setExecutable(bndJavac)
 
-/* Override the javadoc bootclasspath */
-ext.gradleBuildJavadocClassPathBoot          = bndClassPathBoot.asType(List)
-
 /*
  * Setup tasks
  */
