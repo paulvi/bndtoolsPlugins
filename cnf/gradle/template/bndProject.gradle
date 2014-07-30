@@ -64,9 +64,7 @@ ext.bndJavacTarget                  =              bndThrow('javac.target')
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
 buildDir = relativePath(bndProject.targetDir)
-
-/* A bnd project is a java project */
-apply plugin: "java"
+plugins.apply 'java'
 
 /* Setup the bnd project layout */
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.gradle")
