@@ -186,7 +186,7 @@ test {
 
 check {
   dependsOn assemble
-  enabled !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bndUnprocessed(Constants.TESTCASES, '').empty)
+  enabled !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bnd(Constants.TESTCASES, '').empty)
   if (enabled) {
     doLast {
       try {
