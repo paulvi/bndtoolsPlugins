@@ -87,6 +87,8 @@ digraph GradleSetup {
     subgraph cluster110 {
       label="";
       style=invis;
+      findbugsMain         [shape=box, style=filled, fillcolor=orange   , label="findbugsMain"        ]
+      findbugsTest         [shape=box, style=filled, fillcolor=orange   , label="findbugsTest"        ]
     }
 
     javadoc                [shape=box, style=filled, fillcolor=lightcyan, label="javadoc"             ]
@@ -95,8 +97,6 @@ digraph GradleSetup {
     echo                   [shape=box, style=filled, fillcolor=cyan     , label="echo"                ]
     bndproperties          [shape=box, style=filled, fillcolor=cyan     , label="bndproperties"       ]
     jacocoTestReport       [shape=box, style=filled, fillcolor=orange   , label="jacocoTestReport"    ]
-    findbugsMain           [shape=box, style=filled, fillcolor=orange   , label="findbugsMain"        ]
-    findbugsTest           [shape=box, style=filled, fillcolor=orange   , label="findbugsTest"        ]
 
     compileJava            -> classes
     processResources       -> classes
@@ -120,14 +120,14 @@ digraph GradleSetup {
     build                  -> buildNeeded
     buildNeeded            -> buildNeeded        [color=red   ]
 
-    compileJava            -> compileJava        [color=red   ]
+    jar                    -> compileJava        [color=red   ]
     assemble               -> release
     assemble               -> exportX
     exportX                -> export
     release                -> releaseNeeded
     releaseNeeded          -> releaseNeeded      [color=red   ]
 
-    classes                -> findbugsMain
+    assemble               -> findbugsMain
     testClasses            -> findbugsTest
     findbugsMain           -> check              [color=green ]
     findbugsTest           -> check              [color=green ]
