@@ -111,6 +111,7 @@ compileTestJava.options.forkOptions.setExecutable(bndJavac)
  */
 
 compileJava {
+  classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
   if (logger.isEnabled(LogLevel.INFO)) {
     doFirst {
       logger.info "Compile ${sourceSets.main.java.srcDirs} to ${destinationDir}"
@@ -128,11 +129,13 @@ compileJava {
       bndProject.propertiesChanged()
       bndProject.clear()
       bndProject.prepare()
+      classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
     }
   }
 }
 
 compileTestJava {
+  classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
   if (preCompileRefresh) {
     doFirst {
       logger.info 'Refreshing the bnd Project before compilation.'
@@ -140,6 +143,7 @@ compileTestJava {
       bndProject.propertiesChanged()
       bndProject.clear()
       bndProject.prepare()
+      classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
     }
   }
 }
