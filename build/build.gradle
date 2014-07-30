@@ -229,7 +229,7 @@ task dist {
  * Setup task dependencies
  */
 
-bundle.enabled                       = false
+jar.enabled                          = false
 release.enabled                      = false
 
 

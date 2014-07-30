@@ -226,16 +226,12 @@ It contains:
       * The arrows depict **execution flow** (so the dependencies are in the
         reverse direction).
 
-      * The **dotted** arrow depicts a convenience flow/dependency;
-        running ```gradle jar``` will build all jars *and* bundles in all
-        projects.
-
       * The **red** arrows depict flows from (dependencies on) dependent
         projects.
 
         For example:
 
-        The ```compileJava``` task of a project is dependent on the ```bundle```
+        The ```compileJava``` task of a project is dependent on the ```jar```
         task of another project if the latter project is on the build path of
         the former project.
 
@@ -379,7 +375,7 @@ The build has the following flow:
         * The Java compiler is configured by applying relevant properties
           to the source sets and their compiler options.
 
-        * The ```bundle```, ```release```, ```releaseNeeded```, ```export```
+        * The ```jar```, ```release```, ```releaseNeeded```, ```export```
           , ```export.<name>```, ```check```, ```checkNeeded```
           , ```echo```, ```bndproperties``` and ```clean``` tasks are setup and
           their dependencies are configured in such a way that they hook into
@@ -425,16 +421,14 @@ The discussion of the build tasks below is split per project type/category.
 
 ## Bnd Projects
 
-### bundle
+### jar
 
 This task instructs bnd to construct an OSGi bundle.
 
 This is comparable to the ```jar``` task that is defined by the Java plugin,
 which instructs the Java compiler to construct a standard jar.
 
-A bnd project effectively replaces the ```jar``` task with the ```bundle``` task
-by disabling the ```jar``` task and setting up dependencies for the ```bundle```
-task that are equivalent to those of the ```jar``` task.
+A bnd project completely replaces the ```jar``` task.
 
 The ```bnd.bnd``` file describes how the OSGi bundle must be constructed and is
 therefore taken as input by bnd.
@@ -659,7 +653,7 @@ see [Installing Gradle In The Workspace](#InstallingGradleWorkspace).
 
 ## Bnd Projects
 
-* The ```bundle``` task can be disabled by:
+* The ```jar``` task can be disabled by:
 
   * Presence of the ```-nobundles``` instruction in the ```bnd.bnd``` file.
 
@@ -669,7 +663,7 @@ see [Installing Gradle In The Workspace](#InstallingGradleWorkspace).
 
   * Presence of the ```no.junit```  property in the ```bnd.bnd``` file.
 
-* The ```bundleTest``` task can be disabled by:
+* The ```check``` task can be disabled by:
 
   * Presence of the ```-nojunitosgi``` instruction in the ```bnd.bnd``` file.
 
@@ -699,9 +693,8 @@ The ```build-settings.gradle``` file is meant for settings and their overrides,
 the ```build.gradle``` file is meant for tasks.
 
 An example of a ```build-settings.gradle``` file is shown below. This example
-originates from the bnd project and shows how its ```dist``` project instructs
-the build to index its ```bundles``` directory to generate indexes
-named ```bnd```.
+shows how a project instructs the build to index its ```bundles``` directory
+to generate indexes named ```example project```.
 
 ```
 assert(project != rootProject)
@@ -709,7 +702,7 @@ assert(project != rootProject)
 /* Index task overrides */
 ext.bndDistIndexRoot                = "bundles"
 ext.bndDistIndexDirectories         = fileTree(bndDistIndexRoot).include("**/*.jar").exclude("**/*-latest.jar")
-ext.gradleBuildIndexDirectories     = "$bndDistIndexRoot;bnd;bndDistIndexDirectories"
+ext.gradleBuildIndexDirectories     = "$bndDistIndexRoot;example project;bndDistIndexDirectories"
 ext.gradleBuildIndexOBRUncompressed = true
 ext.gradleBuildIndexOBRCompressed   = true
 ext.gradleBuildIndexR5Uncompressed  = true

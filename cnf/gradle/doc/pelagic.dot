@@ -31,8 +31,7 @@ digraph GradleSetup {
     subgraph cluster102 {
       label="";
       style=invis;
-      jar                  [shape=box, style=filled, fillcolor=lightcyan, label="jar"                 ]
-      bundle               [shape=box, style=filled, fillcolor=cyan     , label="bundle"              ]
+      jar                  [shape=box, style=filled, fillcolor=cyan     , label="jar"                 ]
     }
 
     subgraph cluster103 {
@@ -121,8 +120,6 @@ digraph GradleSetup {
     build                  -> buildNeeded
     buildNeeded            -> buildNeeded        [color=red   ]
 
-    classes                -> bundle
-    bundle                 -> jar                [style=dashed]
     compileJava            -> compileJava        [color=red   ]
     assemble               -> release
     assemble               -> exportX

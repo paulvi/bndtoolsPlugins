@@ -33,7 +33,7 @@ ext.gradleBuildTestReportDirName              = "tests/html"        /* relative 
 ext.gradleBuildTestResultsDirName             = "reports/tests/xml" /* relative to bndTargetDir           */
 
 /* Gradle default task settings */
-ext.gradleBuildBndProjectsDefaultTasks        = ["bundle"]
+ext.gradleBuildBndProjectsDefaultTasks        = ["jar"   ]
 ext.gradleBuildNonBndProjectsDefaultTasks     = ["jar"   ]
 
 /* Setup the bnd workspace defaults */

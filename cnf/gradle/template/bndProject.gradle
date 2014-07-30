@@ -116,10 +116,9 @@ ext.gradleBuildJavadocClassPathBoot          = bndClassPathBoot.asType(List)
  * Setup tasks
  */
 
-task('bundle') {
+jar {
   description 'Assemble the project bundles.'
-  group 'build'
-  dependsOn classes
+  deleteAllActions() // Replace the standard jar task actions
   enabled !bndProject.noBundles
 
   if (enabled) {
@@ -286,16 +285,8 @@ task('bndproperties') {
   }
 }
 
-
-/*
- * Setup task dependencies
- */
-
-jar.dependsOn(bundle)
-jar.enabled = false
-
 bndProject.dependson.each {
-  compileJava.dependsOn  (":${it.name}:bundle")
+  compileJava.dependsOn(":${it.name}:jar")
   checkNeeded.dependsOn(":${it.name}:checkNeeded")
   releaseNeeded.dependsOn(":${it.name}:releaseNeeded")
 }
