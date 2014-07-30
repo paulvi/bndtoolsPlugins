@@ -18,6 +18,11 @@ assert(            hasProperty("sourceSets"))
  * Java Project
  */
 
+/* Setup test options */
+test.enableAssertions = gradleBuildTestEnableAssertions
+test.ignoreFailures   = gradleBuildTestIgnoreFailures
+test.maxParallelForks = gradleBuildTestMaxParallelForks
+
 /* Setup javadoc options */
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaDoc.gradle")
 
