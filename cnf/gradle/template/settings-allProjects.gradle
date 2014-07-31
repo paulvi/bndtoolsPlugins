@@ -28,9 +28,9 @@ assert(rootProject.hasProperty("bndWorkspaceDefaults"))
 
 
 /* Gradle directory settings */
-ext.gradleBuildLibsDirName                    = "."                 /* relative to bndTargetDir           */
-ext.gradleBuildTestReportDirName              = "tests/html"        /* relative to bndTargetDir/reports   */
-ext.gradleBuildTestResultsDirName             = "reports/tests/xml" /* relative to bndTargetDir           */
+ext.gradleBuildLibsDirName                    = "."                 /* relative to bnd target directory             */
+ext.gradleBuildTestReportDirName              = "tests/html"        /* relative to bnd target directory / reports   */
+ext.gradleBuildTestResultsDirName             = "reports/tests/xml" /* relative to bnd target directory             */
 
 /* Gradle default task settings */
 ext.gradleBuildBndProjectsDefaultTasks        = ["jar"   ]
@@ -57,7 +57,7 @@ ext.gradleBuildTestMaxParallelForks           = 1
 ext.gradleBuildJavadocAuthor                  = true
 ext.gradleBuildJavadocBreakIterator           = true
 ext.gradleBuildJavadocClassPathBoot           = new LinkedList<File>()
-ext.gradleBuildJavadocDir                     = "javadoc"           /* relative to bndTargetDir           */
+ext.gradleBuildJavadocDir                     = "javadoc"           /* relative to bnd target directory             */
 ext.gradleBuildJavadocDocFilesSubDirs         = true
 ext.gradleBuildJavadocEncoding                = "UTF-8"
 ext.gradleBuildJavadocFailOnError             = true
@@ -80,22 +80,22 @@ ext.gradleBuildJavadocVersion                 = true
 /* Findbugs settings */
 ext.gradleBuildFindbugsIncludesFile           = "$rootProject.rootDir/$rootProject.bndCnf/findbugs.include.xml"
 ext.gradleBuildFindbugsExcludesFile           = "$rootProject.rootDir/$rootProject.bndCnf/findbugs.exclude.xml"
-ext.gradleBuildFindbugsEffort                 = "default"           /* min, default (default),max          */
+ext.gradleBuildFindbugsEffort                 = "default"           /* min, default (default),max                   */
 ext.gradleBuildFindbugsIgnoreFailures         = true
 ext.gradleBuildFindbugsPropertyXmlReports     = "CI"
-ext.gradleBuildFindbugsReportLevel            = "medium"            /* low, medium (default), high         */
-ext.gradleBuildFindbugsReportsDir             = "findbugs"          /* relative to bndTargetDir           */
+ext.gradleBuildFindbugsReportLevel            = "medium"            /* low, medium (default), high                  */
+ext.gradleBuildFindbugsReportsDir             = "findbugs"          /* relative to bnd target directory             */
 ext.gradleBuildFindbugsToolVersion            = "2.0.3"
 
 /* jacoco settings */
-ext.gradleBuildJacocoReportsDir               = "reports/jacoco/test"  /* relative to bndTargetDir                       */
+ext.gradleBuildJacocoReportsDir               = "reports/jacoco/test" /* relative to bnd target directory           */
 ext.gradleBuildJacocoXmlReport                = true
 ext.gradleBuildJacocoCsvReport                = false
-ext.gradleBuildJacocoHtmlDir                  = "html"                 /* relative to gradleBuildJacocoReportsDir        */
-ext.gradleBuildJacocoToolVersion              = "0.7.1.201405082137"   /* set the version when you don't want the default */
+ext.gradleBuildJacocoHtmlDir                  = "html"               /* relative to gradleBuildJacocoReportsDir     */
+ext.gradleBuildJacocoToolVersion              = "0.7.1.201405082137" /* set when you don't want the default         */
 
 /* Export task settings */
-ext.gradleBuildExportDir                      = "export"            /* relative to bndTargetDir           */
+ext.gradleBuildExportDir                      = "export"            /* relative to bnd target directory             */
 
 /* Index task settings */
 ext.gradleBuildIndexOBRUncompressed           = false
