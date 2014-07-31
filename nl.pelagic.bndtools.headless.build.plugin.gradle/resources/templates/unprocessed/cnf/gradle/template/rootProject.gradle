@@ -27,10 +27,8 @@ assert(hasProperty("gradleBuildGradleVersion"          ))
 assert(hasProperty("gradleBuildRootProjectDefaultTasks"))
 
 
-defaultTasks.clear()
-gradleBuildRootProjectDefaultTasks.each {
-  defaultTasks += it
-}
+/* Setup the default tasks */
+defaultTasks = gradleBuildRootProjectDefaultTasks
 
 
 /*

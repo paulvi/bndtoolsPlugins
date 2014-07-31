@@ -48,20 +48,16 @@ subprojects { project ->
   if (bndProject == null) {
     assert(project.hasProperty("gradleBuildNonBndProjectsDefaultTasks"))
 
-    defaultTasks.clear()
-    project.gradleBuildNonBndProjectsDefaultTasks.each {
-      defaultTasks += it
-    }
+    /* Setup the default tasks */
+    defaultTasks = gradleBuildNonBndProjectsDefaultTasks
 
     /* Load the build customisations */
     apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/nonBndProjects.gradle")
   } else {
     assert(project.hasProperty("gradleBuildBndProjectsDefaultTasks"))
 
-    defaultTasks.clear()
-    project.gradleBuildBndProjectsDefaultTasks.each {
-      defaultTasks += it
-    }
+    /* Setup the default tasks */
+    defaultTasks = gradleBuildBndProjectsDefaultTasks
 
     /* Store the bnd project for use in the bnd project template */
     project.ext.bndProject = bndProject
