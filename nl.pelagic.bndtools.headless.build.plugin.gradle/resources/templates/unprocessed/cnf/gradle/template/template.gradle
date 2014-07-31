@@ -25,7 +25,7 @@ buildscript {
 }
 
 /* Load the BndPlugin class */
-apply from: rootProject.file("${bndCnf}/gradle/template/bndProject.gradle")
+apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')
 
 /*
  * All Projects
