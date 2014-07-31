@@ -24,6 +24,8 @@ buildscript {
   }
 }
 
+/* Load the BndPlugin class */
+apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndProject.gradle")
 
 /*
  * All Projects
@@ -55,7 +57,7 @@ allprojects { project ->
  */
 
 subprojects { project ->
-  def bndProject = rootProject.bndWorkspace.getProject(project.projectDir)
+  def bndProject = bndWorkspace.getProject(name)
   if (bndProject == null) {
     /* Setup the default tasks */
     if (project.hasProperty('others_defaultTask')) {
@@ -68,8 +70,7 @@ subprojects { project ->
     /* Store the bnd project for use in the bnd project template */
     project.ext.bndProject = bndProject
 
-    /* Apply the bnd project template */
-    apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndProject.gradle")
+    plugins.apply BndPlugin
 
     /* Override the javadoc bootclasspath */
     ext.gradleBuildJavadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }

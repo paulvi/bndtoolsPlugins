@@ -1,5 +1,5 @@
 /*
- * Build template for bnd projects.
+ * BndPlugin for Gradle.
  *
  * The bnd classes must be available on the classpath for this script.
  *
@@ -10,380 +10,373 @@
  *
  * If the bnd_preCompileRefresh property is set to 'true', the project
  * properties will be refreshed just before compiling the project.
- *
- * See the BUILDING-GRADLE.md document in the root project for more details.
  */
 import aQute.bnd.build.Workspace
 import aQute.bnd.osgi.Constants
 
+public class BndPlugin implements Plugin<Project> {
+  private Project project
+  private bndProject
+  private boolean preCompileRefresh
 
-/* Setup the build dependencies */
-assert(rootProject.hasProperty("bndBuildDependencies"))
-buildscript {
-  dependencies {
-    classpath rootProject.bndBuildDependencies
-  }
-}
-
-
-if (!project.hasProperty('bndWorkspace')) {
-  rootProject.ext.bndWorkspace = Workspace.getWorkspace(rootDir)
-  if (bndWorkspace == null) {
-    throw new GradleException("Unable to load bnd workspace ${rootDir}")
-  }
-  bndWorkspace.allProjects.each {
-    it.setDelayRunDependencies(true)
-  }
-  bndWorkspace.setProperty(Constants.BNDDRIVER, 'gradle')
-}
-
-
-
-
-bndProject.prepare()
-if (!bndProject.isValid()) {
-  checkErrors()
-  throw new GradleException("Project ${bndProject.name} is not a valid bnd project")
-}
-ext.preCompileRefresh = hasProperty('bnd_preCompileRefresh') ? parseBoolean(bnd_preCompileRefresh) : false
-extensions.create('bnd', BndProperties, bndProject)
-bnd.ext.project = bndProject
-
-buildDir = relativePath(bndProject.targetDir)
-plugins.apply 'java'
-
-if (project.hasProperty('bnd_defaultTask')) {
-  defaultTasks = bnd_defaultTask.trim().split(/\s*,\s*/)
-}
-
-/* We use the same directory for java and resources. */
-sourceSets {
-  main {
-    java.srcDirs = resources.srcDirs = files(relativePath(bndProject.src))
-    output.classesDir = output.resourcesDir = relativePath(bndProject.srcOutput)
-  }
-  test {
-    java.srcDirs = resources.srcDirs = files(relativePath(bndProject.testSrc))
-    output.classesDir = output.resourcesDir = relativePath(bndProject.testOutput)
-  }
-}
-bnd.ext.allSrcDirs = files(bndProject.allsourcepath)
-sourceCompatibility = bnd('javac.source', sourceCompatibility)
-def javacTarget = bnd('javac.target', targetCompatibility)
-def bootclasspath = files(bndProject.bootclasspath.collect { it.file })
-if (javacTarget == 'jsr14') {
-  javacTarget = '1.5'
-  bootclasspath = files(bndProject.getBundle('ee.j2se', '1.5', null, ['strategy':'lowest']).file)
-}
-targetCompatibility = javacTarget
-def javac = bnd('javac', 'javac')
-def javacProfile = bnd('javac.profile', '')
-def javacDebug = parseBoolean(bnd('javac.debug', 'on'))
-def javacDeprecation = parseBoolean(bnd('javac.deprecation', 'true'))
-def javacEncoding = bnd('javac.encoding', 'UTF-8')
-def compileOptions = {
-  if (javacDebug) {
-    options.debugOptions.debugLevel = 'source,lines,vars'
-  }
-  options.verbose = logger.isEnabled(LogLevel.DEBUG)
-  options.listFiles = logger.isEnabled(LogLevel.INFO)
-  options.deprecation = javacDeprecation
-  options.encoding = javacEncoding
-  if (javac != 'javac') {
-    options.fork = true
-    options.forkOptions.executable = javac
-  }
-  if (!bootclasspath.empty) {
-    options.fork = true
-    options.bootClasspath = bootclasspath.asPath
-  }
-  if (!javacProfile.empty) {
-    options.compilerArgs += ['-profile', javacProfile]
-  }
-}
-
-compileJava {
-  configure compileOptions
-  classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
-  if (logger.isEnabled(LogLevel.INFO)) {
-    doFirst {
-      logger.info "Compile ${sourceSets.main.java.srcDirs} to ${destinationDir}"
-      if (javacProfile.empty) {
-        logger.info "-source ${sourceCompatibility} -target ${targetCompatibility}"
-      } else {
-        logger.info "-source ${sourceCompatibility} -target ${targetCompatibility} -profile ${javacProfile}"
-      }
-      logger.info "-classpath ${classpath.asPath}"
-      if (options.bootClasspath != null) {
-        logger.info "-bootclasspath ${options.bootClasspath}"
-      }
-    }
-  }
-  if (preCompileRefresh) {
-    doFirst {
-      logger.info 'Refreshing the bnd Project before compilation.'
-      bndProject.refresh()
-      bndProject.propertiesChanged()
-      bndProject.clear()
-      bndProject.prepare()
-      classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
-    }
-  }
-}
-
-compileTestJava {
-  configure compileOptions
-  classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
-  if (preCompileRefresh) {
-    doFirst {
-      logger.info 'Refreshing the bnd Project before compilation.'
-      bndProject.refresh()
-      bndProject.propertiesChanged()
-      bndProject.clear()
-      bndProject.prepare()
-      classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
-    }
-  }
-}
-
-processResources {
-  def srcDirs = sourceSets.main.resources.srcDirs
-  def outputDir = sourceSets.main.output.resourcesDir
-  inputs.files.each {
-    def input = it.absolutePath
-    srcDirs.each {
-      input -= it
-    }
-    outputs.file new File(outputDir, input)
-  }
-}
-
-processTestResources {
-  def srcDirs = sourceSets.test.resources.srcDirs
-  def outputDir = sourceSets.test.output.resourcesDir
-  inputs.files.each {
-    def input = it.absolutePath
-    srcDirs.each {
-      input -= it
-    }
-    outputs.file new File(outputDir, input)
-  }
-}
-
-jar {
-  description 'Assemble the project bundles.'
-  deleteAllActions() // Replace the standard jar task actions
-  enabled !bndProject.noBundles
-
-  if (enabled) {
-    /* bnd can include any class on the classpath */
-    inputs.files compileJava.classpath.collect {
-      it.file ? it : fileTree(it)
-    }
-    /* all other files in the project like bnd and resources */
-    inputs.files fileTree(projectDir) {
-      exclude sourceSets.main.java.srcDirs.collect { relativePath(it) }
-      exclude sourceSets.test.java.srcDirs.collect { relativePath(it) }
-      exclude sourceSets.test.output.files.collect { relativePath(it) }
-      exclude relativePath(buildDir)
-    }
-    outputs.files bndProject.deliverables.collect { it.file }, new File(buildDir, Constants.BUILDFILES)
-
-    doLast {
-      def built
-      try {
-        built = bndProject.build()
-      } catch (Exception e) {
-        throw new GradleException("Project ${bndProject.name} failed to build", e)
-      }
-      checkErrors()
-      if (built != null) {
-        logger.info 'Generated bundles:'
-        built.each {
-          logger.info "${it}"
+  void apply(Project p) {
+    p.configure(p) { project ->
+      this.project = project
+      if (!project.hasProperty('bndWorkspace')) {
+        rootProject.ext.bndWorkspace = Workspace.getWorkspace(rootDir)
+        if (bndWorkspace == null) {
+          throw new GradleException("Unable to load bnd workspace ${rootDir}")
         }
-      }
-    }
-  }
-}
-
-task('release') {
-  description 'Release the project to the release repository.'
-  dependsOn assemble
-  group 'release'
-  enabled !bnd(Constants.RELEASEREPO, 'unset').empty
-
-  if (enabled) {
-    inputs.files bndProject.deliverables.collect { it.file }
-
-    doLast {
-      try {
-        bndProject.release()
-      } catch (Exception e) {
-        throw new GradleException("Project ${bndProject.name} failed to release", e)
-      }
-      checkErrors()
-    }
-  }
-}
-
-task('releaseNeeded') {
-  description 'Release the project and all projects it depends on to the release repository.'
-  dependsOn release
-  group 'release'
-}
-
-test {
-  dependsOn testClasses
-  enabled !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
-  if (enabled) {
-    classpath = files(compileTestJava.destinationDir, compileTestJava.classpath)
-  }
-}
-
-check {
-  dependsOn assemble
-  enabled !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bnd(Constants.TESTCASES, '').empty)
-  if (enabled) {
-    doLast {
-      try {
-        bndProject.test()
-      } catch (Exception e) {
-        throw new GradleException("Project ${bndProject.name} failed to test", e)
-      }
-      checkErrors()
-    }
-  }
-}
-
-task('checkNeeded') {
-  description 'Runs all checks on the project and all projects it depends on.'
-  dependsOn check
-  group 'verification'
-}
-
-clean {
-  deleteAllActions() // Replace the standard task actions
-  doLast {
-    bndProject.clean()
-  }
-}
-
-javadoc {
-  classpath = compileJava.classpath
-}
-
-tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnable jar.') { taskName ->
-  if (taskName.startsWith('export.')) {
-    def bndrun = taskName - 'export.'
-    task(taskName) {
-      description "Export the ${bndrun}.bndrun file to a runnable jar."
-      dependsOn assemble
-      group 'export'
-      def runFile = file("${bndrun}.bndrun")
-      def exportFile = new File(distsDir, "${bndrun}.jar")
-      doLast {
-        distsDir.mkdirs()
-        logger.info "Exporting: ${runFile.absolutePath} to ${exportFile.absolutePath}"
-        try {
-          bndProject.export(relativePath(runFile), false, exportFile)
-        } catch (Exception e) {
-          throw new GradleException("Export of ${runFile} failed", e)
+        bndWorkspace.allProjects.each {
+          it.setDelayRunDependencies(true)
         }
+        bndWorkspace.setProperty(Constants.BNDDRIVER, 'gradle')
+      }
+      this.bndProject = bndWorkspace.getProject(name)
+      if (bndProject == null) {
+        throw new GradleException("Unable to load bnd project ${name} from workspace ${rootDir}")
+      }
+      bndProject.prepare();
+      if (!bndProject.isValid()) {
         checkErrors()
+        throw new GradleException("Project ${bndProject.name} is not a valid bnd project")
+      }
+      this.preCompileRefresh = project.hasProperty('bnd_preCompileRefresh') ? parseBoolean(bnd_preCompileRefresh) : false
+      extensions.create('bnd', BndProperties, bndProject)
+      bnd.ext.project = bndProject
+      convention.plugins.bnd = new BndPluginConvention(this)
+
+      buildDir = relativePath(bndProject.targetDir)
+      plugins.apply 'java'
+
+      if (project.hasProperty('bnd_defaultTask')) {
+        defaultTasks = bnd_defaultTask.trim().split(/\s*,\s*/)
+      }
+
+      /* We use the same directory for java and resources. */
+      sourceSets {
+        main {
+          java.srcDirs = resources.srcDirs = files(relativePath(bndProject.src))
+          output.classesDir = output.resourcesDir = relativePath(bndProject.srcOutput)
+        }
+        test {
+          java.srcDirs = resources.srcDirs = files(relativePath(bndProject.testSrc))
+          output.classesDir = output.resourcesDir = relativePath(bndProject.testOutput)
+        }
+      }
+      bnd.ext.allSrcDirs = files(bndProject.allsourcepath)
+      sourceCompatibility = bnd('javac.source', sourceCompatibility)
+      def javacTarget = bnd('javac.target', targetCompatibility)
+      def bootclasspath = files(bndProject.bootclasspath.collect { it.file })
+      if (javacTarget == 'jsr14') {
+        javacTarget = '1.5'
+        bootclasspath = files(bndProject.getBundle('ee.j2se', '1.5', null, ['strategy':'lowest']).file)
+      }
+      targetCompatibility = javacTarget
+      def javac = bnd('javac', 'javac')
+      def javacProfile = bnd('javac.profile', '')
+      def javacDebug = parseBoolean(bnd('javac.debug', 'on'))
+      def javacDeprecation = parseBoolean(bnd('javac.deprecation', 'true'))
+      def javacEncoding = bnd('javac.encoding', 'UTF-8')
+      def compileOptions = {
+        if (javacDebug) {
+          options.debugOptions.debugLevel = 'source,lines,vars'
+        }
+        options.verbose = logger.isEnabled(LogLevel.DEBUG)
+        options.listFiles = logger.isEnabled(LogLevel.INFO)
+        options.deprecation = javacDeprecation
+        options.encoding = javacEncoding
+        if (javac != 'javac') {
+          options.fork = true
+          options.forkOptions.executable = javac
+        }
+        if (!bootclasspath.empty) {
+          options.fork = true
+          options.bootClasspath = bootclasspath.asPath
+        }
+        if (!javacProfile.empty) {
+          options.compilerArgs += ['-profile', javacProfile]
+        }
+      }
+
+      compileJava {
+        configure compileOptions
+        classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
+        if (logger.isEnabled(LogLevel.INFO)) {
+          doFirst {
+            logger.info "Compile ${sourceSets.main.java.srcDirs} to ${destinationDir}"
+            if (javacProfile.empty) {
+              logger.info "-source ${sourceCompatibility} -target ${targetCompatibility}"
+            } else {
+              logger.info "-source ${sourceCompatibility} -target ${targetCompatibility} -profile ${javacProfile}"
+            }
+            logger.info "-classpath ${classpath.asPath}"
+            if (options.bootClasspath != null) {
+              logger.info "-bootclasspath ${options.bootClasspath}"
+            }
+          }
+        }
+        if (preCompileRefresh) {
+          doFirst {
+            logger.info 'Refreshing the bnd Project before compilation.'
+            bndProject.refresh()
+            bndProject.propertiesChanged()
+            bndProject.clear()
+            bndProject.prepare()
+            classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
+          }
+        }
+      }
+
+      compileTestJava {
+        configure compileOptions
+        classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
+        if (preCompileRefresh) {
+          doFirst {
+            logger.info 'Refreshing the bnd Project before compilation.'
+            bndProject.refresh()
+            bndProject.propertiesChanged()
+            bndProject.clear()
+            bndProject.prepare()
+            classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
+          }
+        }
+      }
+
+      processResources {
+        def srcDirs = sourceSets.main.resources.srcDirs
+        def outputDir = sourceSets.main.output.resourcesDir
+        inputs.files.each {
+          def input = it.absolutePath
+          srcDirs.each {
+            input -= it
+          }
+          outputs.file new File(outputDir, input)
+        }
+      }
+
+      processTestResources {
+        def srcDirs = sourceSets.test.resources.srcDirs
+        def outputDir = sourceSets.test.output.resourcesDir
+        inputs.files.each {
+          def input = it.absolutePath
+          srcDirs.each {
+            input -= it
+          }
+          outputs.file new File(outputDir, input)
+        }
+      }
+
+      jar {
+        description 'Assemble the project bundles.'
+        deleteAllActions() // Replace the standard jar task actions
+        enabled !bndProject.noBundles
+        if (enabled) {
+          /* bnd can include any class on the classpath */
+          inputs.files compileJava.classpath.collect {
+            it.file ? it : fileTree(it)
+          }
+          /* all other files in the project like bnd and resources */
+          inputs.files fileTree(projectDir) {
+            exclude sourceSets.main.java.srcDirs.collect { relativePath(it) }
+            exclude sourceSets.test.java.srcDirs.collect { relativePath(it) }
+            exclude sourceSets.test.output.files.collect { relativePath(it) }
+            exclude relativePath(buildDir)
+          }
+          outputs.files bndProject.deliverables.collect { it.file }, new File(buildDir, Constants.BUILDFILES)
+          doLast {
+            def built
+            try {
+              built = bndProject.build()
+            } catch (Exception e) {
+              throw new GradleException("Project ${bndProject.name} failed to build", e)
+            }
+            checkErrors()
+            if (built != null) {
+              logger.info 'Generated bundles:'
+              built.each {
+                logger.info "${it}"
+              }
+            }
+          }
+        }
+      }
+
+      task('release') {
+        description 'Release the project to the release repository.'
+        dependsOn assemble
+        group 'release'
+        enabled !bnd(Constants.RELEASEREPO, 'unset').empty
+        if (enabled) {
+          inputs.files bndProject.deliverables.collect { it.file }
+          doLast {
+            try {
+              bndProject.release()
+            } catch (Exception e) {
+              throw new GradleException("Project ${bndProject.name} failed to release", e)
+            }
+            checkErrors()
+          }
+        }
+      }
+
+      task('releaseNeeded') {
+        description 'Release the project and all projects it depends on to the release repository.'
+        dependsOn release
+        group 'release'
+      }
+
+      test {
+        dependsOn testClasses
+        enabled !(parseBoolean(bnd(Constants.NOJUNIT, 'false')) || parseBoolean(bnd('no.junit', 'false')))
+        if (enabled) {
+          classpath = files(compileTestJava.destinationDir, compileTestJava.classpath)
+        }
+      }
+
+      check {
+        dependsOn assemble
+        enabled !(parseBoolean(bnd(Constants.NOJUNITOSGI, 'false')) || bnd(Constants.TESTCASES, '').empty)
+        if (enabled) {
+          doLast {
+            try {
+              bndProject.test()
+            } catch (Exception e) {
+              throw new GradleException("Project ${bndProject.name} failed to test", e)
+            }
+            checkErrors()
+          }
+        }
+      }
+
+      task('checkNeeded') {
+        description 'Runs all checks on the project and all projects it depends on.'
+        dependsOn check
+        group 'verification'
+      }
+
+      clean {
+        deleteAllActions() // Replace the standard task actions
+        doLast {
+          bndProject.clean()
+        }
+      }
+
+      javadoc {
+        classpath = compileJava.classpath
+      }
+
+      tasks.addRule('Pattern: export.<name>: Export the <name>.bndrun file to a runnable jar.') { taskName ->
+        if (taskName.startsWith('export.')) {
+          def bndrun = taskName - 'export.'
+          task(taskName) {
+            description "Export the ${bndrun}.bndrun file to a runnable jar."
+            dependsOn assemble
+            group 'export'
+            def runFile = file("${bndrun}.bndrun")
+            def exportFile = new File(distsDir, "${bndrun}.jar")
+            doLast {
+              distsDir.mkdirs()
+              logger.info "Exporting: ${runFile.absolutePath} to ${exportFile.absolutePath}"
+              try {
+                bndProject.export(relativePath(runFile), false, exportFile)
+              } catch (Exception e) {
+                throw new GradleException("Export of ${runFile} failed", e)
+              }
+              checkErrors()
+            }
+          }
+        }
+      }
+
+      task('export') {
+        description 'Export all the bndrun files to runnable jars.'
+        group 'export'
+        fileTree(projectDir) {
+            include '*.bndrun'
+        }.each {
+          dependsOn tasks.getByPath("export.${it.name - '.bndrun'}")
+        }
+      }
+
+      task('echo') {
+        description 'Displays the bnd project information.'
+        group 'help'
+        doLast {
+          println "project.workspace:      ${rootDir}"
+          println "project.dir:            ${projectDir}"
+          println "project.name:           ${project.name}"
+          println "project.dependson:      ${bndProject.dependson.collect{it.name}}"
+          println "project.src:            ${files(sourceSets.main.java.srcDirs).asPath}"
+          println "project.output:         ${compileJava.destinationDir}"
+          println "project.buildpath:      ${compileJava.classpath.asPath}"
+          println "project.allsourcepath:  ${bnd.allSrcDirs.asPath}"
+          println "project.testsrc:        ${files(sourceSets.test.java.srcDirs).asPath}"
+          println "project.testoutput:     ${compileTestJava.destinationDir}"
+          println "project.testpath:       ${compileTestJava.classpath.asPath}"
+          println "project.bootclasspath:  ${compileJava.options.bootClasspath}"
+          println "javac:                  ${compileJava.options.forkOptions.executable}"
+          println "javac.source:           ${sourceCompatibility}"
+          println "javac.target:           ${targetCompatibility}"
+          if (!javacProfile.empty) {
+            println "javac.profile:          ${javacProfile}"
+          }
+          println "target:                 ${buildDir}"
+        }
+      }
+
+      task('bndproperties') {
+        description 'Displays the bnd properties.'
+        group 'help'
+        doLast {
+          println()
+          println '------------------------------------------------------------'
+          println "Project ${project.name}"
+          println '------------------------------------------------------------'
+          println()
+          bndProject.getPropertyKeys(true).sort({
+            s1, s2 -> s1.compareTo(s2)
+          }).each {
+            println "${it}: ${bnd(it, '')}"
+          }
+        }
+      }
+
+      bndProject.dependson.each {
+        compileJava.dependsOn(":${it.name}:jar")
+        checkNeeded.dependsOn(":${it.name}:checkNeeded")
+        releaseNeeded.dependsOn(":${it.name}:releaseNeeded")
       }
     }
   }
-}
 
-task('export') {
-  description 'Export all the bndrun files to runnable jars.'
-  group 'export'
-
-  fileTree(projectDir) {
-    include '*.bndrun'
-  }.each {
-    dependsOn tasks.getByPath("export.${it.name - '.bndrun'}")
-  }
-}
-
-task('echo') {
-  description 'Displays the bnd project information.'
-  group 'help'
-  doLast {
-    println "project.workspace:      ${rootDir}"
-    println "project.dir:            ${projectDir}"
-    println "project.name:           ${project.name}"
-    println "project.dependson:      ${bndProject.dependson.collect{it.name}}"
-    println "project.src:            ${files(sourceSets.main.java.srcDirs).asPath}"
-    println "project.output:         ${compileJava.destinationDir}"
-    println "project.buildpath:      ${compileJava.classpath.asPath}"
-    println "project.allsourcepath:  ${bnd.allSrcDirs.asPath}"
-    println "project.testsrc:        ${files(sourceSets.test.java.srcDirs).asPath}"
-    println "project.testoutput:     ${compileTestJava.destinationDir}"
-    println "project.testpath:       ${compileTestJava.classpath.asPath}"
-    println "project.bootclasspath:  ${compileJava.options.bootClasspath}"
-    println "javac:                  ${compileJava.options.forkOptions.executable}"
-    println "javac.source:           ${sourceCompatibility}"
-    println "javac.target:           ${targetCompatibility}"
-    if (!javacProfile.empty) {
-      println "javac.profile:          ${javacProfile}"
+  private void checkErrors() {
+    bndProject.getInfo(bndProject.workspace, "${bndProject.workspace.base.name} :")
+    def boolean failed = !bndProject.isOk()
+    def int errorCount = 0
+    bndProject.warnings.each {
+      project.logger.warn "Warning: ${it}"
     }
-    println "target:                 ${buildDir}"
-  }
-}
-
-task('bndproperties') {
-  description 'Displays the bnd properties.'
-  group 'help'
-
-  doLast {
-    println()
-    println '------------------------------------------------------------'
-    println "Project ${project.name}"
-    println '------------------------------------------------------------'
-    println()
-    bndProject.getPropertyKeys(true).sort({
-      s1, s2 -> s1.compareTo(s2)
-    }).each {
-      println "${it}: ${bnd(it, '')}"
+    bndProject.warnings.clear()
+    bndProject.errors.each {
+      project.logger.error "Error  : ${it}"
+      errorCount++
+    }
+    bndProject.errors.clear()
+    if (failed) {
+      def str = 'even though no errors were reported'
+      if (errorCount == 1) {
+        str = 'one error was reported'
+      } else if (errorCount > 1) {
+        str = "${errorCount} errors were reported"
+      }
+      throw new GradleException("Project ${bndProject.name} is invalid, ${str}")
     }
   }
-}
 
-bndProject.dependson.each {
-  compileJava.dependsOn(":${it.name}:jar")
-  checkNeeded.dependsOn(":${it.name}:checkNeeded")
-  releaseNeeded.dependsOn(":${it.name}:releaseNeeded")
-}
-
-
-private void checkErrors() {
-  bndProject.getInfo(bndProject.workspace, "${bndProject.workspace.base.name} :")
-  def boolean failed = !bndProject.isOk()
-  def int errorCount = 0
-  bndProject.warnings.each {
-    project.logger.warn "Warning: ${it}"
+  private boolean parseBoolean(String value) {
+    return 'on'.equalsIgnoreCase(value) || 'true'.equalsIgnoreCase(value)
   }
-  bndProject.warnings.clear()
-  bndProject.errors.each {
-    project.logger.error "Error  : ${it}"
-    errorCount++
-  }
-  bndProject.errors.clear()
-  if (failed) {
-    def str = 'even though no errors were reported'
-    if (errorCount == 1) {
-      str = 'one error was reported'
-    } else if (errorCount > 1) {
-      str = "${errorCount} errors were reported"
-    }
-    throw new GradleException("Project ${bndProject.name} is invalid, ${str}")
-  }
-}
-
-private boolean parseBoolean(String value) {
-  return 'on'.equalsIgnoreCase(value) || 'true'.equalsIgnoreCase(value)
 }
 
 class BndProperties {
@@ -414,26 +407,35 @@ class BndProperties {
   }
 }
 
-String bnd(String name) {
-  return bnd.get(name)
-}
-Object bnd(String name, Object defaultValue) {
-  return bnd.get(name, defaultValue)
-}
-Object bndUnprocessed(String name, Object defaultValue) {
-  def value = bnd.project.getUnprocessedProperty(name, null)
-  if (value == null) {
-    value = defaultValue
+class BndPluginConvention {
+  private final Project project
+  BndPluginConvention(BndPlugin plugin) {
+   this.project = plugin.project
   }
-  if (value instanceof String) {
-    value = value.trim()
+  String bnd(String name) {
+    return project.bnd.get(name)
   }
-  return value
-}
-String bndThrow(String name) {
-  def value = bnd.get(name)
-  if (value == null) {
-    throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
+  Object bnd(String name, Object defaultValue) {
+    return project.bnd.get(name, defaultValue)
   }
-  return value
+  Object bndUnprocessed(String name, Object defaultValue) {
+    def value = project.bnd.project.getUnprocessedProperty(name, null)
+    if (value == null) {
+      value = defaultValue
+    }
+    if (value instanceof String) {
+      value = value.trim()
+    }
+    return value
+  }
+  String bndThrow(String name) {
+    def value = project.bnd.get(name)
+    if (value == null) {
+      throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
+    }
+    return value
+  }
 }
+
+/* Save class into properties of project applying this file. */
+ext.BndPlugin = BndPlugin.class

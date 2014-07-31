@@ -13,18 +13,6 @@ ext.bndEclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPubl
 
 
 /*
- * Helper Methods
- */
-
-String bndThrow(String name) {
-  def value = bnd.get(name)
-  if (value == null) {
-    throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
-  }
-  return value
-}
-
-/*
  * Copy the bundle outputs of the specified projects into a directory
  */
 void copyProjectBundles(List<String> projs, String dstDir) {
