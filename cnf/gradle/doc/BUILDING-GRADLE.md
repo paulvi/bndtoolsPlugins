@@ -736,8 +736,17 @@ apply plugin: "java"
 
 assert(rootProject.hasProperty("bndCnf"))
 
-/* Setup the bnd project layout */
-apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.gradle")
+/* We use the same directory for java and resources. */
+sourceSets {
+  main {
+    java.srcDirs      = resources.srcDirs   = files('src')
+    output.classesDir = output.resourcesDir =       'bin'
+  }
+  test {
+    java.srcDirs        = resources.srcDirs   = files('test'    )
+    output.classesDir   = output.resourcesDir =       'test_bin'
+  }
+}
 
 /* Add tasks that are relevant to Java projects */
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")
