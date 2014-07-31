@@ -58,12 +58,6 @@ ext.bndClassPathBoot                = files(bndProject.bootclasspath.collect{ it
 ext.bndClassPathTest                = files(bndProject.testpath.collect     { it.file })
 ext.bndClassPathRun                 = files(bndProject.runpath.collect      { it.file })
 
-/* Java compiler options */
-ext.bndDebug                        = parseBoolean(bndThrow('javac.debug'))
-ext.bndJavac                        =              bndThrow('javac'       )
-ext.bndJavacSource                  =              bndThrow('javac.source')
-ext.bndJavacTarget                  =              bndThrow('javac.target')
-
 /* Other settings */
 ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
@@ -72,7 +66,6 @@ plugins.apply 'java'
 
 /* Setup the bnd project layout */
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.gradle")
-
 
 /* Setup java compiler classpaths */
 dependencies.add("compile"    , files(bndClassPath    ))
@@ -87,28 +80,32 @@ if (!bndClassPathBoot.empty) {
 
 /* Setup java compiler options */
 ext.allSrcDirs                               = files(bndProject.allsourcepath)
-sourceCompatibility                          = bndJavacSource
-if (bndJavacTarget ==~ "^\\d+\\.\\d+\$") {
-  targetCompatibility                        = bndJavacTarget
+sourceCompatibility                          = bndThrow('javac.source')
+def javacTarget = bndThrow('javac.target')
+if (javacTarget ==~ "^\\d+\\.\\d+\$") {
+  targetCompatibility                        = javacTarget
 } else {
-  compileJava.options.compilerArgs          += ["-target", bndJavacTarget]
-  compileTestJava.options.compilerArgs      += ["-target", bndJavacTarget]
+  compileJava.options.compilerArgs          += ["-target", javacTarget]
+  compileTestJava.options.compilerArgs      += ["-target", javacTarget]
 }
-compileJava.options.debug                    = bndDebug
+def javac = bndThrow('javac')
+def javacProfile = bnd('javac.profile', '')
+def javacDebug = parseBoolean(bndThrow('javac.debug'))
+
+compileJava.options.debug                    = javacDebug
 compileJava.options.listFiles                = bndVerbose
 compileJava.options.verbose                  = gradleBuildCompileVerbose
-compileJava.options.fork                     = gradleBuildCompileFork || (bndJavac != "javac")
+compileJava.options.fork                     = gradleBuildCompileFork || (javac != 'javac')
 compileJava.options.deprecation              = gradleBuildCompileDeprecation
-compileJava.options.forkOptions.setExecutable(bndJavac)
+compileJava.options.forkOptions.setExecutable(javac)
 
-compileTestJava.options.debug                = bndDebug
+compileTestJava.options.debug                = javacDebug
 compileTestJava.options.listFiles            = bndVerbose
 compileTestJava.options.verbose              = gradleBuildCompileVerbose
-compileTestJava.options.fork                 = gradleBuildCompileFork || (bndJavac != "javac")
+compileTestJava.options.fork                 = gradleBuildCompileFork || (javac != 'javac')
 compileTestJava.options.deprecation          = gradleBuildCompileDeprecation
-compileTestJava.options.forkOptions.setExecutable(bndJavac)
+compileTestJava.options.forkOptions.setExecutable(javac)
 
-ext.javacProfile = bnd('javac.profile', '')
 if (!javacProfile.empty) {
   compileJava.options.compilerArgs          += ['-profile', javacProfile]
   compileTestJava.options.compilerArgs      += ['-profile', javacProfile]
