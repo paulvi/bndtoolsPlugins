@@ -40,12 +40,6 @@ if (!bndProject.isValid()) {
 }
 ext.preCompileRefresh = hasProperty('bnd_preCompileRefresh') ? parseBoolean(bnd_preCompileRefresh) : false
 
-/* Source and output directory settings */
-ext.bndSrcDir                       = relativePath(bndProject.src               )
-ext.bndSrcBinDir                    = relativePath(bndProject.srcOutput         )
-ext.bndTestSrcDir                   = relativePath(bndProject.testSrc           )
-ext.bndTestSrcBinDir                = relativePath(bndProject.testOutput        )
-
 /* Classpaths */
 ext.bndClassPath                    = files(bndProject.buildpath.collect    { it.file })
 ext.bndClassPathBoot                = files(bndProject.bootclasspath.collect{ it.file })
@@ -62,8 +56,22 @@ if (project.hasProperty('bnd_defaultTask')) {
   defaultTasks = bnd_defaultTask.trim().split(/\s*,\s*/)
 }
 
-/* Setup the bnd project layout */
-apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.gradle")
+/* We use the same directory for java and resources. */
+sourceSets {
+  main {
+    java.srcDirs = resources.srcDirs = files(relativePath(bndProject.src))
+    output.classesDir = output.resourcesDir = relativePath(bndProject.srcOutput)
+  }
+  test {
+    java.srcDirs = resources.srcDirs = files(relativePath(bndProject.testSrc))
+    output.classesDir = output.resourcesDir = relativePath(bndProject.testOutput)
+  }
+}
+
+/* Gradle directory settings */
+libsDirName                            = gradleBuildLibsDirName
+testResultsDirName                     = gradleBuildTestResultsDirName
+testReportDirName                      = gradleBuildTestReportDirName
 
 /* Setup java compiler classpaths */
 dependencies.add("compile"    , files(bndClassPath    ))
