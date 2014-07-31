@@ -10,7 +10,6 @@
  */
 
 assert(project != rootProject                              )
-assert(hasProperty("bndTargetDir"                         ))
 assert(hasProperty("gradleBuildJacocoReportsDir"          ))
 assert(hasProperty("gradleBuildJacocoXmlReport"           ))
 assert(hasProperty("gradleBuildJacocoCsvReport"           ))
@@ -21,7 +20,7 @@ apply plugin: "jacoco"
 
 
 jacoco {
-  reportsDir     = file("$bndTargetDir/$gradleBuildJacocoReportsDir")
+  reportsDir     = new File(buildDir, "$gradleBuildJacocoReportsDir")
 }
 
 
@@ -37,6 +36,6 @@ jacocoTestReport {
   reports {
       xml.enabled      gradleBuildJacocoXmlReport
       csv.enabled      gradleBuildJacocoCsvReport
-      html.destination file("$bndTargetDir/$gradleBuildJacocoReportsDir/$gradleBuildJacocoHtmlDir")
+      html.destination new File(buildDir, "$gradleBuildJacocoReportsDir/$gradleBuildJacocoHtmlDir")
   }
 }

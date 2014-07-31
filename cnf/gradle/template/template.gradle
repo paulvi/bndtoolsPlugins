@@ -9,9 +9,20 @@
  * Main build template.
  */
 
+import aQute.bnd.osgi.Constants
+
+
 assert(project == rootProject      )
 assert(hasProperty("bndCnf"      ))
 assert(hasProperty("bndWorkspace"))
+
+
+/* Setup the build dependencies */
+buildscript {
+  dependencies {
+    classpath rootProject.bndBuildDependencies
+  }
+}
 
 
 /*
@@ -23,7 +34,7 @@ allprojects { project ->
   apply from: rootProject.file("$rootProject.bndCnf/gradle/template/settings-allProjects.gradle")
 
   /* The Gradle build directory */
-  project.buildDir = project.bndTargetDir
+  project.buildDir = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Add findbugs placeholder tasks to the project */
   apply from: rootProject.file("$rootProject.bndCnf/gradle/template/findbugs-placeholders.gradle")

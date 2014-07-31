@@ -16,7 +16,6 @@
  */
 
 assert(project != rootProject                              )
-assert(hasProperty("bndTargetDir"                         ))
 assert(hasProperty("gradleBuildFindbugsEffort"            ))
 assert(hasProperty("gradleBuildFindbugsExcludesFile"      ))
 assert(hasProperty("gradleBuildFindbugsIgnoreFailures"    ))
@@ -36,7 +35,7 @@ apply plugin: "findbugs"
 
 
 findbugs {
-  reportsDir     = file("$bndTargetDir/$gradleBuildFindbugsReportsDir")
+  reportsDir     = new File(buildDir, "$gradleBuildFindbugsReportsDir")
   includeFilter  = file(gradleBuildFindbugsIncludesFile               )
   excludeFilter  = file(gradleBuildFindbugsExcludesFile               )
   effort         =      gradleBuildFindbugsEffort
