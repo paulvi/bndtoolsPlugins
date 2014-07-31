@@ -18,6 +18,11 @@ assert(            hasProperty("sourceSets"))
  * Java Project
  */
 
+/* Setup directories */
+libsDirName           = gradleBuildLibsDirName
+testResultsDirName    = gradleBuildTestResultsDirName
+testReportDirName     = gradleBuildTestReportDirName
+
 /* Setup test options */
 test.enableAssertions = gradleBuildTestEnableAssertions
 test.ignoreFailures   = gradleBuildTestIgnoreFailures

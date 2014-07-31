@@ -68,11 +68,6 @@ sourceSets {
   }
 }
 
-/* Gradle directory settings */
-libsDirName                            = gradleBuildLibsDirName
-testResultsDirName                     = gradleBuildTestResultsDirName
-testReportDirName                      = gradleBuildTestReportDirName
-
 /* Setup java compiler classpaths */
 dependencies.add("compile"    , files(bndClassPath    ))
 dependencies.add("testCompile", files(bndClassPathTest))
