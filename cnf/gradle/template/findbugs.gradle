@@ -16,14 +16,14 @@
  */
 
 assert(project != rootProject                              )
-assert(hasProperty("gradleBuildFindbugsEffort"            ))
-assert(hasProperty("gradleBuildFindbugsExcludesFile"      ))
-assert(hasProperty("gradleBuildFindbugsIgnoreFailures"    ))
-assert(hasProperty("gradleBuildFindbugsIncludesFile"      ))
-assert(hasProperty("gradleBuildFindbugsPropertyXmlReports"))
-assert(hasProperty("gradleBuildFindbugsReportLevel"       ))
-assert(hasProperty("gradleBuildFindbugsReportsDir"        ))
-assert(hasProperty("gradleBuildFindbugsToolVersion"       ))
+assert(hasProperty('gradleBuildFindbugsEffort'            ))
+assert(hasProperty('gradleBuildFindbugsExcludesFile'      ))
+assert(hasProperty('gradleBuildFindbugsIgnoreFailures'    ))
+assert(hasProperty('gradleBuildFindbugsIncludesFile'      ))
+assert(hasProperty('gradleBuildFindbugsPropertyXmlReports'))
+assert(hasProperty('gradleBuildFindbugsReportLevel'       ))
+assert(hasProperty('gradleBuildFindbugsReportsDir'        ))
+assert(hasProperty('gradleBuildFindbugsToolVersion'       ))
 
 
 repositories {
@@ -31,7 +31,7 @@ repositories {
 }
 
 
-apply plugin: "findbugs"
+apply plugin: 'findbugs'
 
 
 findbugs {

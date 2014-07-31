@@ -16,15 +16,15 @@ assert(project == rootProject)
  * Root Project
  */
 
-assert(hasProperty("bndCnf"))
+assert(hasProperty('bndCnf'))
 
 
 /* Load the default build settings for the root project */
 apply from: file("$bndCnf/gradle/template/settings-rootProject.gradle")
 
 
-assert(hasProperty("gradleBuildGradleVersion"          ))
-assert(hasProperty("gradleBuildRootProjectDefaultTasks"))
+assert(hasProperty('gradleBuildGradleVersion'          ))
+assert(hasProperty('gradleBuildRootProjectDefaultTasks'))
 
 
 /* Setup the default tasks */
@@ -37,16 +37,16 @@ defaultTasks = gradleBuildRootProjectDefaultTasks
 
 /* Create a gradle wrapper */
 task wrapper(type: Wrapper) {
-  description     "Download Gradle and generate wrapper scripts."
-  group           "Build Setup"
+  description     'Download Gradle and generate wrapper scripts.'
+  group           'Build Setup'
 
   gradleVersion = gradleBuildGradleVersion
-  jarFile       = file(".gradle-wrapper/gradle-wrapper.jar")
+  jarFile       = file('.gradle-wrapper/gradle-wrapper.jar')
 }
 
 distclean.doLast {
   delete("$bndCnf/cache")
-  delete(".gradle"      )
+  delete('.gradle'      )
 }
 
 

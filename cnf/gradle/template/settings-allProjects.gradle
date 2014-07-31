@@ -12,7 +12,7 @@
 import aQute.bnd.osgi.Constants
 
 
-assert(rootProject.hasProperty("bndBuildDependencies"))
+assert(rootProject.hasProperty('bndBuildDependencies'))
 
 
 /* Setup the build dependencies */
@@ -23,14 +23,14 @@ buildscript {
 }
 
 
-assert(rootProject.hasProperty("bndCnf"              ))
-assert(rootProject.hasProperty("bndWorkspaceDefaults"))
+assert(rootProject.hasProperty('bndCnf'              ))
+assert(rootProject.hasProperty('bndWorkspaceDefaults'))
 
 
 /* Gradle directory settings */
-ext.gradleBuildLibsDirName                    = "."                 /* relative to bnd target directory             */
-ext.gradleBuildTestReportDirName              = "tests/html"        /* relative to bnd target directory / reports   */
-ext.gradleBuildTestResultsDirName             = "reports/tests/xml" /* relative to bnd target directory             */
+ext.gradleBuildLibsDirName                    = '.'                 /* relative to bnd target directory             */
+ext.gradleBuildTestReportDirName              = 'tests/html'        /* relative to bnd target directory / reports   */
+ext.gradleBuildTestResultsDirName             = 'reports/tests/xml' /* relative to bnd target directory             */
 
 /* Gradle default task settings */
 ext.bnd_defaultTask                           = 'jar'               /* comma separated                              */
@@ -45,12 +45,12 @@ ext.gradleBuildTestMaxParallelForks           = 1
 ext.gradleBuildJavadocAuthor                  = true
 ext.gradleBuildJavadocBreakIterator           = true
 ext.gradleBuildJavadocClassPathBoot           = new LinkedList<File>()
-ext.gradleBuildJavadocDir                     = "javadoc"           /* relative to bnd target directory             */
+ext.gradleBuildJavadocDir                     = 'javadoc'           /* relative to bnd target directory             */
 ext.gradleBuildJavadocDocFilesSubDirs         = true
-ext.gradleBuildJavadocEncoding                = "UTF-8"
+ext.gradleBuildJavadocEncoding                = 'UTF-8'
 ext.gradleBuildJavadocFailOnError             = true
-ext.gradleBuildJavadocMaxMemory               = "256M"
-ext.gradleBuildJavadocMemberLevel             = "PUBLIC"            /* PRIVATE, PROTECTED, PACKAGE, PUBLIC */
+ext.gradleBuildJavadocMaxMemory               = '256M'
+ext.gradleBuildJavadocMemberLevel             = 'PUBLIC'            /* PRIVATE, PROTECTED, PACKAGE, PUBLIC */
 ext.gradleBuildJavadocNoComment               = false
 ext.gradleBuildJavadocNoDeprecated            = false
 ext.gradleBuildJavadocNoDeprecatedList        = false
@@ -68,22 +68,22 @@ ext.gradleBuildJavadocVersion                 = true
 /* Findbugs settings */
 ext.gradleBuildFindbugsIncludesFile           = "$rootProject.rootDir/$rootProject.bndCnf/findbugs.include.xml"
 ext.gradleBuildFindbugsExcludesFile           = "$rootProject.rootDir/$rootProject.bndCnf/findbugs.exclude.xml"
-ext.gradleBuildFindbugsEffort                 = "default"           /* min, default (default),max                   */
+ext.gradleBuildFindbugsEffort                 = 'default'           /* min, default (default),max                   */
 ext.gradleBuildFindbugsIgnoreFailures         = true
-ext.gradleBuildFindbugsPropertyXmlReports     = "CI"
-ext.gradleBuildFindbugsReportLevel            = "medium"            /* low, medium (default), high                  */
-ext.gradleBuildFindbugsReportsDir             = "findbugs"          /* relative to bnd target directory             */
-ext.gradleBuildFindbugsToolVersion            = "2.0.3"
+ext.gradleBuildFindbugsPropertyXmlReports     = 'CI'
+ext.gradleBuildFindbugsReportLevel            = 'medium'            /* low, medium (default), high                  */
+ext.gradleBuildFindbugsReportsDir             = 'findbugs'          /* relative to bnd target directory             */
+ext.gradleBuildFindbugsToolVersion            = '2.0.3'
 
 /* jacoco settings */
-ext.gradleBuildJacocoReportsDir               = "reports/jacoco/test" /* relative to bnd target directory           */
+ext.gradleBuildJacocoReportsDir               = 'reports/jacoco/test' /* relative to bnd target directory           */
 ext.gradleBuildJacocoXmlReport                = true
 ext.gradleBuildJacocoCsvReport                = false
-ext.gradleBuildJacocoHtmlDir                  = "html"               /* relative to gradleBuildJacocoReportsDir     */
-ext.gradleBuildJacocoToolVersion              = "0.7.1.201405082137" /* set when you don't want the default         */
+ext.gradleBuildJacocoHtmlDir                  = 'html'               /* relative to gradleBuildJacocoReportsDir     */
+ext.gradleBuildJacocoToolVersion              = '0.7.1.201405082137' /* set when you don't want the default         */
 
 /* Export task settings */
-ext.gradleBuildExportDir                      = "export"            /* relative to bnd target directory             */
+ext.gradleBuildExportDir                      = 'export'            /* relative to bnd target directory             */
 
 /* Index task settings */
 ext.gradleBuildIndexOBRUncompressed           = false
@@ -92,9 +92,9 @@ ext.gradleBuildIndexR5Uncompressed            = false
 ext.gradleBuildIndexR5Compressed              = true
 
 /* ext.gradleBuildIndexDirectories = \
- *   "<root directory>;<name>;<name of fileTree property>, ..." */
-ext.gradleBuildIndexDirectories               = ""
-ext.gradleBuildIndexDirectoriesProperty       = "gradleBuildIndexDirectories"
+ *   '<root directory>;<name>;<name of fileTree property>, ...' */
+ext.gradleBuildIndexDirectories               = ''
+ext.gradleBuildIndexDirectoriesProperty       = 'gradleBuildIndexDirectories'
 
 
 /* Load the overrides */
@@ -102,7 +102,7 @@ apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/settings-allProj
 
 
 /* Allow projects to override these build settings */
-def settingsFile = file("build-settings.gradle")
+def settingsFile = file('build-settings.gradle')
 if (settingsFile.exists()) {
   apply from: settingsFile
 }

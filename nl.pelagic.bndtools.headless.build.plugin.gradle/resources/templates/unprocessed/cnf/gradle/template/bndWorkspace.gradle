@@ -14,7 +14,7 @@ import aQute.bnd.build.Workspace
 import aQute.bnd.osgi.Constants
 
 assert(project == rootProject             )
-assert(hasProperty("bndBuildDependencies"))
+assert(hasProperty('bndBuildDependencies'))
 
 
 /* Setup the build dependencies */
@@ -26,10 +26,10 @@ buildscript {
 
 
 /* Initialise the bnd workspace */
-assert(!hasProperty("bndWorkspace"))
+assert(!hasProperty('bndWorkspace'))
 ext.bndWorkspace = Workspace.getWorkspace(projectDir)
 if (bndWorkspace == null) {
-  throw new GradleException("No bnd workspace found")
+  throw new GradleException('No bnd workspace found')
 }
 
 /* Delay run dependency evaluations since they may not yet be built */
@@ -41,7 +41,7 @@ bndWorkspace.allProjects.each {
 bndWorkspace.addBasicPlugin(new ConsoleProgress());
 
 /* Load the workspace defaults */
-assert(!hasProperty("bndWorkspaceDefaults"))
+assert(!hasProperty('bndWorkspaceDefaults'))
 ext.bndWorkspaceDefaults = Workspace.defaults
 
 /*

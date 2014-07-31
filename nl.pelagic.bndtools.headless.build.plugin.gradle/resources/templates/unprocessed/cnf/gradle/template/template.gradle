@@ -13,8 +13,8 @@ import aQute.bnd.osgi.Constants
 
 
 assert(project == rootProject      )
-assert(hasProperty("bndCnf"      ))
-assert(hasProperty("bndWorkspace"))
+assert(hasProperty('bndCnf'      ))
+assert(hasProperty('bndWorkspace'))
 
 
 /* Setup the build dependencies */

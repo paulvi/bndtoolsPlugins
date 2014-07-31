@@ -10,8 +10,8 @@
  */
 
 assert(project != rootProject               )
-assert(rootProject.hasProperty("bndCnf"    ))
-assert(            hasProperty("sourceSets"))
+assert(rootProject.hasProperty('bndCnf'    ))
+assert(            hasProperty('sourceSets'))
 
 
 /*

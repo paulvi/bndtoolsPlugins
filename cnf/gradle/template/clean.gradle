@@ -15,18 +15,18 @@
  */
 
 task cleanNeeded {
-  description "Clean this project and all projects it depends on."
-  group       "Cleanup"
+  description 'Clean this project and all projects it depends on.'
+  group       'Cleanup'
 }
 
 task distclean {
-  description "Thoroughly clean this project."
-  group       "Cleanup"
+  description 'Thoroughly clean this project.'
+  group       'Cleanup'
 }
 
 task distcleanNeeded {
-  description "Thoroughly clean this project and all projects it depends on."
-  group       "Cleanup"
+  description 'Thoroughly clean this project and all projects it depends on.'
+  group       'Cleanup'
 }
 
 
@@ -38,24 +38,24 @@ distcleanNeeded.dependsOn       += [distclean                         ]
 
 gradle.projectsEvaluated {
   /* add dependencies to the clean task when the project has a clean task */
-  if (!getTasksByName("clean", false).isEmpty()) {
+  if (!getTasksByName('clean', false).isEmpty()) {
     cleanNeeded.dependsOn       += [clean                             ]
     distclean.dependsOn         += [clean                             ]
   }
 
   /* bnd project dependencies */
-  if (hasProperty("bndProject")) {
+  if (hasProperty('bndProject')) {
     bndProject.dependson.each {
-      cleanNeeded.dependsOn     += [":" + it.name + ":cleanNeeded"    ]
-      distcleanNeeded.dependsOn += [":" + it.name + ":distcleanNeeded"]
+      cleanNeeded.dependsOn     += [':' + it.name + ':cleanNeeded'    ]
+      distcleanNeeded.dependsOn += [':' + it.name + ':distcleanNeeded']
     }
   }
 
   /* make sure that the root project clean tasks are run last */
   if (project == rootProject) {
     rootProject.subprojects.each {
-      cleanNeeded.dependsOn     += [":" + it.name + ":cleanNeeded"    ]
-      distcleanNeeded.dependsOn += [":" + it.name + ":distcleanNeeded"]
+      cleanNeeded.dependsOn     += [':' + it.name + ':cleanNeeded'    ]
+      distcleanNeeded.dependsOn += [':' + it.name + ':distcleanNeeded']
     }
   }
 }

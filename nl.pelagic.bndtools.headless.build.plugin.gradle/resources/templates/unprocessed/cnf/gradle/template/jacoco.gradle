@@ -10,13 +10,13 @@
  */
 
 assert(project != rootProject                              )
-assert(hasProperty("gradleBuildJacocoReportsDir"          ))
-assert(hasProperty("gradleBuildJacocoXmlReport"           ))
-assert(hasProperty("gradleBuildJacocoCsvReport"           ))
-assert(hasProperty("gradleBuildJacocoHtmlDir"             ))
+assert(hasProperty('gradleBuildJacocoReportsDir'          ))
+assert(hasProperty('gradleBuildJacocoXmlReport'           ))
+assert(hasProperty('gradleBuildJacocoCsvReport'           ))
+assert(hasProperty('gradleBuildJacocoHtmlDir'             ))
 
 
-apply plugin: "jacoco"
+apply plugin: 'jacoco'
 
 
 jacoco {
@@ -24,7 +24,7 @@ jacoco {
 }
 
 
-if (hasProperty("gradleBuildJacocoToolVersion")) {
+if (hasProperty('gradleBuildJacocoToolVersion')) {
   jacoco {
     toolVersion  = gradleBuildJacocoToolVersion
   }

@@ -9,11 +9,11 @@
  * Bundle repository indexing tasks.
  */
 
-assert(hasProperty("gradleBuildIndexDirectories"    ))
-assert(hasProperty("gradleBuildIndexOBRUncompressed"))
-assert(hasProperty("gradleBuildIndexOBRCompressed"  ))
-assert(hasProperty("gradleBuildIndexR5Uncompressed" ))
-assert(hasProperty("gradleBuildIndexR5Compressed"   ))
+assert(hasProperty('gradleBuildIndexDirectories'    ))
+assert(hasProperty('gradleBuildIndexOBRUncompressed'))
+assert(hasProperty('gradleBuildIndexOBRCompressed'  ))
+assert(hasProperty('gradleBuildIndexR5Uncompressed' ))
+assert(hasProperty('gradleBuildIndexR5Compressed'   ))
 
 
 /*
@@ -37,7 +37,7 @@ FileTree getFileTreeInstance(String propertyName) {
  *
  * Syntax:
  * ext.gradleBuildIndexDirectories = \
- *   "<root directory>;<name>;<name of fileTree property>, ..."
+ *   '<root directory>;<name>;<name of fileTree property>, ...'
  *
  *  root directory           : mandatory.
  *  name                     : optional. if not specified then the basename of
@@ -46,19 +46,19 @@ FileTree getFileTreeInstance(String propertyName) {
  *                             below the root directory will be indexed
  */
 void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
-  assert(hasProperty("gradleBuildIndexDirectories"))
+  assert(hasProperty('gradleBuildIndexDirectories'))
 
   def indexerClasspath
   def indexerMain
   if (!r5) {
-    assert(rootProject.hasProperty("gradleBuildBindexJar"))
-    assert(rootProject.hasProperty("gradleBuildBindexMain"))
+    assert(rootProject.hasProperty('gradleBuildBindexJar'))
+    assert(rootProject.hasProperty('gradleBuildBindexMain'))
 
     indexerClasspath    = rootProject.files(rootProject.gradleBuildBindexJar )
     indexerMain         =                   rootProject.gradleBuildBindexMain
   } else {
-    assert(rootProject.hasProperty("gradleBuildRepoindexJar"))
-    assert(rootProject.hasProperty("gradleBuildRepoindexMain"))
+    assert(rootProject.hasProperty('gradleBuildRepoindexJar'))
+    assert(rootProject.hasProperty('gradleBuildRepoindexMain'))
 
     indexerClasspath    = rootProject.files(rootProject.gradleBuildRepoindexJar )
     indexerMain         =                   rootProject.gradleBuildRepoindexMain
@@ -125,21 +125,21 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
 
         def indexArgs      = []
         if (!r5) {
-          indexArgs       += "-r"
+          indexArgs       += '-r'
           indexArgs       += indexFile
-          indexArgs       += "-d"
+          indexArgs       += '-d'
           indexArgs       += indexDirectoryFile.toURI()
-          indexArgs       += "-n"
+          indexArgs       += '-n'
           indexArgs       += repoName
         } else {
           if (!compress) {
-            indexArgs     += "--pretty"
+            indexArgs     += '--pretty'
           }
-          indexArgs       += "-r"
+          indexArgs       += '-r'
           indexArgs       += indexFile
-          indexArgs       += "-d"
+          indexArgs       += '-d'
           indexArgs       += indexDirectoryFile
-          indexArgs       += "-n"
+          indexArgs       += '-n'
           indexArgs       += repoName
         }
 
@@ -156,8 +156,8 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
         }
         if (result.exitValue != 0) {
           String msg = String.format("Could not create %s %s index in directory $indexDirectory",
-            compress ? "a compressed" : "an uncompressed",
-            r5 ? "R5" : "OBR")
+            compress ? 'a compressed' : 'an uncompressed',
+            r5 ? 'R5' : 'OBR')
           throw new GradleException(msg)
         }
       }
@@ -172,7 +172,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
 
 task index {
   description "Generate OBR and R5 repository indexes (set the '$gradleBuildIndexDirectoriesProperty' property)"
-  group       "Release"
+  group       'Release'
 
   doLast {
     if (gradleBuildIndexOBRUncompressed || gradleBuildIndexOBRCompressed) {
