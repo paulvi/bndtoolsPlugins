@@ -16,13 +16,10 @@ ext.bndEclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPubl
  * Helper Methods
  */
 
-Object bndThrow(String key) {
-  def value = bndProject.getProperty(key, null)
+String bndThrow(String name) {
+  def value = bnd.get(name)
   if (value == null) {
-    throw new GradleException("Bnd property \"$key\" not found in project $project.name")
-  }
-  if (value instanceof String) {
-    value = value.trim()
+    throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
   }
   return value
 }
