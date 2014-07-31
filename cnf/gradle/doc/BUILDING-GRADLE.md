@@ -348,8 +348,8 @@ The build has the following flow:
 
     * bnd projects
 
-      * The default tasks are setup (specified by
-        the ```gradleBuildBndProjectsDefaultTasks``` property).
+      * The default tasks are setup (specified by the ```bnd_defaultTask```
+        property).
 
       * The bnd project build is setup by loading
         the ```cnf/gradle/template/bndProject.gradle``` file.
