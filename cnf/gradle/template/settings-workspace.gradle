@@ -10,17 +10,17 @@
  */
 
 assert(project == rootProject)
-assert(hasProperty("bndCnf"))
+assert(hasProperty('bndCnf'))
 
 
-ext.gradleBuildGradleVersion                = "2.0"
+ext.gradleBuildGradleVersion                = '2.0'
 
-ext.gradleBuildLoggingCaptureStandardOutput = LogLevel.INFO
-ext.gradleBuildLoggingLevel                 = LogLevel.INFO
+ext.gradleBuildLoggingCaptureStandardOutput = LogLevel.WARN
+ext.gradleBuildLoggingLevel                 = LogLevel.WARN
 
-ext.gradleBuildBuildProperties              = "$bndCnf/build.gradle.properties"
-ext.gradleBuildDependenciesCacheDir         = "$bndCnf/cache/gradle"
+ext.gradleBuildBuildProperties              = "${bndCnf}/build.gradle.properties"
+ext.gradleBuildDependenciesCacheDir         = "${bndCnf}/cache/gradle"
 
 
 /* Load the overrides */
-apply from: file("$bndCnf/gradle/custom/settings-workspace.gradle")
+apply from: file("${bndCnf}/gradle/custom/settings-workspace.gradle")
