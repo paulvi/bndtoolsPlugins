@@ -66,8 +66,8 @@ ext.gradleBuildJavadocVerbose                 = false
 ext.gradleBuildJavadocVersion                 = true
 
 /* Findbugs settings */
-ext.gradleBuildFindbugsIncludesFile           = "$rootProject.rootDir/$rootProject.bndCnf/findbugs.include.xml"
-ext.gradleBuildFindbugsExcludesFile           = "$rootProject.rootDir/$rootProject.bndCnf/findbugs.exclude.xml"
+ext.gradleBuildFindbugsIncludesFile           = "${rootProject.rootDir}/${rootProject.bndCnf}/findbugs.include.xml"
+ext.gradleBuildFindbugsExcludesFile           = "${rootProject.rootDir}/${rootProject.bndCnf}/findbugs.exclude.xml"
 ext.gradleBuildFindbugsEffort                 = 'default'           /* min, default (default),max                   */
 ext.gradleBuildFindbugsIgnoreFailures         = true
 ext.gradleBuildFindbugsPropertyXmlReports     = 'CI'
@@ -98,7 +98,7 @@ ext.gradleBuildIndexDirectoriesProperty       = 'gradleBuildIndexDirectories'
 
 
 /* Load the overrides */
-apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/settings-allProjects.gradle")
+apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")
 
 
 /* Allow projects to override these build settings */

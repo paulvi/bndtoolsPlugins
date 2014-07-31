@@ -36,7 +36,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
     def dependencyName = propKey.toLowerCase().replaceFirst(propKeyExtensionRegex, '')
     if (!propValue.isEmpty()) {
       if (evaluatedDependencies.contains(dependencyName)) {
-        println "Warning: Build dependency $dependencyName was already processed, skipping $propKey"
+        println "Warning: Build dependency ${dependencyName} was already processed, skipping ${propKey}"
       } else {
         def dependencyFileName = null
         def dependencyFile     = null
@@ -48,7 +48,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
           try {
             url = new URL(propValue)
           } catch (MalformedURLException e) {
-            throw new GradleException("Build dependency $propKey specifies an invalid URL", e)
+            throw new GradleException("Build dependency ${propKey} specifies an invalid URL", e)
           }
 
           if (url.protocol.toLowerCase().equals('file')) {
@@ -57,20 +57,20 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
             dependencyFile     = file(dependencyFileName)
           } else {
             def urlBaseName    = new File(url.path).name
-            dependencyFileName = "$gradleBuildDependenciesCacheDir/$urlBaseName"
+            dependencyFileName = "${gradleBuildDependenciesCacheDir}/${urlBaseName}"
             dependencyFile     = file(dependencyFileName)
 
             /* Download from the URL when needed */
             if (!dependencyFile.exists()) {
-              printf "Downloading build dependency $dependencyName..."
+              printf "Downloading build dependency ${dependencyName}..."
               def downloadDir = file(dependencyFileName).parentFile
               if ((!downloadDir.exists() && !downloadDir.mkdirs()) || !downloadDir.isDirectory()) {
-                throw new GradleException("Could not create directory $downloadDir")
+                throw new GradleException("Could not create directory ${downloadDir}")
               }
               try {
                 url.withInputStream{ is -> dependencyFile.withOutputStream{ it << is }}
               } catch (Exception e) {
-                throw new GradleException("Downloading build dependency $dependencyName from $url failed", e)
+                throw new GradleException("Downloading build dependency ${dependencyName} from ${url} failed", e)
               }
               println ' done'
             }
@@ -81,7 +81,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
         assert(dependencyFile     != null)
 
         if (!dependencyFile.exists()) {
-          throw new GradleException("Build dependency $dependencyName ($dependencyFileName) does not exist.")
+          throw new GradleException("Build dependency ${dependencyName} (${dependencyFileName}) does not exist.")
         }
 
         /* Include the dependency in the bndBuildDependencies file tree (created when needed) */
@@ -102,7 +102,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
 
 /* Ensure the build properties file exists */
 if (!file(gradleBuildBuildProperties).exists()) {
-  throw new GradleException("Build properties file \"$gradleBuildBuildProperties\" does not exist")
+  throw new GradleException("Build properties file \"${gradleBuildBuildProperties}\" does not exist")
 }
 
 /* Load the build properties */

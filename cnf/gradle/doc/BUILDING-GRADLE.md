@@ -695,9 +695,9 @@ to generate indexes named ```example project```.
 assert(project != rootProject)
 
 /* Index task overrides */
-ext.bndDistIndexRoot                = "bundles"
-ext.bndDistIndexDirectories         = fileTree(bndDistIndexRoot).include("**/*.jar").exclude("**/*-latest.jar")
-ext.gradleBuildIndexDirectories     = "$bndDistIndexRoot;example project;bndDistIndexDirectories"
+ext.bndDistIndexRoot                = 'bundles'
+ext.bndDistIndexDirectories         = fileTree(bndDistIndexRoot).include('**/*.jar').exclude('**/*-latest.jar')
+ext.gradleBuildIndexDirectories     = "${bndDistIndexRoot};example project;bndDistIndexDirectories"
 ext.gradleBuildIndexOBRUncompressed = true
 ext.gradleBuildIndexOBRCompressed   = true
 ext.gradleBuildIndexR5Uncompressed  = true
@@ -732,9 +732,9 @@ relevant to a Java project (```javadoc```, findbugs tasks and ```distclean```).
 
 assert(project != rootProject)
 
-apply plugin: "java"
+apply plugin: 'java'
 
-assert(rootProject.hasProperty("bndCnf"))
+assert(rootProject.hasProperty('bndCnf'))
 
 /* We use the same directory for java and resources. */
 sourceSets {
@@ -749,6 +749,6 @@ sourceSets {
 }
 
 /* Add tasks that are relevant to Java projects */
-apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")
+apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaProject.gradle")
 ```
 

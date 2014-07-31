@@ -35,9 +35,9 @@ apply plugin: 'findbugs'
 
 
 findbugs {
-  reportsDir     = new File(buildDir, "$gradleBuildFindbugsReportsDir")
-  includeFilter  = file(gradleBuildFindbugsIncludesFile               )
-  excludeFilter  = file(gradleBuildFindbugsExcludesFile               )
+  reportsDir     = new File(buildDir, "${gradleBuildFindbugsReportsDir}")
+  includeFilter  = file(gradleBuildFindbugsIncludesFile                 )
+  excludeFilter  = file(gradleBuildFindbugsExcludesFile                 )
   effort         =      gradleBuildFindbugsEffort
   ignoreFailures =      gradleBuildFindbugsIgnoreFailures
   reportLevel    =      gradleBuildFindbugsReportLevel

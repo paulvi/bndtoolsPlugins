@@ -20,7 +20,7 @@ apply plugin: 'jacoco'
 
 
 jacoco {
-  reportsDir     = new File(buildDir, "$gradleBuildJacocoReportsDir")
+  reportsDir     = new File(buildDir, "${gradleBuildJacocoReportsDir}")
 }
 
 
@@ -36,6 +36,6 @@ jacocoTestReport {
   reports {
       xml.enabled      gradleBuildJacocoXmlReport
       csv.enabled      gradleBuildJacocoCsvReport
-      html.destination new File(buildDir, "$gradleBuildJacocoReportsDir/$gradleBuildJacocoHtmlDir")
+      html.destination new File(buildDir, "${gradleBuildJacocoReportsDir}/${gradleBuildJacocoHtmlDir}")
   }
 }

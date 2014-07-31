@@ -22,10 +22,10 @@ assert(hasProperty('gradleBuildIndexR5Compressed'   ))
 FileTree getFileTreeInstance(String propertyName) {
   def fileTreeInstance = properties.get(propertyName)
   if (fileTreeInstance == null) {
-    throw new GradleException("Property \"$propertyName\" not found")
+    throw new GradleException("Property \"${propertyName}\" not found")
   }
   if (!(fileTreeInstance instanceof FileTree)) {
-    throw new GradleException("Property \"$propertyName\" is not an instance of FileTree")
+    throw new GradleException("Property \"${propertyName}\" is not an instance of FileTree")
   }
 
   return fileTreeInstance
@@ -68,7 +68,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
     def parts              = indexDirectory.trim().split("\\s*;\\s*")
 
     if (parts.length > 3) {
-        throw new GradleException("Too many parts to the indexing configuration \"$gradleBuildIndexDirectories\"")
+        throw new GradleException("Too many parts to the indexing configuration \"${gradleBuildIndexDirectories}\"")
     }
 
     if (parts.length > 1) {
@@ -84,7 +84,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
     }
 
     if ((!indexDirectoryFile.exists() && !indexDirectoryFile.mkdirs()) || !indexDirectoryFile.isDirectory()) {
-      throw new GradleException("Could not create directory $indexDirectory")
+      throw new GradleException("Could not create directory ${indexDirectory}")
     }
 
     def bundlesToIndex
@@ -97,11 +97,11 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
     def uncompressedIndexFile
     def compressedIndexFile
     if (!r5) {
-      uncompressedIndexFile = file("$indexDirectory/repository.xml")
-      compressedIndexFile   = file("$indexDirectory/repository.zip")
+      uncompressedIndexFile = file("${indexDirectory}/repository.xml")
+      compressedIndexFile   = file("${indexDirectory}/repository.zip")
     } else {
-      uncompressedIndexFile = file("$indexDirectory/index.xml")
-      compressedIndexFile   = file("$indexDirectory/index.xml.gz")
+      uncompressedIndexFile = file("${indexDirectory}/index.xml")
+      compressedIndexFile   = file("${indexDirectory}/index.xml.gz")
     }
 
     if (uncompressedIndexFile.exists()) {
@@ -155,7 +155,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
           args           = indexArgs
         }
         if (result.exitValue != 0) {
-          String msg = String.format("Could not create %s %s index in directory $indexDirectory",
+          String msg = String.format("Could not create %s %s index in directory ${indexDirectory}",
             compress ? 'a compressed' : 'an uncompressed',
             r5 ? 'R5' : 'OBR')
           throw new GradleException(msg)
@@ -171,7 +171,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
  */
 
 task index {
-  description "Generate OBR and R5 repository indexes (set the '$gradleBuildIndexDirectoriesProperty' property)"
+  description "Generate OBR and R5 repository indexes (set the '${gradleBuildIndexDirectoriesProperty}' property)"
   group       'Release'
 
   doLast {

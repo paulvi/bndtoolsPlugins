@@ -38,16 +38,16 @@ assert(hasProperty('gradleBuildJavadocVersion'         ))
 assert(hasProperty('sourceSets'                        ))
 
 
-javadoc.destinationDir                     = new File(buildDir, "$gradleBuildJavadocDir")
+javadoc.destinationDir                     = new File(buildDir, "${gradleBuildJavadocDir}")
 javadoc.source                             = sourceSets.main.allJava
-javadoc.title                              = "$project.name"
+javadoc.title                              = "${project.name}"
 javadoc.failOnError                        = gradleBuildJavadocFailOnError
 javadoc.maxMemory                          = gradleBuildJavadocMaxMemory
 javadoc.verbose                            = gradleBuildJavadocVerbose
 
 configure(javadoc.options) {
-  docTitle                                 = "$project.name"
-  windowTitle                              = "$project.name"
+  docTitle                                 = "${project.name}"
+  windowTitle                              = "${project.name}"
 
   author                                   = gradleBuildJavadocAuthor
   bootClasspath                            = gradleBuildJavadocClassPathBoot
