@@ -59,8 +59,9 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   assert(hasProperty("bndEclipseAntRunner"        ))
   assert(hasProperty("bndEclipseCategoryPublisher"))
 
+  def verbose = logger.isEnabled(LogLevel.DEBUG)
   def javaArgs  = []
-  if (bndVerbose) {
+  if (verbose) {
     javaArgs   += "-consoleLog"
   }
   javaArgs     += "-application"
@@ -82,7 +83,7 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   }
 
   javaArgs  = []
-  if (bndVerbose) {
+  if (verbose) {
     javaArgs   += "-consoleLog"
   }
   javaArgs     += "-application"

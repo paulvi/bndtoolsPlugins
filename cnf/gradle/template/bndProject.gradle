@@ -40,15 +40,6 @@ if (!bndProject.isValid()) {
 }
 ext.preCompileRefresh = hasProperty('bnd_preCompileRefresh') ? parseBoolean(bnd_preCompileRefresh) : false
 
-/* Classpaths */
-ext.bndClassPath                    = files(bndProject.buildpath.collect    { it.file })
-ext.bndClassPathBoot                = files(bndProject.bootclasspath.collect{ it.file })
-ext.bndClassPathTest                = files(bndProject.testpath.collect     { it.file })
-ext.bndClassPathRun                 = files(bndProject.runpath.collect      { it.file })
-
-/* Other settings */
-ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, 'false'))
-
 buildDir = relativePath(bndProject.targetDir)
 plugins.apply 'java'
 
@@ -67,11 +58,15 @@ sourceSets {
     output.classesDir = output.resourcesDir = relativePath(bndProject.testOutput)
   }
 }
+ext.allSrcDirs                               = files(bndProject.allsourcepath)
+sourceCompatibility                          = bndThrow('javac.source')
+def javacTarget = bndThrow('javac.target')
 
 /* Setup java compiler classpaths */
-dependencies.add("compile"    , files(bndClassPath    ))
-dependencies.add("testCompile", files(bndClassPathTest))
+dependencies.add("compile"    , files(files(bndProject.buildpath.collect{ it.file })))
+dependencies.add("testCompile", files(files(bndProject.testpath.collect { it.file })))
 
+ext.bndClassPathBoot = files(bndProject.bootclasspath.collect{ it.file })
 if (!bndClassPathBoot.empty) {
   def classPathBootAsPath = files(bndClassPathBoot).asPath
   compileJava.options.compilerArgs          += ["-Xbootclasspath/p:$classPathBootAsPath"]
@@ -80,9 +75,6 @@ if (!bndClassPathBoot.empty) {
 }
 
 /* Setup java compiler options */
-ext.allSrcDirs                               = files(bndProject.allsourcepath)
-sourceCompatibility                          = bndThrow('javac.source')
-def javacTarget = bndThrow('javac.target')
 if (javacTarget ==~ "^\\d+\\.\\d+\$") {
   targetCompatibility                        = javacTarget
 } else {
@@ -92,6 +84,7 @@ if (javacTarget ==~ "^\\d+\\.\\d+\$") {
 def javac = bndThrow('javac')
 def javacProfile = bnd('javac.profile', '')
 def javacDebug = parseBoolean(bndThrow('javac.debug'))
+def bndVerbose = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
 compileJava.options.debug                    = javacDebug
 compileJava.options.listFiles                = bndVerbose
