@@ -1,15 +1,15 @@
 /*
- * WARNING
- *
- * This file is maintained automatically by Bndtools.
- * You should not edit it.
- *
- * See the BUILDING-GRADLE.md document in the root project for more details.
- *
  * Build template for bnd projects.
+ *
+ * The bnd classes must be available on the classpath for this script.
+ *
+ * If the bnd_defaultTask property is set, it will be used for the the default
+ * task.
  *
  * If the bnd_preCompileRefresh property is set to 'true', the project
  * properties will be refreshed just before compiling the project.
+ *
+ * See the BUILDING-GRADLE.md document in the root project for more details.
  */
 
 import aQute.bnd.osgi.Constants
