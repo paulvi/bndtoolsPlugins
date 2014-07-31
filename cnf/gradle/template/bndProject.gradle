@@ -58,6 +58,10 @@ ext.bndVerbose                      = parseBoolean(bnd(Constants.VERBOSE, 'false
 buildDir = relativePath(bndProject.targetDir)
 plugins.apply 'java'
 
+if (project.hasProperty('bnd_defaultTask')) {
+  defaultTasks = bnd_defaultTask.trim().split(/\s*,\s*/)
+}
+
 /* Setup the bnd project layout */
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndLayout.gradle")
 
