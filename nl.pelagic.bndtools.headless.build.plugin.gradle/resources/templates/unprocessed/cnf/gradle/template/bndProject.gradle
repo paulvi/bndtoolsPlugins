@@ -357,7 +357,7 @@ public class BndPlugin implements Plugin<Project> {
       }
 
       bndProject.dependson.each {
-        compileJava.dependsOn(":${it.name}:jar")
+        dependencies.add('compile', rootProject.project(it.name))
         checkNeeded.dependsOn(":${it.name}:checkNeeded")
         releaseNeeded.dependsOn(":${it.name}:releaseNeeded")
       }
