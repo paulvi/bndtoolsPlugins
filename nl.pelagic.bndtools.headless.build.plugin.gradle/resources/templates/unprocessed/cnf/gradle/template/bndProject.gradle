@@ -22,7 +22,7 @@ public class BndPlugin implements Plugin<Project> {
   void apply(Project p) {
     p.configure(p) { project ->
       this.project = project
-      if (!project.hasProperty('bndWorkspace')) {
+      if (!rootProject.hasProperty('bndWorkspace')) {
         rootProject.ext.bndWorkspace = Workspace.getWorkspace(rootDir)
         if (bndWorkspace == null) {
           throw new GradleException("Unable to load bnd workspace ${rootDir}")
