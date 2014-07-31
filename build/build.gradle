@@ -1,8 +1,7 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 
-assert(hasProperty("bndProject"  ))
-assert(hasProperty("bndTargetDir"))
+assert(hasProperty("bndProject"))
 
 
 /* Eclipse settings for p2 publishing */
@@ -59,7 +58,6 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   assert(hasProperty("bndEclipseJarMain"          ))
   assert(hasProperty("bndEclipseAntRunner"        ))
   assert(hasProperty("bndEclipseCategoryPublisher"))
-  assert(hasProperty("bndTargetDir"               ))
 
   def javaArgs  = []
   if (bndVerbose) {
@@ -68,7 +66,7 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   javaArgs     += "-application"
   javaArgs     += bndEclipseAntRunner
   javaArgs     += "-data"
-  javaArgs     += "$projectDir/$bndTargetDir"
+  javaArgs     += "$projectDir/$p2TargetDir"
   javaArgs     += "-buildfile"
   javaArgs     += "p2.xml"
   javaArgs     += "-Dp2SubDir=$p2SubDir"
@@ -90,11 +88,11 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
   javaArgs     += "-application"
   javaArgs     += bndEclipseCategoryPublisher
   javaArgs     += "-data"
-  javaArgs     += "$projectDir/$bndTargetDir"
+  javaArgs     += "$projectDir/$p2TargetDir"
   javaArgs     += "-metadataRepository"
-  javaArgs     += "file:$projectDir/$bndTargetDir/$metadataRepository"
+  javaArgs     += "file:$projectDir/$p2TargetDir/$metadataRepository"
   javaArgs     += "-categoryDefinition"
-  javaArgs     += "file:$projectDir/$bndTargetDir/$categoryDefinition"
+  javaArgs     += "file:$projectDir/$p2TargetDir/$categoryDefinition"
   javaArgs     += "-compress"
 
   result = javaexec {
@@ -141,16 +139,16 @@ ext.masterVersion = String.format("%s.%s-%s-g%s",
 
 task p2FeaturesTree(type: Copy) {
   from    "feature"
-  into    "$bndTargetDir/features"
+  into    "$p2TargetDir/features"
   filter(ReplaceTokens, tokens: ["master-version" : masterVersion, "p2PelagicUpdateSiteUrl" : p2PelagicUpdateSiteUrl])
   include "**/category.xml"
   include "**/feature.xml"
 }
 
 task p2FeatureGradlePlugin(type: Zip) {
-  destinationDir = file("$bndTargetDir/features/pelagic")
+  destinationDir = file("$p2TargetDir/features/pelagic")
   archiveName    = "nl.pelagic.bndtools.headless.build.plugin.gradle.feature.jar"
-  from             "$bndTargetDir/features/pelagic/gradle"
+  from             "$p2TargetDir/features/pelagic/gradle"
   include          "feature.xml"
 }
 
@@ -164,13 +162,13 @@ task p2Features {
 
 task p2PluginsPelagic() {
   doLast {
-    copyProjectBundles(p2_pelagic, "$bndTargetDir/plugins/pelagic")
+    copyProjectBundles(p2_pelagic, "$p2TargetDir/plugins/pelagic")
   }
 }
 
 task p2Plugins {
   doLast {
-    delete("$bndTargetDir/tmp");
+    delete("$p2TargetDir/tmp");
   }
 }
 
@@ -185,14 +183,14 @@ task p2 {
 
   inputs.files { fileTree(projectDir)
                    .include("p2.xml")
-                   .include("$bndTargetDir/p2/$p2SubDir/**")
-                   .include("$bndTargetDir/features/pelagic/category.xml")
+                   .include("$p2TargetDir/p2/$p2SubDir/**")
+                   .include("$p2TargetDir/features/pelagic/category.xml")
                }
 
   doLast {
     generateP2Repository("Bndtools Plugins by Pelagic", "p2Pelagic", "p2/$p2SubDir", "features/pelagic/category.xml")
-    delete("$bndTargetDir/features")
-    delete("$bndTargetDir/plugins")
+    delete("$p2TargetDir/features")
+    delete("$p2TargetDir/plugins")
   }
 }
 
@@ -203,7 +201,7 @@ task p2 {
 
 task distCompositePelagic(type: Copy) {
   from    "feature/pelagic"
-  into    "$bndTargetDir/p2"
+  into    "$p2TargetDir/p2"
   filter(ReplaceTokens, tokens: [
              "p2Timestamp" : p2Timestamp,
              "p2BndtoolsdateSiteUrl" : p2BndtoolsdateSiteUrl,
@@ -213,9 +211,9 @@ task distCompositePelagic(type: Copy) {
 }
 
 task distZipPelagic(type: Zip) {
-  destinationDir = file(bndTargetDir)
+  destinationDir = file(p2TargetDir)
   archiveName    = "pelagic-bndtools-plugins-latest.zip"
-  from             "$bndTargetDir/p2"
+  from             "$p2TargetDir/p2"
   include          "**"
 }
 
