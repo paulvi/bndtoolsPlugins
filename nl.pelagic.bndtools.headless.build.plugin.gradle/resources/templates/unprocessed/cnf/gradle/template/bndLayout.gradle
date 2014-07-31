@@ -27,14 +27,18 @@ libsDirName                            = gradleBuildLibsDirName
 testResultsDirName                     = gradleBuildTestResultsDirName
 testReportDirName                      = gradleBuildTestReportDirName
 
-/* Java source code source set */
-sourceSets.main.java.srcDirs           = files(bndProject.sourcePath.collect { relativePath(it) })
-sourceSets.main.resources.srcDirs      = files(bndProject.sourcePath.collect { relativePath(it) })
-sourceSets.main.output.classesDir      =       bndSrcBinDir
-sourceSets.main.output.resourcesDir    =       bndSrcBinDir
+sourceSets {
+  main {
+    java.srcDirs        = files(bndProject.sourcePath.collect { relativePath(it) })
+    resources.srcDirs   = files(bndProject.sourcePath.collect { relativePath(it) })
+    output.classesDir   =       bndSrcBinDir
+    output.resourcesDir =       bndSrcBinDir
+  }
+  test {
+    java.srcDirs        = files(bndTestSrcDir   )
+    resources.srcDirs   = files(bndTestSrcDir   )
+    output.classesDir   =       bndTestSrcBinDir
+    output.resourcesDir =       bndTestSrcBinDir
+  }
+}
 
-/* Java test code source set */
-sourceSets.test.java.srcDirs           = files(bndTestSrcDir   )
-sourceSets.test.resources.srcDirs      = files(bndTestSrcDir   )
-sourceSets.test.output.classesDir      =       bndTestSrcBinDir
-sourceSets.test.output.resourcesDir    =       bndTestSrcBinDir
