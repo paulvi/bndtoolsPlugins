@@ -445,13 +445,6 @@ class BndPluginConvention {
     }
     return value
   }
-  String bndThrow(String name) {
-    def value = project.bnd.get(name)
-    if (value == null) {
-      throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
-    }
-    return value
-  }
 }
 
 /* Save class into properties of project applying this file. */

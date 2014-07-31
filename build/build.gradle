@@ -12,6 +12,14 @@ ext.bndEclipseAntRunner         = "org.eclipse.ant.core.antRunner"
 ext.bndEclipseCategoryPublisher = "org.eclipse.equinox.p2.publisher.CategoryPublisher"
 
 
+String bndThrow(String name) {
+  def value = project.bnd.get(name)
+  if (value == null) {
+    throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
+  }
+  return value
+}
+
 /*
  * Copy the bundle outputs of the specified projects into a directory
  */
