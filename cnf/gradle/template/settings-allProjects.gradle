@@ -43,9 +43,6 @@ ext.bndTestSrcDir                             = relativePath(rootProject.bndWork
 ext.bndTestSrcBinDir                          = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TESTBIN_DIR))
 ext.bndTargetDir                              = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
-/* Java compilation settings */
-ext.gradleBuildCompileFork                    = false
-
 /* Java test settings */
 ext.gradleBuildTestEnableAssertions           = true
 ext.gradleBuildTestIgnoreFailures             = false
