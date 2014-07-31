@@ -37,10 +37,6 @@ ext.bnd_defaultTask                           = 'jar'               /* comma sep
 ext.others_defaultTask                       = 'jar'               /* comma separated                              */
 
 /* Setup the bnd workspace defaults */
-ext.bndSrcDir                                 = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_SRC_DIR))
-ext.bndSrcBinDir                              = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_BIN_DIR))
-ext.bndTestSrcDir                             = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TESTSRC_DIR))
-ext.bndTestSrcBinDir                          = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TESTBIN_DIR))
 ext.bndTargetDir                              = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
 /* Java test settings */

@@ -752,15 +752,3 @@ sourceSets {
 apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")
 ```
 
-As an example, if the project should use the Maven layout, then add
-a ```build-settings.gradle``` file in the root directory of the project as
-shown below.
-
-```
-ext.bndSrcDir        = "src/main/java"
-ext.bndSrcBinDir     = "target/classes"
-ext.bndTestSrcDir    = "src/main/test"
-ext.bndTestSrcBinDir = "target/test-classes"
-ext.bndTargetDir     = "target"
-```
-
