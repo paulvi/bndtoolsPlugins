@@ -137,6 +137,30 @@ compileTestJava {
   }
 }
 
+processResources {
+  def srcDirs = sourceSets.main.resources.srcDirs
+  def outputDir = sourceSets.main.output.resourcesDir
+  inputs.files.each {
+    def input = it.absolutePath
+    srcDirs.each {
+      input -= it
+    }
+    outputs.file new File(outputDir, input)
+  }
+}
+
+processTestResources {
+  def srcDirs = sourceSets.test.resources.srcDirs
+  def outputDir = sourceSets.test.output.resourcesDir
+  inputs.files.each {
+    def input = it.absolutePath
+    srcDirs.each {
+      input -= it
+    }
+    outputs.file new File(outputDir, input)
+  }
+}
+
 jar {
   description 'Assemble the project bundles.'
   deleteAllActions() // Replace the standard jar task actions
