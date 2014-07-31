@@ -365,33 +365,34 @@ private boolean parseBoolean(String value) {
 }
 
 
-Object bndThrow(String key) {
-  def value = bndProject.getProperty(key, null)
-  if (value == null) {
-    throw new GradleException("Bnd property \"$key\" not found in project $project.name")
-  }
+String bnd(String name) {
+  def value = bndProject.getProperty(name, null)
   if (value instanceof String) {
     value = value.trim()
   }
   return value
 }
-Object bnd(String key, Object defaultValue) {
-  def value = bndProject.getProperty(key, null)
+Object bnd(String name, Object defaultValue) {
+  def value = bnd(name)
   if (value == null) {
     value = defaultValue
   }
-  if (value instanceof String) {
-    value = value.trim()
-  }
   return value
 }
-Object bndUnprocessed(String key, Object defaultValue) {
+Object bndUnprocessed(String name, Object defaultValue) {
   def value = bndProject.getUnprocessedProperty(name, null)
   if (value == null) {
     value = defaultValue
   }
   if (value instanceof String) {
     value = value.trim()
+  }
+  return value
+}
+String bndThrow(String name) {
+  def value = bnd(name)
+  if (value == null) {
+    throw new GradleException("Bnd property \"${name}\" not found in project ${project.name}")
   }
   return value
 }
