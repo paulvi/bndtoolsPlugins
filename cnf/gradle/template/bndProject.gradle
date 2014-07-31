@@ -33,10 +33,6 @@ buildscript {
  * Bnd Project
  */
 
-/* Declare that we're in the offline build */
-bndProject.setProperty('in.ant', 'true')
-bndProject.setProperty('environment', 'gradle')
-
 bndProject.prepare()
 if (!bndProject.isValid()) {
   checkErrors()

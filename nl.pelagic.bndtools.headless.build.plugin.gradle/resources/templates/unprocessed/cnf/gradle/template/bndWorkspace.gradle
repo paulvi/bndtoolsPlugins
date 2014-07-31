@@ -37,6 +37,9 @@ bndWorkspace.allProjects.each {
   it.setDelayRunDependencies(true)
 }
 
+/* Declare that we're in the offline build */
+bndWorkspace.setProperty(Constants.BNDDRIVER, 'gradle')
+
 /* Ensure that the bnd output goes to the console */
 bndWorkspace.addBasicPlugin(new ConsoleProgress());
 
