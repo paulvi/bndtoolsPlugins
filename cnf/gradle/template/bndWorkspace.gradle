@@ -32,6 +32,11 @@ if (bndWorkspace == null) {
   throw new GradleException("No bnd workspace found")
 }
 
+/* Delay run dependency evaluations since they may not yet be built */
+bndWorkspace.allProjects.each {
+  it.setDelayRunDependencies(true)
+}
+
 /* Ensure that the bnd output goes to the console */
 bndWorkspace.addBasicPlugin(new ConsoleProgress());
 
