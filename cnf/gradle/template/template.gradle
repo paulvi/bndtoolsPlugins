@@ -46,10 +46,10 @@ allprojects { project ->
 subprojects { project ->
   def bndProject = rootProject.bndWorkspace.getProject(project.projectDir)
   if (bndProject == null) {
-    assert(project.hasProperty("gradleBuildNonBndProjectsDefaultTasks"))
-
     /* Setup the default tasks */
-    defaultTasks = gradleBuildNonBndProjectsDefaultTasks
+    if (project.hasProperty('others_defaultTask')) {
+      defaultTasks = others_defaultTask.trim().split(/\s*,\s*/)
+    }
 
     /* Load the build customisations */
     apply from: rootProject.file("$rootProject.bndCnf/gradle/custom/nonBndProjects.gradle")
@@ -61,7 +61,7 @@ subprojects { project ->
     apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndProject.gradle")
 
     /* Override the javadoc bootclasspath */
-    ext.gradleBuildJavadocClassPathBoot = bndProject.bootclasspath.collect { it.file }
+    ext.gradleBuildJavadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }
 
     /* Add tasks that are relevant to Java projects */
     apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")

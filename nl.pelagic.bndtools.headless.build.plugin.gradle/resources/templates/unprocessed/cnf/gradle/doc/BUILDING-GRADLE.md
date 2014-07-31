@@ -340,8 +340,8 @@ The build has the following flow:
 
     * Gradle projects
 
-      * The default tasks are setup (specified by
-        the ```gradleBuildNonBndProjectsDefaultTasks``` property).
+      * The default tasks are setup (specified by the ```others_defaultTask```
+        property).
 
       * Build customisations are loaded from
         the ```cnf/gradle/custom/nonBndProjects.gradle``` file.
