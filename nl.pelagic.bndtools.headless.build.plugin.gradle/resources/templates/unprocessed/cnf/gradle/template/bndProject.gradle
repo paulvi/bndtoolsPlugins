@@ -70,14 +70,13 @@ targetCompatibility = javacTarget
 def javac = bnd('javac', 'javac')
 def javacProfile = bnd('javac.profile', '')
 def javacDebug = parseBoolean(bnd('javac.debug', 'on'))
-def bndVerbose = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
 def compileOptions = {
   if (javacDebug) {
     options.debugOptions.debugLevel = 'source,lines,vars'
   }
-  options.verbose = gradleBuildCompileVerbose
-  options.listFiles = bndVerbose
+  options.verbose = logger.isEnabled(LogLevel.DEBUG)
+  options.listFiles = logger.isEnabled(LogLevel.INFO)
   options.deprecation = gradleBuildCompileDeprecation
 
   if (javac != 'javac') {
