@@ -58,59 +58,43 @@ sourceSets {
     output.classesDir = output.resourcesDir = relativePath(bndProject.testOutput)
   }
 }
-ext.allSrcDirs                               = files(bndProject.allsourcepath)
-sourceCompatibility                          = bndThrow('javac.source')
-def javacTarget = bndThrow('javac.target')
-
-/* Setup java compiler classpaths */
-dependencies.add("compile"    , files(files(bndProject.buildpath.collect{ it.file })))
-dependencies.add("testCompile", files(files(bndProject.testpath.collect { it.file })))
-
-ext.bndClassPathBoot = files(bndProject.bootclasspath.collect{ it.file })
-if (!bndClassPathBoot.empty) {
-  def classPathBootAsPath = files(bndClassPathBoot).asPath
-  compileJava.options.compilerArgs          += ["-Xbootclasspath/p:$classPathBootAsPath"]
-  compileTestJava.options.compilerArgs      += ["-Xbootclasspath/p:$classPathBootAsPath"]
-  ext.gradleBuildCompileFork                 = true
+ext.allSrcDirs = files(bndProject.allsourcepath)
+sourceCompatibility = bnd('javac.source', sourceCompatibility)
+def javacTarget = bnd('javac.target', targetCompatibility)
+def bootclasspath = files(bndProject.bootclasspath.collect { it.file })
+if (javacTarget == 'jsr14') {
+  javacTarget = '1.5'
+  bootclasspath = files(bndProject.getBundle('ee.j2se', '1.5', null, ['strategy':'lowest']).file)
 }
-
-/* Setup java compiler options */
-if (javacTarget ==~ "^\\d+\\.\\d+\$") {
-  targetCompatibility                        = javacTarget
-} else {
-  compileJava.options.compilerArgs          += ["-target", javacTarget]
-  compileTestJava.options.compilerArgs      += ["-target", javacTarget]
-}
-def javac = bndThrow('javac')
+targetCompatibility = javacTarget
+def javac = bnd('javac', 'javac')
 def javacProfile = bnd('javac.profile', '')
-def javacDebug = parseBoolean(bndThrow('javac.debug'))
+def javacDebug = parseBoolean(bnd('javac.debug', 'on'))
 def bndVerbose = parseBoolean(bnd(Constants.VERBOSE, 'false'))
 
-compileJava.options.debug                    = javacDebug
-compileJava.options.listFiles                = bndVerbose
-compileJava.options.verbose                  = gradleBuildCompileVerbose
-compileJava.options.fork                     = gradleBuildCompileFork || (javac != 'javac')
-compileJava.options.deprecation              = gradleBuildCompileDeprecation
-compileJava.options.forkOptions.setExecutable(javac)
+def compileOptions = {
+  if (javacDebug) {
+    options.debugOptions.debugLevel = 'source,lines,vars'
+  }
+  options.verbose = gradleBuildCompileVerbose
+  options.listFiles = bndVerbose
+  options.deprecation = gradleBuildCompileDeprecation
 
-compileTestJava.options.debug                = javacDebug
-compileTestJava.options.listFiles            = bndVerbose
-compileTestJava.options.verbose              = gradleBuildCompileVerbose
-compileTestJava.options.fork                 = gradleBuildCompileFork || (javac != 'javac')
-compileTestJava.options.deprecation          = gradleBuildCompileDeprecation
-compileTestJava.options.forkOptions.setExecutable(javac)
-
-if (!javacProfile.empty) {
-  compileJava.options.compilerArgs          += ['-profile', javacProfile]
-  compileTestJava.options.compilerArgs      += ['-profile', javacProfile]
+  if (javac != 'javac') {
+    options.fork = true
+    options.forkOptions.executable = javac
+  }
+  if (!bootclasspath.empty) {
+    options.fork = true
+    options.bootClasspath = bootclasspath.asPath
+  }
+  if (!javacProfile.empty) {
+    options.compilerArgs += ['-profile', javacProfile]
+  }
 }
 
-
-/*
- * Setup tasks
- */
-
 compileJava {
+  configure compileOptions
   classpath = files(bndProject.buildpath.collect { it.file } - destinationDir)
   if (logger.isEnabled(LogLevel.INFO)) {
     doFirst {
@@ -139,6 +123,7 @@ compileJava {
 }
 
 compileTestJava {
+  configure compileOptions
   classpath = files(bndProject.testpath.collect { it.file } - destinationDir, compileJava.destinationDir, compileJava.classpath)
   if (preCompileRefresh) {
     doFirst {

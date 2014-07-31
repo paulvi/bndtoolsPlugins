@@ -66,7 +66,7 @@ subprojects { project ->
     apply from: rootProject.file("$rootProject.bndCnf/gradle/template/bndProject.gradle")
 
     /* Override the javadoc bootclasspath */
-    ext.gradleBuildJavadocClassPathBoot = bndClassPathBoot.asType(List)
+    ext.gradleBuildJavadocClassPathBoot = bndProject.bootclasspath.collect { it.file }
 
     /* Add tasks that are relevant to Java projects */
     apply from: rootProject.file("$rootProject.bndCnf/gradle/template/javaProject.gradle")
