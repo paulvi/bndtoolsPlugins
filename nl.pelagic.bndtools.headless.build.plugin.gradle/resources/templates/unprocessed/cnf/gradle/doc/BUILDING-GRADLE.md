@@ -367,11 +367,6 @@ The build has the following flow:
           Refer to the Gradle User Guide for more information on the Java
           plugin.
 
-        * The project layout is applied by loading
-          the ```cnf/gradle/template/bndLayout.gradle``` file, which
-          sets up relevant Gradle project directories and Java source sets
-          as dictated by the project's properties.
-
         * The Java compiler is configured by applying relevant properties
           to the source sets and their compiler options.
 
