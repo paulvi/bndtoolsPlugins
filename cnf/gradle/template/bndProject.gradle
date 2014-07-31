@@ -3,6 +3,8 @@
  *
  * The bnd classes must be available on the classpath for this script.
  *
+ * If the bndWorkspace property is set, it will be used for the bnd Workspace.
+ *
  * If the bnd_defaultTask property is set, it will be used for the the default
  * task.
  *
@@ -11,6 +13,7 @@
  *
  * See the BUILDING-GRADLE.md document in the root project for more details.
  */
+import aQute.bnd.build.Workspace
 import aQute.bnd.osgi.Constants
 
 
@@ -21,6 +24,20 @@ buildscript {
     classpath rootProject.bndBuildDependencies
   }
 }
+
+
+if (!project.hasProperty('bndWorkspace')) {
+  rootProject.ext.bndWorkspace = Workspace.getWorkspace(rootDir)
+  if (bndWorkspace == null) {
+    throw new GradleException("Unable to load bnd workspace ${rootDir}")
+  }
+  bndWorkspace.allProjects.each {
+    it.setDelayRunDependencies(true)
+  }
+  bndWorkspace.setProperty(Constants.BNDDRIVER, 'gradle')
+}
+
+
 
 
 bndProject.prepare()
