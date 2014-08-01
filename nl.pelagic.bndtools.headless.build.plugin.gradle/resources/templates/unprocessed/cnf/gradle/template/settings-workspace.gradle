@@ -13,7 +13,6 @@ assert(project == rootProject)
 assert(hasProperty('bndCnf'))
 
 
-ext.gradleBuildGradleVersion                = '2.0'
 
 ext.gradleBuildLoggingCaptureStandardOutput = LogLevel.WARN
 ext.gradleBuildLoggingLevel                 = LogLevel.WARN
