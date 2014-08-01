@@ -18,15 +18,22 @@ assert(            hasProperty('sourceSets'))
  * Java Project
  */
 
-/* Setup directories */
+/* Setup main directory */
 libsDirName           = gradleBuildLibsDirName
-testResultsDirName    = gradleBuildTestResultsDirName
-testReportDirName     = gradleBuildTestReportDirName
+
+/* Setup result and report directories */
+if (!hasProperty('javaTestReportDirName ')) ext.javaTestReportDirName  = 'tests/html'        /* relative to build directory / reports   */
+if (!hasProperty('javaTestResultsDirName')) ext.javaTestResultsDirName = 'reports/tests/xml' /* relative to build directory             */
+testResultsDirName    = javaTestResultsDirName
+testReportDirName     = javaTestReportDirName
 
 /* Setup test options */
-test.enableAssertions = gradleBuildTestEnableAssertions
-test.ignoreFailures   = gradleBuildTestIgnoreFailures
-test.maxParallelForks = gradleBuildTestMaxParallelForks
+if (!hasProperty('javaTestEnableAssertions')) ext.javaTestEnableAssertions = true
+if (!hasProperty('javaTestIgnoreFailures'  )) ext.javaTestIgnoreFailures   = false
+if (!hasProperty('javaTestMaxParallelForks')) ext.javaTestMaxParallelForks = 1
+test.enableAssertions = javaTestEnableAssertions
+test.ignoreFailures   = javaTestIgnoreFailures
+test.maxParallelForks = javaTestMaxParallelForks
 
 /* Setup javadoc options */
 apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaDoc.gradle")
