@@ -9,10 +9,8 @@
  * Define the build settings and load overrides.
  */
 
-import aQute.bnd.osgi.Constants
-
-
 assert(rootProject.hasProperty('bndBuildDependencies'))
+assert(rootProject.hasProperty('bndCnf'))
 
 
 /* Setup the build dependencies */
@@ -21,10 +19,6 @@ buildscript {
     classpath rootProject.bndBuildDependencies
   }
 }
-
-
-assert(rootProject.hasProperty('bndCnf'              ))
-assert(rootProject.hasProperty('bndWorkspaceDefaults'))
 
 
 /* Gradle directory settings */
