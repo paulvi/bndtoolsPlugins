@@ -12,59 +12,62 @@
  *       file can be applied.
  */
 
-assert(project != rootProject                           )
-assert(hasProperty('gradleBuildJavadocAuthor'          ))
-assert(hasProperty('gradleBuildJavadocBreakIterator'   ))
-assert(hasProperty('gradleBuildJavadocClassPathBoot'   ))
-assert(hasProperty('gradleBuildJavadocDir'             ))
-assert(hasProperty('gradleBuildJavadocDocFilesSubDirs' ))
-assert(hasProperty('gradleBuildJavadocEncoding'        ))
-assert(hasProperty('gradleBuildJavadocFailOnError'     ))
-assert(hasProperty('gradleBuildJavadocMaxMemory'       ))
-assert(hasProperty('gradleBuildJavadocMemberLevel'     ))
-assert(hasProperty('gradleBuildJavadocNoComment'       ))
-assert(hasProperty('gradleBuildJavadocNoDeprecated'    ))
-assert(hasProperty('gradleBuildJavadocNoDeprecatedList'))
-assert(hasProperty('gradleBuildJavadocNoHelp'          ))
-assert(hasProperty('gradleBuildJavadocNoIndex'         ))
-assert(hasProperty('gradleBuildJavadocNoNavBar'        ))
-assert(hasProperty('gradleBuildJavadocNoSince'         ))
-assert(hasProperty('gradleBuildJavadocNoTimestamp'     ))
-assert(hasProperty('gradleBuildJavadocNoTree'          ))
-assert(hasProperty('gradleBuildJavadocSplitIndex'      ))
-assert(hasProperty('gradleBuildJavadocUse'             ))
-assert(hasProperty('gradleBuildJavadocVerbose'         ))
-assert(hasProperty('gradleBuildJavadocVersion'         ))
-assert(hasProperty('sourceSets'                        ))
+assert(project != rootProject   )
+assert(hasProperty('sourceSets'))
 
 
-javadoc.destinationDir                     = new File(buildDir, "${gradleBuildJavadocDir}")
-javadoc.source                             = sourceSets.main.allJava
-javadoc.title                              = "${project.name}"
-javadoc.failOnError                        = gradleBuildJavadocFailOnError
-javadoc.maxMemory                          = gradleBuildJavadocMaxMemory
-javadoc.verbose                            = gradleBuildJavadocVerbose
+if (!hasProperty('javadocDir'             )) ext.javadocDir              = 'javadoc' /* relative to bnd target directory             */
+if (!hasProperty('javadocFailOnError'     )) ext.javadocFailOnError      = true
+if (!hasProperty('javadocMaxMemory'       )) ext.javadocMaxMemory        = '256M'
+if (!hasProperty('javadocVerbose'         )) ext.javadocVerbose          = false
+
+if (!hasProperty('javadocClassPathBoot'   )) ext.javadocClassPathBoot    = new LinkedList<File>()
+if (!hasProperty('javadocMemberLevel'     )) ext.javadocMemberLevel      = 'PUBLIC'  /* PRIVATE, PROTECTED, PACKAGE, PUBLIC */
+if (!hasProperty('javadocEncoding'        )) ext.javadocEncoding         = 'UTF-8'
+if (!hasProperty('javadocAuthor'          )) ext.javadocAuthor           = true
+if (!hasProperty('javadocBreakIterator'   )) ext.javadocBreakIterator    = true
+if (!hasProperty('javadocDocFilesSubDirs' )) ext.javadocDocFilesSubDirs  = true
+if (!hasProperty('javadocNoComment'       )) ext.javadocNoComment        = false
+if (!hasProperty('javadocNoDeprecated'    )) ext.javadocNoDeprecated     = false
+if (!hasProperty('javadocNoDeprecatedList')) ext.javadocNoDeprecatedList = false
+if (!hasProperty('javadocNoHelp'          )) ext.javadocNoHelp           = false
+if (!hasProperty('javadocNoIndex'         )) ext.javadocNoIndex          = false
+if (!hasProperty('javadocNoNavBar'        )) ext.javadocNoNavBar         = false
+if (!hasProperty('javadocNoSince'         )) ext.javadocNoSince          = false
+if (!hasProperty('javadocNoTimestamp'     )) ext.javadocNoTimestamp      = false
+if (!hasProperty('javadocNoTree'          )) ext.javadocNoTree           = false
+if (!hasProperty('javadocSplitIndex'      )) ext.javadocSplitIndex       = true
+if (!hasProperty('javadocUse'             )) ext.javadocUse              = true
+if (!hasProperty('javadocVersion'         )) ext.javadocVersion          = true
+
+
+javadoc.title                    = "${project.name}"
+javadoc.source                   = sourceSets.main.allJava
+javadoc.destinationDir           = new File(buildDir, "${javadocDir}")
+javadoc.failOnError              = javadocFailOnError
+javadoc.maxMemory                = javadocMaxMemory
+javadoc.verbose                  = javadocVerbose
 
 configure(javadoc.options) {
-  docTitle                                 = "${project.name}"
-  windowTitle                              = "${project.name}"
+  docTitle                       = "${project.name}"
+  windowTitle                    = "${project.name}"
 
-  author                                   = gradleBuildJavadocAuthor
-  bootClasspath                            = gradleBuildJavadocClassPathBoot
-  breakIterator                            = gradleBuildJavadocBreakIterator
-  docFilesSubDirs                          = gradleBuildJavadocDocFilesSubDirs
-  encoding                                 = gradleBuildJavadocEncoding
-  memberLevel                              = gradleBuildJavadocMemberLevel
-  noComment                                = gradleBuildJavadocNoComment
-  noDeprecated                             = gradleBuildJavadocNoDeprecated
-  noDeprecatedList                         = gradleBuildJavadocNoDeprecatedList
-  noHelp                                   = gradleBuildJavadocNoHelp
-  noIndex                                  = gradleBuildJavadocNoIndex
-  noNavBar                                 = gradleBuildJavadocNoNavBar
-  noSince                                  = gradleBuildJavadocNoSince
-  noTimestamp                              = gradleBuildJavadocNoTimestamp
-  noTree                                   = gradleBuildJavadocNoTree
-  splitIndex                               = gradleBuildJavadocSplitIndex
-  use                                      = gradleBuildJavadocUse
-  version                                  = gradleBuildJavadocVersion
+  bootClasspath                  = javadocClassPathBoot
+  memberLevel                    = javadocMemberLevel
+  encoding                       = javadocEncoding
+  author                         = javadocAuthor
+  breakIterator                  = javadocBreakIterator
+  docFilesSubDirs                = javadocDocFilesSubDirs
+  noComment                      = javadocNoComment
+  noDeprecated                   = javadocNoDeprecated
+  noDeprecatedList               = javadocNoDeprecatedList
+  noHelp                         = javadocNoHelp
+  noIndex                        = javadocNoIndex
+  noNavBar                       = javadocNoNavBar
+  noSince                        = javadocNoSince
+  noTimestamp                    = javadocNoTimestamp
+  noTree                         = javadocNoTree
+  splitIndex                     = javadocSplitIndex
+  use                            = javadocUse
+  version                        = javadocVersion
 }

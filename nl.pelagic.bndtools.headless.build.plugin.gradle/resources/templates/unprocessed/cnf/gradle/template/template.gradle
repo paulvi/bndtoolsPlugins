@@ -73,7 +73,7 @@ subprojects { project ->
     plugins.apply BndPlugin
 
     /* Override the javadoc bootclasspath */
-    ext.gradleBuildJavadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }
+    ext.javadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }
 
     /* Add tasks that are relevant to Java projects */
     apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaProject.gradle")

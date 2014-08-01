@@ -41,30 +41,6 @@ ext.gradleBuildTestEnableAssertions           = true
 ext.gradleBuildTestIgnoreFailures             = false
 ext.gradleBuildTestMaxParallelForks           = 1
 
-/* Java documentation settings */
-ext.gradleBuildJavadocAuthor                  = true
-ext.gradleBuildJavadocBreakIterator           = true
-ext.gradleBuildJavadocClassPathBoot           = new LinkedList<File>()
-ext.gradleBuildJavadocDir                     = 'javadoc'           /* relative to bnd target directory             */
-ext.gradleBuildJavadocDocFilesSubDirs         = true
-ext.gradleBuildJavadocEncoding                = 'UTF-8'
-ext.gradleBuildJavadocFailOnError             = true
-ext.gradleBuildJavadocMaxMemory               = '256M'
-ext.gradleBuildJavadocMemberLevel             = 'PUBLIC'            /* PRIVATE, PROTECTED, PACKAGE, PUBLIC */
-ext.gradleBuildJavadocNoComment               = false
-ext.gradleBuildJavadocNoDeprecated            = false
-ext.gradleBuildJavadocNoDeprecatedList        = false
-ext.gradleBuildJavadocNoHelp                  = false
-ext.gradleBuildJavadocNoIndex                 = false
-ext.gradleBuildJavadocNoNavBar                = false
-ext.gradleBuildJavadocNoSince                 = false
-ext.gradleBuildJavadocNoTimestamp             = false
-ext.gradleBuildJavadocNoTree                  = false
-ext.gradleBuildJavadocSplitIndex              = true
-ext.gradleBuildJavadocUse                     = true
-ext.gradleBuildJavadocVerbose                 = false
-ext.gradleBuildJavadocVersion                 = true
-
 /* jacoco settings */
 ext.gradleBuildJacocoReportsDir               = 'reports/jacoco/test' /* relative to bnd target directory           */
 ext.gradleBuildJacocoXmlReport                = true
