@@ -65,16 +65,6 @@ ext.gradleBuildJavadocUse                     = true
 ext.gradleBuildJavadocVerbose                 = false
 ext.gradleBuildJavadocVersion                 = true
 
-/* Findbugs settings */
-ext.gradleBuildFindbugsIncludesFile           = "${rootProject.rootDir}/${rootProject.bndCnf}/findbugs/findbugs.include.xml"
-ext.gradleBuildFindbugsExcludesFile           = "${rootProject.rootDir}/${rootProject.bndCnf}/findbugs/findbugs.exclude.xml"
-ext.gradleBuildFindbugsEffort                 = 'default'           /* min, default (default),max                   */
-ext.gradleBuildFindbugsIgnoreFailures         = true
-ext.gradleBuildFindbugsPropertyXmlReports     = 'CI'
-ext.gradleBuildFindbugsReportLevel            = 'medium'            /* low, medium (default), high                  */
-ext.gradleBuildFindbugsReportsDir             = 'findbugs'          /* relative to bnd target directory             */
-ext.gradleBuildFindbugsToolVersion            = '2.0.3'
-
 /* jacoco settings */
 ext.gradleBuildJacocoReportsDir               = 'reports/jacoco/test' /* relative to bnd target directory           */
 ext.gradleBuildJacocoXmlReport                = true
