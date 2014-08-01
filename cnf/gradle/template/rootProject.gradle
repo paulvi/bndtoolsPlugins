@@ -10,25 +10,21 @@
  */
 
 assert(project == rootProject)
-
-
-/*
- * Root Project
- */
-
-assert(hasProperty('bndCnf'))
-
-
-/* Load the default build settings for the root project */
-apply from: file("${bndCnf}/gradle/template/settings-rootProject.gradle")
-
-
+assert(hasProperty('bndCnf'                            ))
 assert(hasProperty('gradleBuildGradleVersion'          ))
-assert(hasProperty('gradleBuildRootProjectDefaultTasks'))
+
+
+if (!hasProperty('root_defaultTask')) ext.root_defaultTask = 'jar'
+
+
+/* Load the overrides */
+apply from: file("${bndCnf}/gradle/custom/settings-rootProject.gradle")
 
 
 /* Setup the default tasks */
-defaultTasks = gradleBuildRootProjectDefaultTasks
+if (project.hasProperty('root_defaultTask')) {
+  defaultTasks = root_defaultTask.trim().split(/\s*,\s*/)
+}
 
 
 /*

@@ -405,7 +405,7 @@ The build has the following flow:
     * Gradle projects
 
       * The default tasks are setup (specified by the ```others_defaultTask```
-        property).
+        property). This is a comma separated list of task names.
 
       * Build customisations are loaded from
         the ```cnf/gradle/custom/nonBndProjects.gradle``` file.
@@ -413,7 +413,7 @@ The build has the following flow:
     * bnd projects
 
       * The default tasks are setup (specified by the ```bnd_defaultTask```
-        property).
+        property).  This is a comma separated list of task names.
 
       * The bnd project build is setup by loading
         the ```cnf/gradle/template/bndProject.gradle``` file.
@@ -453,13 +453,11 @@ The build has the following flow:
     the ```cnf/gradle/template/rootProject.gradle```, which performs the
     actions described below.
 
-    * Load the build settings from
-      the ```cnf/gradle/template/settings-rootProject.gradle``` file, which
-      then loads overrides from
+    * Load the build settings overrides from
       the ```cnf/gradle/custom/settings-rootProject.gradle``` file.
 
-    * The default tasks are setup (specified by
-      the ```gradleBuildRootProjectDefaultTasks``` property).
+    * The default tasks are setup (specified by the ```root_defaultTask```
+      property).  This is a comma separated list of task names.
 
     * The wrapper and distclean tasks are setup.
 

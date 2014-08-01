@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The property ```gradleBuildRootProjectDefaultTasks``` was renamed
+  to ```root_defaultTask``` and is now a comma-separated list of tasks.
 * The bindex and repoindex properties for the jar and the main class can no
   longer be overridden.
 * The ```gradleBuildLibsDirName...``` property was renamed
