@@ -18,7 +18,7 @@ ext.gradleBuildGradleVersion                = '2.0'
 ext.gradleBuildLoggingCaptureStandardOutput = LogLevel.WARN
 ext.gradleBuildLoggingLevel                 = LogLevel.WARN
 
-ext.gradleBuildBuildProperties              = "${bndCnf}/build.gradle.properties"
+ext.gradleBuildBuildProperties              = "${bndCnf}/gradle/build.gradle.properties"
 ext.gradleBuildDependenciesCacheDir         = "${bndCnf}/cache/gradle"
 
 
