@@ -35,13 +35,6 @@ ext.gradleBuildTestEnableAssertions           = true
 ext.gradleBuildTestIgnoreFailures             = false
 ext.gradleBuildTestMaxParallelForks           = 1
 
-/* jacoco settings */
-ext.gradleBuildJacocoReportsDir               = 'reports/jacoco/test' /* relative to bnd target directory           */
-ext.gradleBuildJacocoXmlReport                = true
-ext.gradleBuildJacocoCsvReport                = false
-ext.gradleBuildJacocoHtmlDir                  = 'html'               /* relative to gradleBuildJacocoReportsDir     */
-ext.gradleBuildJacocoToolVersion              = '0.7.1.201405082137' /* set when you don't want the default         */
-
 /* Export task settings */
 ext.gradleBuildExportDir                      = 'export'            /* relative to bnd target directory             */
 
