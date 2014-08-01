@@ -31,14 +31,12 @@ if (project.hasProperty('root_defaultTask')) {
  * Setup tasks
  */
 
-/* Create a gradle wrapper */
-task wrapper(type: Wrapper) {
-  description     'Download Gradle and generate wrapper scripts.'
-  group           'Build Setup'
-
+/* Setup the gradle wrapper */
+wrapper {
   gradleVersion = rootGradleVersion
   jarFile       = file('.gradle-wrapper/gradle-wrapper.jar')
 }
+
 
 distclean.doLast {
   delete("${bndCnf}/cache")
