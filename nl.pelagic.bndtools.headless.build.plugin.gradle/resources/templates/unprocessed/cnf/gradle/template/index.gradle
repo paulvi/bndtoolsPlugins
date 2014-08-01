@@ -9,11 +9,24 @@
  * Bundle repository indexing tasks.
  */
 
-assert(hasProperty('gradleBuildIndexDirectories'    ))
-assert(hasProperty('gradleBuildIndexOBRUncompressed'))
-assert(hasProperty('gradleBuildIndexOBRCompressed'  ))
-assert(hasProperty('gradleBuildIndexR5Uncompressed' ))
-assert(hasProperty('gradleBuildIndexR5Compressed'   ))
+
+/*
+ * Syntax:
+ * ext.indexDirectories = \
+ *   '<root directory>;<name>;<name of fileTree property>, ...'
+ *
+ *  root directory           : mandatory.
+ *  name                     : optional. if not specified then the basename of
+ *                             the root directory is used.
+ *  name of fileTree variable: optional. if not specified then all *.jar files
+ *                             below the root directory will be indexed
+ */
+if (!hasProperty('indexDirectories'    )) ext.indexDirectories     = ''
+
+if (!hasProperty('indexOBRUncompressed')) ext.indexOBRUncompressed = false
+if (!hasProperty('indexOBRCompressed'  )) ext.indexOBRCompressed   = false
+if (!hasProperty('indexR5Uncompressed' )) ext.indexR5Uncompressed  = false
+if (!hasProperty('indexR5Compressed'   )) ext.indexR5Compressed    = true
 
 
 /*
@@ -36,7 +49,7 @@ FileTree getFileTreeInstance(String propertyName) {
  * Create repository indexes
  *
  * Syntax:
- * ext.gradleBuildIndexDirectories = \
+ * ext.indexDirectories = \
  *   '<root directory>;<name>;<name of fileTree property>, ...'
  *
  *  root directory           : mandatory.
@@ -46,7 +59,7 @@ FileTree getFileTreeInstance(String propertyName) {
  *                             below the root directory will be indexed
  */
 void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
-  assert(hasProperty('gradleBuildIndexDirectories'))
+  assert(hasProperty('indexDirectories'))
 
   def indexerClasspath
   def indexerMain
@@ -64,11 +77,11 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
     indexerMain         =                   rootProject.gradleBuildRepoindexMain
   }
 
-  gradleBuildIndexDirectories.trim().split('\\s*,\\s*').each { indexDirectory ->
+  indexDirectories.trim().split('\\s*,\\s*').each { indexDirectory ->
     def parts              = indexDirectory.trim().split('\\s*;\\s*')
 
     if (parts.length > 3) {
-        throw new GradleException("Too many parts to the indexing configuration (${gradleBuildIndexDirectories})")
+        throw new GradleException("Too many parts to the indexing configuration (${indexDirectories})")
     }
 
     if (parts.length > 1) {
@@ -166,39 +179,21 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
 }
 
 
-/*
- * Setup tasks
- */
-
 task index {
-  description "Generate OBR and R5 repository indexes (set the ${gradleBuildIndexDirectoriesProperty} property)"
-  group       'Release'
+  description 'Generate OBR and R5 repository indexes (set the indexDirectories property)'
+  group 'release'
+  enabled !indexDirectories.isEmpty() &&
+            (   indexOBRUncompressed
+             || indexOBRCompressed
+             || indexR5Uncompressed
+             || indexR5Compressed)
 
   doLast {
-    if (gradleBuildIndexOBRUncompressed || gradleBuildIndexOBRCompressed) {
-      createIndexes(false, gradleBuildIndexOBRUncompressed, gradleBuildIndexOBRCompressed)
+    if (indexOBRUncompressed || indexOBRCompressed) {
+      createIndexes(false, indexOBRUncompressed, indexOBRCompressed)
     }
-    if (gradleBuildIndexR5Uncompressed  || gradleBuildIndexR5Compressed ) {
-      createIndexes(true , gradleBuildIndexR5Uncompressed , gradleBuildIndexR5Compressed )
+    if (indexR5Uncompressed  || indexR5Compressed ) {
+      createIndexes(true , indexR5Uncompressed , indexR5Compressed )
     }
   }
 }
-
-
-/*
- * Setup task dependencies
- */
-
-
-/*
- * Setup task skipping
- */
-
-ext.gradleBuildDoIndex =
-  !gradleBuildIndexDirectories.isEmpty() &&
-   (gradleBuildIndexOBRUncompressed
-    || gradleBuildIndexOBRCompressed
-    || gradleBuildIndexR5Uncompressed
-    || gradleBuildIndexR5Compressed  )
-
-index.onlyIf    { gradleBuildDoIndex }

@@ -512,7 +512,7 @@ This task can create one or more of the following:
 These indexes are generated from/for one or more configured directories.
 
 Which directories are indexed is controlled by
-the ```gradleBuildIndexDirectories``` property. Its **syntax** is:
+the ```indexDirectories``` property. Its **syntax** is:
 
 ```
 <root directory>;<name>;<name of fileTree property>, ...
@@ -543,18 +543,18 @@ or when no OBR indexes **and** no R5 indexes are configured to be created
 
 OBR index generation is controlled by the properties
 
-* &nbsp;```gradleBuildIndexOBRUncompressed```: if set to ```true``` then an
+* &nbsp;```indexOBRUncompressed```: if set to ```true``` then an
   uncompressed OBR index is generated.
 
-* &nbsp;```gradleBuildIndexOBRCompressed``` if set to ```true``` then a
+* &nbsp;```indexOBRCompressed``` if set to ```true``` then a
   compressed OBR index is generated.
 
 R5 index generation is controlled by the properties
 
-* &nbsp;```gradleBuildIndexR5Uncompressed```: if set to ```true``` then an
+* &nbsp;```indexR5Uncompressed```: if set to ```true``` then an
   uncompressed R5 index is generated.
 
-* &nbsp;```gradleBuildIndexR5Compressed``` if set to ```true``` then a
+* &nbsp;```indexR5Compressed``` if set to ```true``` then a
   compressed R5 index is generated.
 
 ### cleanNeeded
@@ -695,13 +695,13 @@ to generate indexes named ```example project```.
 assert(project != rootProject)
 
 /* Index task overrides */
-ext.bndDistIndexRoot                = 'bundles'
-ext.bndDistIndexDirectories         = fileTree(bndDistIndexRoot).include('**/*.jar').exclude('**/*-latest.jar')
-ext.gradleBuildIndexDirectories     = "${bndDistIndexRoot};example project;bndDistIndexDirectories"
-ext.gradleBuildIndexOBRUncompressed = true
-ext.gradleBuildIndexOBRCompressed   = true
-ext.gradleBuildIndexR5Uncompressed  = true
-ext.gradleBuildIndexR5Compressed    = true
+ext.bndDistIndexRoot        = 'bundles'
+ext.bndDistIndexDirectories = fileTree(bndDistIndexRoot).include('**/*.jar').exclude('**/*-latest.jar')
+ext.indexDirectories        = "${bndDistIndexRoot};example project;bndDistIndexDirectories"
+ext.indexOBRUncompressed    = true
+ext.indexOBRCompressed      = true
+ext.indexR5Uncompressed     = true
+ext.indexR5Compressed       = true
 ```
 
 ## Bnd

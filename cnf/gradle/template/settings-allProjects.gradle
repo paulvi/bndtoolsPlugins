@@ -34,7 +34,7 @@ ext.gradleBuildTestResultsDirName             = 'reports/tests/xml' /* relative 
 
 /* Gradle default task settings */
 ext.bnd_defaultTask                           = 'jar'               /* comma separated                              */
-ext.others_defaultTask                       = 'jar'               /* comma separated                              */
+ext.others_defaultTask                        = 'jar'               /* comma separated                              */
 
 /* Java test settings */
 ext.gradleBuildTestEnableAssertions           = true
@@ -50,18 +50,6 @@ ext.gradleBuildJacocoToolVersion              = '0.7.1.201405082137' /* set when
 
 /* Export task settings */
 ext.gradleBuildExportDir                      = 'export'            /* relative to bnd target directory             */
-
-/* Index task settings */
-ext.gradleBuildIndexOBRUncompressed           = false
-ext.gradleBuildIndexOBRCompressed             = false
-ext.gradleBuildIndexR5Uncompressed            = false
-ext.gradleBuildIndexR5Compressed              = true
-
-/* ext.gradleBuildIndexDirectories = \
- *   '<root directory>;<name>;<name of fileTree property>, ...' */
-ext.gradleBuildIndexDirectories               = ''
-ext.gradleBuildIndexDirectoriesProperty       = 'gradleBuildIndexDirectories'
-
 
 /* Load the overrides */
 apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")

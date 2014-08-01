@@ -8,7 +8,7 @@ ext.bndBuildP2IndexRootPelagic = "$p2TargetDir/p2/$p2SubDir"
 ext.bndBuildP2IndexTreePelagic = fileTree("$bndBuildP2IndexRootPelagic/plugins").include("**/*.jar")
 
 /* Index task overrides */
-ext.gradleBuildIndexDirectories = \
+ext.indexDirectories = \
   "$bndBuildP2IndexRootPelagic;Bndtools Plugins by Pelagic;bndBuildP2IndexTreePelagic"
 
 /* Default tasks override */
