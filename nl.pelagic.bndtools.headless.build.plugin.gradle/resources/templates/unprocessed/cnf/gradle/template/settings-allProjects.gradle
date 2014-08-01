@@ -22,9 +22,9 @@ buildscript {
 
 
 /* Gradle directory settings */
-ext.gradleBuildLibsDirName                    = '.'                 /* relative to bnd target directory             */
-ext.gradleBuildTestReportDirName              = 'tests/html'        /* relative to bnd target directory / reports   */
-ext.gradleBuildTestResultsDirName             = 'reports/tests/xml' /* relative to bnd target directory             */
+ext.gradleBuildLibsDirName                    = '.'                 /* relative to build directory             */
+ext.gradleBuildTestReportDirName              = 'tests/html'        /* relative to build directory / reports   */
+ext.gradleBuildTestResultsDirName             = 'reports/tests/xml' /* relative to build directory             */
 
 /* Java test settings */
 ext.gradleBuildTestEnableAssertions           = true
@@ -32,7 +32,7 @@ ext.gradleBuildTestIgnoreFailures             = false
 ext.gradleBuildTestMaxParallelForks           = 1
 
 /* Export task settings */
-ext.gradleBuildExportDir                      = 'export'            /* relative to bnd target directory             */
+ext.gradleBuildExportDir                      = 'export'            /* relative to build directory             */
 
 /* Load the overrides */
 apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")

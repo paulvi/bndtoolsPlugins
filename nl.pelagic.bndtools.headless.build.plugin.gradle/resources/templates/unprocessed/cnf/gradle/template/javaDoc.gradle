@@ -16,7 +16,7 @@ assert(project != rootProject   )
 assert(hasProperty('sourceSets'))
 
 
-if (!hasProperty('javadocDir'             )) ext.javadocDir              = 'javadoc' /* relative to bnd target directory             */
+if (!hasProperty('javadocDir'             )) ext.javadocDir              = 'javadoc' /* relative to build directory         */
 if (!hasProperty('javadocFailOnError'     )) ext.javadocFailOnError      = true
 if (!hasProperty('javadocMaxMemory'       )) ext.javadocMaxMemory        = '256M'
 if (!hasProperty('javadocVerbose'         )) ext.javadocVerbose          = false
