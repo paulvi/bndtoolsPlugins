@@ -378,12 +378,12 @@ The build has the following flow:
     iterating over all included projects and performing the actions described
     below.
 
-    * Load the build settings from
-      the ```cnf/gradle/template/settings-allProjects.gradle``` file, which
-      then loads overrides from
+    * Load the build settings overrides from
       the ```cnf/gradle/custom/settings-allProjects.gradle``` file.
-      Finally, the project specific ```build-settings.gradle``` file is loaded
-      if it's present.
+
+    * Load project specific build settings overrides from
+      the ```build-settings.gradle``` file in the project directory if it's
+      present.
 
       A project specific ```build-settings.gradle``` is placed in the
       root of an included project and allows overrides of the build

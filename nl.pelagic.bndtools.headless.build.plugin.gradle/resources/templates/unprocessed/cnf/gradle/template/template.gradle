@@ -37,8 +37,14 @@ apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.grad
  */
 
 allprojects { project ->
-  /* Load the build settings */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/settings-allProjects.gradle")
+  /* Load the build settings overrides */
+  apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")
+
+  /* Allow projects to individually override build settings */
+  def settingsFile = file('build-settings.gradle')
+  if (settingsFile.exists()) {
+    apply from: settingsFile
+  }
 
   /* The Gradle build directory */
   project.buildDir = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
