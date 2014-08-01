@@ -5,9 +5,73 @@ This bnd workspace is setup to be built with [Gradle](http://www.gradle.org).
 The build is setup in such a way that bnd projects are automatically
 included in the build; no editing of Gradle build scripts is needed.
 
+# <a name="History"/>History
+
+The bndtools Gradle plugin was originally delivered with bndtools 2.3.0 but has
+since been replaced with a different implemention in bndtools. The plugin was
+thereon forked and now lives on through the support
+of [Pelagic](http://www.pelagic.nl).
+
+The project is fully Open Source and can be found
+at [GitHub](https://github.com/fhuberts/bndtoolsPlugins).
+
+Contributions are welcome!
+
+# <a name="TableOfContents"/>Table Of Contents
+
+* [Introduction](#Introduction)
+* [History](#History)
+* [Table Of Contents](#TableOfContents)
+* [Installing Gradle](#InstallingGradle)
+  * [On The System](#InstallingGradleOnTheSystem)
+  * [In The Workspace](#InstallingGradleInTheWorkspace)
+* [Configuring The Gradle Daemon](#ConfiguringTheGradleDaemon)
+* [Projects & Workspaces](#ProjectsAndWorkspaces)
+  * [Root Project](#ProjectsAndWorkspacesRootProject)
+  * [Sub-Projects](#ProjectsAndWorkspacesSubProjects)
+  * [Gradle Workspace](#ProjectsAndWorkspacesGradleWorkspace)
+  * [Bnd Workspace](#ProjectsAndWorkspacesBndWorkspace)
+  * [Configuration Project](#ProjectsAndWorkspacesCnf)
+  * [Bnd Project Layout](#ProjectsAndWorkspacesBndProjectLayout)
+* [Build Flow](#BuildFlow)
+* [Build Tasks](#BuildTasks)
+  * [Bnd Projects](#BuildTasksBndProjects)
+    * [jar](#BuildTasksJar)
+    * [check](#BuildTasksCheck)
+    * [checkNeeded](#BuildTasksCheckNeeded)
+    * [release](#BuildTasksRelease)
+    * [releaseNeeded](#BuildTasksReleaseNeeded)
+    * [export.<name>](#BuildTasksExportName)
+    * [export](#BuildTasksExport)
+    * [echo](#BuildTasksEcho)
+    * [bndproperties](#BuildTasksBndProperties)
+    * [clean](#BuildTasksClean)
+  * [All Projects](#BuildTasksAllProjects)
+    * [index](#BuildTasksIndex)
+    * [cleanNeeded](#BuildTasksCleanNeeded)
+    * [distClean](#BuildTasksDistClean)
+    * [distcleanNeeded](#BuildTasksDistCleanNeeded)
+  * [Java Projects](#BuildTasksJavaProjects)
+    * [Findbugs](#BuildTasksFindbugs)
+      * [findbugsMain](#BuildTasksFindbugsMain)
+      * [findbugsTest](#BuildTasksFindbugsTest)
+      * [findbugs](#BuildTasksfindbugs)
+      * [findbugstest](#BuildTasksfindbugstest)
+    * [javadoc](#BuildTasksJavadoc)
+  * [Root Project](#BuildTasksRootProject)
+    * [wrapper](#BuildTasksWrapper)
+* [Build Options](#BuildOptions)
+  * [Bnd Projects](#BuildOptionsBndProjects)
+  * [Findbugs](#BuildOptionsFindbugs)
+* [Customising The Build](#CustomisingTheBuild)
+  * [Gradle](#CustomisingTheBuildGradle)
+  * [Bnd](#CustomisingTheBuildBnd)
+* [Adding Java Projects To The Build](#AddingJavaProjectsToTheBuild)
+
+
 # <a name="InstallingGradle"/>Installing Gradle
 
-## On The System
+## <a name="InstallingGradleOnTheSystem"/>On The System
 
 Obviously, Gradle must be installed on the system before the workspace can be
 built with Gradle.
@@ -27,7 +91,7 @@ This description assumes a Linux machine. Details may vary on other OSes.
   ln -s /usr/local/lib/gradle-1.11/bin/gradle /usr/local/bin/
   ```
 
-## <a name="InstallingGradleWorkspace"/>In The Workspace
+## <a name="InstallingGradleInTheWorkspace"/>In The Workspace
 
 Gradle can be installed in the workspace so that the workspace can be built on
 systems that do not have Gradle installed (like build servers).
@@ -46,7 +110,7 @@ The procedure is:
   system.
 
 
-# <a name="GradleDaemon"/>Configuring The Gradle Daemon
+# <a name="ConfiguringTheGradleDaemon"/>Configuring The Gradle Daemon
 
 Startup times of a Gradle build can be much improved by using the Gradle daemon.
 
@@ -62,9 +126,9 @@ org.gradle.daemon=true
 ```
 
 
-# <a name="Projects"/>Projects & Workspaces
+# <a name="ProjectsAndWorkspaces"/>Projects & Workspaces
 
-## <a name="RootProject"/>Root Project
+## <a name="ProjectsAndWorkspacesRootProject"/>Root Project
 
 The Gradle root project is the directory that contains the ```settings.gradle```
 file.
@@ -73,7 +137,7 @@ Gradle locates the root project by first looking for the ```settings.gradle```
 file in the directory from which it was run, and - when not found - then by
 searching up in the directory tree.
 
-## <a name="SubProjects"/>Sub-Projects
+## <a name="ProjectsAndWorkspacesSubProjects"/>Sub-Projects
 
 The build will include all projects in the build that are:
 
@@ -83,12 +147,12 @@ The build will include all projects in the build that are:
 * **Gradle** projects: Directories directly below the root project with
                        a ```build.gradle``` file.
 
-## <a name="GradleWorkspace"/>Gradle Workspace
+## <a name="ProjectsAndWorkspacesGradleWorkspace"/>Gradle Workspace
 
 The Gradle workspace is rooted in the root project and consists of all included
 projects - **bnd** *and* **Gradle** projects.
 
-## <a name="BndWorkspace"/>Bnd Workspace
+## <a name="ProjectsAndWorkspacesBndWorkspace"/>Bnd Workspace
 
 The bnd workspace is rooted in the root project and contains a single
 configuration project, and zero or more **bnd** projects.
@@ -96,7 +160,7 @@ configuration project, and zero or more **bnd** projects.
 For it to be a *useful* bnd workspace, it will have to contain at least one bnd
 project.
 
-## <a name="Cnf"/>Configuration Project
+## <a name="ProjectsAndWorkspacesCnf"/>Configuration Project
 
 The configuration project is the directory that contains the ```build.bnd```
 file, and is - by default - the ```cnf``` directory.
@@ -241,7 +305,7 @@ It contains:
       * The **green** arrows depict flows/dependencies that are disabled by
         default.
 
-## <a name="BndProjectLayout"/>Bnd Project Layout
+## <a name="ProjectsAndWorkspacesBndProjectLayout"/>Bnd Project Layout
 
 A bnd project has a well defined layout with two source sets and one output
 directory:
@@ -277,12 +341,12 @@ The build has the following flow:
 
 * Gradle loads the ```settings.gradle``` file from the root project. This file
   instructs Gradle to include all **bnd** projects and all **Gradle** projects
-  (see [Sub-Projects](#SubProjects) for an explanation).
+  (see [Sub-Projects](#ProjectsAndWorkspacesSubProjects) for an explanation).
 
 * Gradle loads the ```build.gradle``` file from the root project. This file
   sets up the build:
 
-  * Scan for the configuration project (see [Configuration Project](#Cnf)).
+  * Scan for the configuration project (see [Configuration Project](#ProjectsAndWorkspacesCnf)).
 
   * In order to be able to configure the build itself, the workspace build
     settings are loaded from
@@ -414,9 +478,9 @@ The build has the following flow:
 
 The discussion of the build tasks below is split per project type/category.
 
-## Bnd Projects
+## <a name="BuildTasksBndProjects"/>Bnd Projects
 
-### jar
+### <a name="BuildTasksJar"/>jar
 
 This task instructs bnd to construct an OSGi bundle.
 
@@ -428,7 +492,7 @@ A bnd project completely replaces the ```jar``` task.
 The ```bnd.bnd``` file describes how the OSGi bundle must be constructed and is
 therefore taken as input by bnd.
 
-### check
+### <a name="BuildTasksCheck"/>check
 
 This task instructs bnd to run bundle (integration) tests.
 
@@ -439,33 +503,33 @@ Refer to the bnd manual/website for more details on how to setup bundle tests.
 
 This task is automatically disabled when no bundle tests have been defined.
 
-### checkNeeded
+### <a name="BuildTasksCheckNeeded"/>checkNeeded
 
 This task will invoke the ```check``` task on all projects on which the
 project is dependent, after which the ```check``` task is invoked on the
 project itself.
 
-### release
+### <a name="BuildTasksRelease"/>release
 
 This task instructs bnd to copy the constructed OSGi bundle into the release
 repository.
 
 This task is automatically disabled when no release repository is defined.
 
-### releaseNeeded
+### <a name="BuildTasksReleaseNeeded"/>releaseNeeded
 
 This task will invoke the ```release``` task on all projects on which the
 project is dependent, after which the ```release``` task is invoked on the
 project itself.
 
-### export.<name>
+### <a name="BuildTasksExportName"/>export.<name>
 
 This task will export the ```<name>.bndrun``` file in the project to an
 executable jar.
 
 This task is only setup the project contains a ```<name>.bndrun``` file.
 
-### export
+### <a name="BuildTasksExport"/>export
 
 This task will export all ```*.bndrun``` files in the project to executable
 jars.
@@ -473,11 +537,11 @@ jars.
 This task is automatically disabled when the project contains no ```*.bndrun```
 files.
 
-### echo
+### <a name="BuildTasksEcho"/>echo
 
 This task displays some key bnd properties of the project.
 
-### bndproperties
+### <a name="BuildTasksBndProperties"/>bndproperties
 
 This task - analogous to the Gradle ```properties``` task - displays the bnd
 properties that are defined for the project.
@@ -491,7 +555,7 @@ from the configuration project (```cnf```) are also displayed as they obviously
 also apply to the project (unless overridden by the project, in which case the
 overridden values are shown).
 
-### clean
+### <a name="BuildTasksClean"/>clean
 
 This task instructs bnd to clean up the project, which removes
 the output directory and the directories that hold the class files.
@@ -499,9 +563,9 @@ the output directory and the directories that hold the class files.
 This is in addition to the ```clean``` task that is defined by the Java plugin.
 
 
-## All Projects
+## <a name="BuildTasksAllProjects"/>All Projects
 
-### index
+### <a name="BuildTasksIndex"/>index
 
 This task can create one or more of the following:
 * an uncompressed OBR index
@@ -557,7 +621,7 @@ R5 index generation is controlled by the properties
 * &nbsp;```indexR5Compressed``` if set to ```true``` then a
   compressed R5 index is generated.
 
-### cleanNeeded
+### <a name="BuildTasksCleanNeeded"/>cleanNeeded
 
 This task will invoke the ```clean``` task on all projects on which the
 project is dependent, after which the ```clean``` task is invoked on the
@@ -566,7 +630,7 @@ project itself.
 Note that invoking this task on the root project will invoke the task on all
 projects.
 
-### distClean
+### <a name="BuildTasksDistClean"/>distClean
 
 This task performs additional cleanup compared to the ```clean``` task, but is
 empty by default.
@@ -583,7 +647,7 @@ For the root project it removes:
 
 * The Gradle cache directory.
 
-### distcleanNeeded
+### <a name="BuildTasksDistCleanNeeded"/>distcleanNeeded
 
 This task will invoke the ```distClean``` task on all projects on which the
 project is dependent, after which the ```distClean``` task is invoked on the
@@ -593,9 +657,9 @@ Note that invoking this task on the root project will invoke the task on all
 projects.
 
 
-## Java Projects
+## <a name="BuildTasksJavaProjects"/>Java Projects
 
-### Findbugs
+### <a name="BuildTasksFindbugs"/>Findbugs
 
 The findbugs plugin is applied to all bnd projects and to all Java projects.
 The plugin adds the tasks ```findbugsMain``` and ```findbugsTest```.
@@ -607,15 +671,15 @@ Note that the reports that are generated by the findbugs tasks will only have
 line numbers when the tasks are run on a build that produces artefacts with
 debug information.
 
-#### findbugsMain
+#### <a name="BuildTasksFindbugsMain"/>findbugsMain
 
 This task will run findbugs on the main source code.
 
-#### findbugsTest
+#### <a name="BuildTasksFindbugsTest"/>findbugsTest
 
 This task will run findbugs on the test source code.
 
-#### findbugs
+#### <a name="BuildTasksfindbugs"/>findbugs
 
 Specifying this task will **enable** the ```findbugsMain``` task.
 
@@ -623,7 +687,7 @@ Note: it is needed to specify a task that has a dependency on
 the ```findbugsMain``` that to actually run the task. The tasks ```check```
 and ```build``` are examples is such a task.
 
-#### findbugstest
+#### <a name="BuildTasksfindbugstest"/>findbugstest
 
 Specifying this task will **enable** the ```findbugsTest``` task.
 
@@ -631,22 +695,22 @@ Note: it is needed to specify a task that has a dependency on
 the ```findbugsTest``` that to actually run the task. The tasks ```check```
 and ```build``` are examples is such a task.
 
-### javadoc
+### <a name="BuildTasksJavadoc"/>javadoc
 
 This task generates javadoc for the main source code.
 
 
-## Root Project
+## <a name="BuildTasksRootProject"/>Root Project
 
-### wrapper
+### <a name="BuildTasksWrapper"/>wrapper
 
 This task downloads Gradle and installs it in the workspace,
-see [Installing Gradle In The Workspace](#InstallingGradleWorkspace).
+see [Installing Gradle In The Workspace](#InstallingGradleInTheWorkspace).
 
 
-# Build Options
+# <a name="BuildOptions"/>Build Options
 
-## Bnd Projects
+## <a name="BuildOptionsBndProjects"/>Bnd Projects
 
 * The ```jar``` task can be disabled by:
 
@@ -662,7 +726,7 @@ see [Installing Gradle In The Workspace](#InstallingGradleWorkspace).
 
   * Presence of the ```-nojunitosgi``` instruction in the ```bnd.bnd``` file.
 
-## Findbugs
+## <a name="BuildOptionsFindbugs"/>Findbugs
 
 The findbugs task will - by default - generate HTML reports, but can be
 instructed to generate XML reports by setting the ```CI``` Gradle system
@@ -672,9 +736,9 @@ property (```-PCI``` on the command line).
                  (since XML reports are typically used on build servers)
 
 
-# Customising The Build
+# <a name="CustomisingTheBuild"/>Customising The Build
 
-## Gradle
+## <a name="CustomisingTheBuildGradle"/>Gradle
 
 The build be can easily customised by putting overrides and  additions in any of
 the ```cnf/gradle/custom/*.gradle``` build script files,
@@ -704,7 +768,7 @@ ext.indexR5Uncompressed     = true
 ext.indexR5Compressed       = true
 ```
 
-## Bnd
+## <a name="CustomisingTheBuildBnd"/>Bnd
 
 The bnd default settings are shown in the ```cnf/build.bnd``` file.
 Overrides to workspace-wide bnd settings can be placed in that same file.
@@ -713,7 +777,7 @@ If a setting must be overridden or defined for a specific project, then that
 setting must be defined in the ```bnd.bnd``` file of that specific project.
 
 
-# Adding Java Projects To The Build
+# <a name="AddingJavaProjectsToTheBuild"/>Adding Java Projects To The Build
 
 The build automatically includes all bnd projects.
 
