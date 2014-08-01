@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The property ```gradleBuildDependenciesCacheDir``` was renamed
+  to ```buildDependenciesCacheDir```.
 * The property ```gradleBuildBuildProperties``` was renamed
   to ```buildDependenciesPropertiesFile```.
 * The property ```gradleBuildGradleVersion``` was renamed

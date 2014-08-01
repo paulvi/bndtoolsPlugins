@@ -13,6 +13,7 @@ assert(project == rootProject                   )
 assert(hasProperty('bndCnf')                    )
 
 
+if (!hasProperty('buildDependenciesCacheDir')) ext.buildDependenciesCacheDir = "${bndCnf}/cache/gradle"
 if (!hasProperty('buildDependenciesPropertiesFile')) ext.buildDependenciesPropertiesFile = "${bndCnf}/gradle/build.gradle.properties"
 
 
@@ -27,7 +28,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
   assert(evaluatedDependencies != null                 )
   assert(extension != null && !extension.isEmpty()     )
   assert(hasProperty('bndBuildProperties'             ))
-  assert(hasProperty('gradleBuildDependenciesCacheDir'))
+  assert(hasProperty('buildDependenciesCacheDir'))
 
   def propKeyExtensionRegex = '\\.' + extension + '\$'
   bndBuildProperties
@@ -59,7 +60,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
             dependencyFile     = file(dependencyFileName)
           } else {
             def urlBaseName    = new File(url.path).name
-            dependencyFileName = "${gradleBuildDependenciesCacheDir}/${urlBaseName}"
+            dependencyFileName = "${buildDependenciesCacheDir}/${urlBaseName}"
             dependencyFile     = file(dependencyFileName)
 
             /* Download from the URL when needed */

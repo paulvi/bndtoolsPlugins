@@ -17,8 +17,5 @@ assert(hasProperty('bndCnf'))
 ext.gradleBuildLoggingCaptureStandardOutput = LogLevel.WARN
 ext.gradleBuildLoggingLevel                 = LogLevel.WARN
 
-ext.gradleBuildDependenciesCacheDir         = "${bndCnf}/cache/gradle"
-
-
 /* Load the overrides */
 apply from: file("${bndCnf}/gradle/custom/settings-workspace.gradle")
