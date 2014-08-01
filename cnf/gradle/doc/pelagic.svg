@@ -52,93 +52,83 @@
 </g>
 <!-- compileJava -->
 <g id="node1" class="node"><title>compileJava</title>
-<polygon fill="lightcyan" stroke="black" points="471.25,-916 386.75,-916 386.75,-880 471.25,-880 471.25,-916"/>
-<text text-anchor="middle" x="429" y="-894.3" font-family="Times,serif" font-size="14.00">compileJava</text>
+<polygon fill="lightcyan" stroke="black" points="440.25,-916 355.75,-916 355.75,-880 440.25,-880 440.25,-916"/>
+<text text-anchor="middle" x="398" y="-894.3" font-family="Times,serif" font-size="14.00">compileJava</text>
 </g>
 <!-- classes -->
 <g id="node3" class="node"><title>classes</title>
-<polygon fill="lightcyan" stroke="black" points="360,-825 306,-825 306,-789 360,-789 360,-825"/>
-<text text-anchor="middle" x="333" y="-803.3" font-family="Times,serif" font-size="14.00">classes</text>
+<polygon fill="lightcyan" stroke="black" points="353,-825 299,-825 299,-789 353,-789 353,-825"/>
+<text text-anchor="middle" x="326" y="-803.3" font-family="Times,serif" font-size="14.00">classes</text>
 </g>
 <!-- compileJava&#45;&gt;classes -->
 <g id="edge1" class="edge"><title>compileJava&#45;&gt;classes</title>
-<path fill="none" stroke="black" d="M410.49,-879.84C395.881,-866.296 375.322,-847.236 359.051,-832.152"/>
-<polygon fill="black" stroke="black" points="361.166,-829.339 351.453,-825.107 356.407,-834.473 361.166,-829.339"/>
+<path fill="none" stroke="black" d="M384.118,-879.84C373.36,-866.543 358.301,-847.927 346.207,-832.978"/>
+<polygon fill="black" stroke="black" points="348.85,-830.681 339.84,-825.107 343.408,-835.083 348.85,-830.681"/>
 </g>
 <!-- processResources -->
 <g id="node2" class="node"><title>processResources</title>
-<polygon fill="lightcyan" stroke="black" points="368.25,-916 255.75,-916 255.75,-880 368.25,-880 368.25,-916"/>
-<text text-anchor="middle" x="312" y="-894.3" font-family="Times,serif" font-size="14.00">processResources</text>
+<polygon fill="lightcyan" stroke="black" points="337.25,-916 224.75,-916 224.75,-880 337.25,-880 337.25,-916"/>
+<text text-anchor="middle" x="281" y="-894.3" font-family="Times,serif" font-size="14.00">processResources</text>
 </g>
 <!-- processResources&#45;&gt;classes -->
 <g id="edge2" class="edge"><title>processResources&#45;&gt;classes</title>
-<path fill="none" stroke="black" d="M316.049,-879.84C319.041,-867.158 323.175,-849.64 326.611,-835.077"/>
-<polygon fill="black" stroke="black" points="330.073,-835.644 328.963,-825.107 323.26,-834.036 330.073,-835.644"/>
+<path fill="none" stroke="black" d="M289.676,-879.84C296.213,-866.912 305.291,-848.958 312.736,-834.232"/>
+<polygon fill="black" stroke="black" points="315.961,-835.611 317.35,-825.107 309.714,-832.452 315.961,-835.611"/>
 </g>
 <!-- jar -->
 <g id="node4" class="node"><title>jar</title>
-<polygon fill="cyan" stroke="black" points="456,-753 402,-753 402,-717 456,-717 456,-753"/>
-<text text-anchor="middle" x="429" y="-731.3" font-family="Times,serif" font-size="14.00">jar</text>
+<polygon fill="cyan" stroke="black" points="425,-753 371,-753 371,-717 425,-717 425,-753"/>
+<text text-anchor="middle" x="398" y="-731.3" font-family="Times,serif" font-size="14.00">jar</text>
 </g>
 <!-- classes&#45;&gt;jar -->
-<g id="edge5" class="edge"><title>classes&#45;&gt;jar</title>
-<path fill="none" stroke="black" d="M358.617,-788.9C370.708,-780.668 385.25,-770.535 398,-761 398.727,-760.457 399.46,-759.903 400.198,-759.342"/>
-<polygon fill="black" stroke="black" points="402.408,-762.057 408.153,-753.155 398.11,-756.532 402.408,-762.057"/>
+<g id="edge4" class="edge"><title>classes&#45;&gt;jar</title>
+<path fill="none" stroke="black" d="M343.798,-788.697C352.604,-780.135 363.382,-769.656 373.001,-760.304"/>
+<polygon fill="black" stroke="black" points="375.677,-762.585 380.407,-753.104 370.797,-757.566 375.677,-762.585"/>
 </g>
 <!-- compileTestJava -->
 <g id="node5" class="node"><title>compileTestJava</title>
-<polygon fill="lightcyan" stroke="black" points="286,-753 178,-753 178,-717 286,-717 286,-753"/>
-<text text-anchor="middle" x="232" y="-731.3" font-family="Times,serif" font-size="14.00">compileTestJava</text>
+<polygon fill="lightcyan" stroke="black" points="307,-753 199,-753 199,-717 307,-717 307,-753"/>
+<text text-anchor="middle" x="253" y="-731.3" font-family="Times,serif" font-size="14.00">compileTestJava</text>
 </g>
 <!-- classes&#45;&gt;compileTestJava -->
-<g id="edge4" class="edge"><title>classes&#45;&gt;compileTestJava</title>
-<path fill="none" stroke="black" d="M308.293,-788.876C295.331,-779.893 279.272,-768.763 265.235,-759.034"/>
-<polygon fill="black" stroke="black" points="267.015,-756.009 256.802,-753.19 263.028,-761.763 267.015,-756.009"/>
+<g id="edge3" class="edge"><title>classes&#45;&gt;compileTestJava</title>
+<path fill="none" stroke="black" d="M307.955,-788.697C298.938,-780.05 287.882,-769.449 278.057,-760.027"/>
+<polygon fill="black" stroke="black" points="280.478,-757.499 270.837,-753.104 275.633,-762.552 280.478,-757.499"/>
 </g>
 <!-- test -->
 <g id="node8" class="node"><title>test</title>
-<polygon fill="lightcyan" stroke="black" points="178,-590 124,-590 124,-554 178,-554 178,-590"/>
-<text text-anchor="middle" x="151" y="-568.3" font-family="Times,serif" font-size="14.00">test</text>
+<polygon fill="lightcyan" stroke="black" points="200,-590 146,-590 146,-554 200,-554 200,-590"/>
+<text text-anchor="middle" x="173" y="-568.3" font-family="Times,serif" font-size="14.00">test</text>
 </g>
 <!-- classes&#45;&gt;test -->
-<g id="edge6" class="edge"><title>classes&#45;&gt;test</title>
-<path fill="none" stroke="black" d="M322.127,-788.709C317.573,-780.603 312.715,-770.627 310,-761 291.245,-694.499 343.228,-658.236 298,-606 297.77,-605.735 231.697,-590.975 188.223,-581.287"/>
-<polygon fill="black" stroke="black" points="188.77,-577.823 178.249,-579.065 187.248,-584.655 188.77,-577.823"/>
-</g>
-<!-- javadoc -->
-<g id="node22" class="node"><title>javadoc</title>
-<polygon fill="lightcyan" stroke="black" points="383.25,-753 324.75,-753 324.75,-717 383.25,-717 383.25,-753"/>
-<text text-anchor="middle" x="354" y="-731.3" font-family="Times,serif" font-size="14.00">javadoc</text>
-</g>
-<!-- classes&#45;&gt;javadoc -->
-<g id="edge3" class="edge"><title>classes&#45;&gt;javadoc</title>
-<path fill="none" stroke="black" d="M338.191,-788.697C340.531,-780.898 343.347,-771.509 345.951,-762.829"/>
-<polygon fill="black" stroke="black" points="349.348,-763.688 348.869,-753.104 342.643,-761.677 349.348,-763.688"/>
+<g id="edge5" class="edge"><title>classes&#45;&gt;test</title>
+<path fill="none" stroke="black" d="M326.658,-788.932C328.257,-742.971 331.363,-619.174 319,-606 306.622,-592.811 255.6,-602.173 238,-598 228.669,-595.788 218.881,-592.546 209.815,-589.126"/>
+<polygon fill="black" stroke="black" points="210.902,-585.793 200.315,-585.385 208.337,-592.306 210.902,-585.793"/>
 </g>
 <!-- jar&#45;&gt;compileJava -->
-<g id="edge22" class="edge"><title>jar&#45;&gt;compileJava</title>
-<path fill="none" stroke="red" d="M429,-753.106C429,-780.866 429,-835.974 429,-869.354"/>
-<polygon fill="red" stroke="red" points="425.5,-869.77 429,-879.77 432.5,-869.77 425.5,-869.77"/>
+<g id="edge21" class="edge"><title>jar&#45;&gt;compileJava</title>
+<path fill="none" stroke="red" d="M398,-753.106C398,-780.866 398,-835.974 398,-869.354"/>
+<polygon fill="red" stroke="red" points="394.5,-869.77 398,-879.77 401.5,-869.77 394.5,-869.77"/>
 </g>
 <!-- uploadArchives -->
 <g id="node9" class="node"><title>uploadArchives</title>
-<polygon fill="lightcyan" stroke="black" points="377,-590 275,-590 275,-554 377,-554 377,-590"/>
-<text text-anchor="middle" x="326" y="-568.3" font-family="Times,serif" font-size="14.00">uploadArchives</text>
+<polygon fill="lightcyan" stroke="black" points="352,-590 250,-590 250,-554 352,-554 352,-590"/>
+<text text-anchor="middle" x="301" y="-568.3" font-family="Times,serif" font-size="14.00">uploadArchives</text>
 </g>
 <!-- jar&#45;&gt;uploadArchives -->
-<g id="edge9" class="edge"><title>jar&#45;&gt;uploadArchives</title>
-<path fill="none" stroke="black" d="M417.977,-716.77C399.856,-688.445 363.674,-631.888 342.492,-598.779"/>
-<polygon fill="black" stroke="black" points="345.281,-596.643 336.944,-590.106 339.384,-600.416 345.281,-596.643"/>
+<g id="edge8" class="edge"><title>jar&#45;&gt;uploadArchives</title>
+<path fill="none" stroke="black" d="M390.63,-716.639C379.481,-691.253 356.865,-643.005 331,-606 329.093,-603.271 326.98,-600.528 324.784,-597.852"/>
+<polygon fill="black" stroke="black" points="327.266,-595.373 318.071,-590.109 321.977,-599.958 327.266,-595.373"/>
 </g>
 <!-- assemble -->
 <g id="node10" class="node"><title>assemble</title>
-<polygon fill="lightcyan" stroke="black" points="462.25,-590 395.75,-590 395.75,-554 462.25,-554 462.25,-590"/>
-<text text-anchor="middle" x="429" y="-568.3" font-family="Times,serif" font-size="14.00">assemble</text>
+<polygon fill="lightcyan" stroke="black" points="437.25,-590 370.75,-590 370.75,-554 437.25,-554 437.25,-590"/>
+<text text-anchor="middle" x="404" y="-568.3" font-family="Times,serif" font-size="14.00">assemble</text>
 </g>
 <!-- jar&#45;&gt;assemble -->
-<g id="edge10" class="edge"><title>jar&#45;&gt;assemble</title>
-<path fill="none" stroke="black" d="M429,-716.77C429,-688.929 429,-633.813 429,-600.498"/>
-<polygon fill="black" stroke="black" points="432.5,-600.106 429,-590.106 425.5,-600.106 432.5,-600.106"/>
+<g id="edge9" class="edge"><title>jar&#45;&gt;assemble</title>
+<path fill="none" stroke="black" d="M398.642,-716.77C399.68,-688.929 401.734,-633.813 402.975,-600.498"/>
+<polygon fill="black" stroke="black" points="406.488,-600.229 403.363,-590.106 399.492,-599.969 406.488,-600.229"/>
 </g>
 <!-- p2Entry -->
 <g id="node34" class="node"><title>p2Entry</title>
@@ -146,34 +136,34 @@
 <text text-anchor="middle" x="765" y="-659.3" font-family="Times,serif" font-size="14.00">p2Entry</text>
 </g>
 <!-- jar&#45;&gt;p2Entry -->
-<g id="edge39" class="edge"><title>jar&#45;&gt;p2Entry</title>
-<path fill="none" stroke="red" d="M456.212,-728.331C515.207,-716.04 655.146,-686.886 724.542,-672.429"/>
-<polygon fill="red" stroke="red" points="725.575,-675.789 734.651,-670.323 724.147,-668.936 725.575,-675.789"/>
+<g id="edge38" class="edge"><title>jar&#45;&gt;p2Entry</title>
+<path fill="none" stroke="red" d="M425.285,-728.796C489.382,-716.57 649.807,-685.971 724.968,-671.636"/>
+<polygon fill="red" stroke="red" points="725.822,-675.036 734.989,-669.724 724.51,-668.16 725.822,-675.036"/>
 </g>
 <!-- testClasses -->
 <g id="node7" class="node"><title>testClasses</title>
-<polygon fill="lightcyan" stroke="black" points="189,-681 113,-681 113,-645 189,-645 189,-681"/>
-<text text-anchor="middle" x="151" y="-659.3" font-family="Times,serif" font-size="14.00">testClasses</text>
+<polygon fill="lightcyan" stroke="black" points="211,-681 135,-681 135,-645 211,-645 211,-681"/>
+<text text-anchor="middle" x="173" y="-659.3" font-family="Times,serif" font-size="14.00">testClasses</text>
 </g>
 <!-- compileTestJava&#45;&gt;testClasses -->
-<g id="edge7" class="edge"><title>compileTestJava&#45;&gt;testClasses</title>
-<path fill="none" stroke="black" d="M211.978,-716.697C201.874,-707.965 189.464,-697.24 178.482,-687.75"/>
-<polygon fill="black" stroke="black" points="180.647,-684.995 170.792,-681.104 176.07,-690.291 180.647,-684.995"/>
+<g id="edge6" class="edge"><title>compileTestJava&#45;&gt;testClasses</title>
+<path fill="none" stroke="black" d="M233.225,-716.697C223.246,-707.965 210.989,-697.24 200.143,-687.75"/>
+<polygon fill="black" stroke="black" points="202.378,-685.055 192.548,-681.104 197.769,-690.323 202.378,-685.055"/>
 </g>
 <!-- processTestResources -->
 <g id="node6" class="node"><title>processTestResources</title>
-<polygon fill="lightcyan" stroke="black" points="160,-753 24,-753 24,-717 160,-717 160,-753"/>
-<text text-anchor="middle" x="92" y="-731.3" font-family="Times,serif" font-size="14.00">processTestResources</text>
+<polygon fill="lightcyan" stroke="black" points="181,-753 45,-753 45,-717 181,-717 181,-753"/>
+<text text-anchor="middle" x="113" y="-731.3" font-family="Times,serif" font-size="14.00">processTestResources</text>
 </g>
 <!-- processTestResources&#45;&gt;testClasses -->
-<g id="edge8" class="edge"><title>processTestResources&#45;&gt;testClasses</title>
-<path fill="none" stroke="black" d="M106.584,-716.697C113.658,-708.305 122.283,-698.07 130.045,-688.861"/>
-<polygon fill="black" stroke="black" points="132.815,-691.006 136.583,-681.104 127.463,-686.495 132.815,-691.006"/>
+<g id="edge7" class="edge"><title>processTestResources&#45;&gt;testClasses</title>
+<path fill="none" stroke="black" d="M127.831,-716.697C135.025,-708.305 143.797,-698.07 151.69,-688.861"/>
+<polygon fill="black" stroke="black" points="154.489,-690.975 158.339,-681.104 149.174,-686.419 154.489,-690.975"/>
 </g>
 <!-- testClasses&#45;&gt;test -->
-<g id="edge11" class="edge"><title>testClasses&#45;&gt;test</title>
-<path fill="none" stroke="black" d="M151,-644.84C151,-632.281 151,-614.979 151,-600.502"/>
-<polygon fill="black" stroke="black" points="154.5,-600.107 151,-590.107 147.5,-600.107 154.5,-600.107"/>
+<g id="edge10" class="edge"><title>testClasses&#45;&gt;test</title>
+<path fill="none" stroke="black" d="M173,-644.84C173,-632.281 173,-614.979 173,-600.502"/>
+<polygon fill="black" stroke="black" points="176.5,-600.107 173,-590.107 169.5,-600.107 176.5,-600.107"/>
 </g>
 <!-- check -->
 <g id="node11" class="node"><title>check</title>
@@ -181,9 +171,9 @@
 <text text-anchor="middle" x="279" y="-424.3" font-family="Times,serif" font-size="14.00">check</text>
 </g>
 <!-- test&#45;&gt;check -->
-<g id="edge14" class="edge"><title>test&#45;&gt;check</title>
-<path fill="none" stroke="black" d="M123.93,-570.22C93.4196,-567.715 45.0748,-558.488 22,-526 8.61721,-507.158 7.13391,-491.695 22,-474 49.6004,-441.147 177.102,-432.274 241.525,-429.882"/>
-<polygon fill="black" stroke="black" points="241.793,-433.375 251.67,-429.539 241.557,-426.379 241.793,-433.375"/>
+<g id="edge13" class="edge"><title>test&#45;&gt;check</title>
+<path fill="none" stroke="black" d="M162.526,-553.96C151.273,-533.222 137.127,-498.008 154,-474 173.667,-446.017 212.491,-435.354 241.68,-431.334"/>
+<polygon fill="black" stroke="black" points="242.419,-434.772 251.945,-430.134 241.606,-427.819 242.419,-434.772"/>
 </g>
 <!-- findbugsTest -->
 <g id="node21" class="node"><title>findbugsTest</title>
@@ -191,24 +181,24 @@
 <text text-anchor="middle" x="210" y="-496.3" font-family="Times,serif" font-size="14.00">findbugsTest</text>
 </g>
 <!-- test&#45;&gt;findbugsTest -->
-<g id="edge29" class="edge"><title>test&#45;&gt;findbugsTest</title>
-<path fill="none" stroke="black" d="M165.584,-553.697C172.658,-545.305 181.283,-535.07 189.045,-525.861"/>
-<polygon fill="black" stroke="black" points="191.815,-528.006 195.583,-518.104 186.463,-523.495 191.815,-528.006"/>
+<g id="edge28" class="edge"><title>test&#45;&gt;findbugsTest</title>
+<path fill="none" stroke="black" d="M182.146,-553.697C186.403,-545.644 191.556,-535.894 196.266,-526.982"/>
+<polygon fill="black" stroke="black" points="199.38,-528.581 200.959,-518.104 193.192,-525.31 199.38,-528.581"/>
 </g>
 <!-- jacocoTestReport -->
 <g id="node26" class="node"><title>jacocoTestReport</title>
-<polygon fill="orange" stroke="black" points="148,-518 36,-518 36,-482 148,-482 148,-518"/>
-<text text-anchor="middle" x="92" y="-496.3" font-family="Times,serif" font-size="14.00">jacocoTestReport</text>
+<polygon fill="orange" stroke="black" points="128,-518 16,-518 16,-482 128,-482 128,-518"/>
+<text text-anchor="middle" x="72" y="-496.3" font-family="Times,serif" font-size="14.00">jacocoTestReport</text>
 </g>
 <!-- test&#45;&gt;jacocoTestReport -->
-<g id="edge32" class="edge"><title>test&#45;&gt;jacocoTestReport</title>
-<path fill="none" stroke="black" d="M136.416,-553.697C129.342,-545.305 120.717,-535.07 112.955,-525.861"/>
-<polygon fill="black" stroke="black" points="115.537,-523.495 106.417,-518.104 110.185,-528.006 115.537,-523.495"/>
+<g id="edge31" class="edge"><title>test&#45;&gt;jacocoTestReport</title>
+<path fill="none" stroke="black" d="M148.293,-553.876C135.331,-544.893 119.272,-533.763 105.235,-524.034"/>
+<polygon fill="black" stroke="black" points="107.015,-521.009 96.8024,-518.19 103.028,-526.763 107.015,-521.009"/>
 </g>
 <!-- assemble&#45;&gt;check -->
-<g id="edge13" class="edge"><title>assemble&#45;&gt;check</title>
-<path fill="none" stroke="black" d="M416.531,-553.949C410.809,-545.727 404.166,-535.589 399,-526 387.099,-503.907 394.474,-492.011 377,-474 360.419,-456.91 336.124,-445.694 315.872,-438.733"/>
-<polygon fill="black" stroke="black" points="316.899,-435.387 306.307,-435.651 314.752,-442.05 316.899,-435.387"/>
+<g id="edge12" class="edge"><title>assemble&#45;&gt;check</title>
+<path fill="none" stroke="black" d="M400.973,-553.594C396.408,-529.064 387.206,-485.973 377,-474 361.344,-455.634 336.607,-444.354 315.903,-437.681"/>
+<polygon fill="black" stroke="black" points="316.705,-434.267 306.121,-434.764 314.704,-440.976 316.705,-434.267"/>
 </g>
 <!-- release -->
 <g id="node13" class="node"><title>release</title>
@@ -216,9 +206,9 @@
 <text text-anchor="middle" x="459" y="-496.3" font-family="Times,serif" font-size="14.00">release</text>
 </g>
 <!-- assemble&#45;&gt;release -->
-<g id="edge23" class="edge"><title>assemble&#45;&gt;release</title>
-<path fill="none" stroke="black" d="M436.416,-553.697C439.794,-545.813 443.87,-536.304 447.623,-527.546"/>
-<polygon fill="black" stroke="black" points="450.947,-528.675 451.67,-518.104 444.513,-525.917 450.947,-528.675"/>
+<g id="edge22" class="edge"><title>assemble&#45;&gt;release</title>
+<path fill="none" stroke="black" d="M417.596,-553.697C424.123,-545.389 432.068,-535.277 439.247,-526.141"/>
+<polygon fill="black" stroke="black" points="442.135,-528.13 445.561,-518.104 436.631,-523.805 442.135,-528.13"/>
 </g>
 <!-- exportX -->
 <g id="node15" class="node"><title>exportX</title>
@@ -229,9 +219,9 @@
 <text text-anchor="middle" x="610" y="-496.3" font-family="Times,serif" font-size="14.00">export.&lt;name&gt;</text>
 </g>
 <!-- assemble&#45;&gt;exportX -->
-<g id="edge24" class="edge"><title>assemble&#45;&gt;exportX</title>
-<path fill="none" stroke="black" d="M462.361,-558.414C486.018,-549.456 518.496,-537.09 547,-526 550.496,-524.64 554.097,-523.231 557.725,-521.807"/>
-<polygon fill="black" stroke="black" points="559.31,-524.944 567.331,-518.022 556.744,-518.431 559.31,-524.944"/>
+<g id="edge23" class="edge"><title>assemble&#45;&gt;exportX</title>
+<path fill="none" stroke="black" d="M437.457,-561.225C466.584,-552.535 509.844,-539.199 547,-526 550.76,-524.664 554.629,-523.244 558.512,-521.785"/>
+<polygon fill="black" stroke="black" points="560.049,-524.944 568.14,-518.104 557.55,-518.406 560.049,-524.944"/>
 </g>
 <!-- build -->
 <g id="node17" class="node"><title>build</title>
@@ -239,9 +229,9 @@
 <text text-anchor="middle" x="402" y="-352.3" font-family="Times,serif" font-size="14.00">build</text>
 </g>
 <!-- assemble&#45;&gt;build -->
-<g id="edge12" class="edge"><title>assemble&#45;&gt;build</title>
-<path fill="none" stroke="black" d="M419.415,-553.583C415.429,-545.452 411.22,-535.49 409,-526 397.532,-476.978 398.285,-417.819 400.033,-384.087"/>
-<polygon fill="black" stroke="black" points="403.529,-384.262 400.622,-374.074 396.541,-383.851 403.529,-384.262"/>
+<g id="edge11" class="edge"><title>assemble&#45;&gt;build</title>
+<path fill="none" stroke="black" d="M403.84,-553.849C403.494,-516.832 402.675,-429.181 402.256,-384.386"/>
+<polygon fill="black" stroke="black" points="405.754,-384.199 402.161,-374.232 398.755,-384.265 405.754,-384.199"/>
 </g>
 <!-- findbugsMain -->
 <g id="node20" class="node"><title>findbugsMain</title>
@@ -249,9 +239,9 @@
 <text text-anchor="middle" x="318" y="-496.3" font-family="Times,serif" font-size="14.00">findbugsMain</text>
 </g>
 <!-- assemble&#45;&gt;findbugsMain -->
-<g id="edge28" class="edge"><title>assemble&#45;&gt;findbugsMain</title>
-<path fill="none" stroke="black" d="M401.846,-553.876C387.467,-544.808 369.619,-533.552 354.09,-523.759"/>
-<polygon fill="black" stroke="black" points="355.584,-520.564 345.258,-518.19 351.85,-526.484 355.584,-520.564"/>
+<g id="edge27" class="edge"><title>assemble&#45;&gt;findbugsMain</title>
+<path fill="none" stroke="black" d="M382.742,-553.697C371.911,-544.881 358.582,-534.032 346.84,-524.474"/>
+<polygon fill="black" stroke="black" points="348.979,-521.703 339.014,-518.104 344.56,-527.132 348.979,-521.703"/>
 </g>
 <!-- checkNeeded -->
 <g id="node12" class="node"><title>checkNeeded</title>
@@ -259,17 +249,17 @@
 <text text-anchor="middle" x="261" y="-352.3" font-family="Times,serif" font-size="14.00">checkNeeded</text>
 </g>
 <!-- check&#45;&gt;checkNeeded -->
-<g id="edge15" class="edge"><title>check&#45;&gt;checkNeeded</title>
+<g id="edge14" class="edge"><title>check&#45;&gt;checkNeeded</title>
 <path fill="none" stroke="black" d="M274.551,-409.697C272.545,-401.898 270.131,-392.509 267.899,-383.829"/>
 <polygon fill="black" stroke="black" points="271.278,-382.918 265.398,-374.104 264.499,-384.661 271.278,-382.918"/>
 </g>
 <!-- check&#45;&gt;build -->
-<g id="edge17" class="edge"><title>check&#45;&gt;build</title>
+<g id="edge16" class="edge"><title>check&#45;&gt;build</title>
 <path fill="none" stroke="black" d="M306.298,-411.465C323.894,-401.451 346.968,-388.319 366.05,-377.459"/>
 <polygon fill="black" stroke="black" points="367.819,-380.48 374.779,-372.492 364.356,-374.396 367.819,-380.48"/>
 </g>
 <!-- checkNeeded&#45;&gt;checkNeeded -->
-<g id="edge16" class="edge"><title>checkNeeded&#45;&gt;checkNeeded</title>
+<g id="edge15" class="edge"><title>checkNeeded&#45;&gt;checkNeeded</title>
 <path fill="none" stroke="red" d="M305.306,-369.203C315.507,-368.065 323,-363.664 323,-356 323,-351.09 319.925,-347.52 315.032,-345.288"/>
 <polygon fill="red" stroke="red" points="315.862,-341.888 305.306,-342.797 314.125,-348.669 315.862,-341.888"/>
 </g>
@@ -279,12 +269,12 @@
 <text text-anchor="middle" x="469" y="-424.3" font-family="Times,serif" font-size="14.00">releaseNeeded</text>
 </g>
 <!-- release&#45;&gt;releaseNeeded -->
-<g id="edge26" class="edge"><title>release&#45;&gt;releaseNeeded</title>
+<g id="edge25" class="edge"><title>release&#45;&gt;releaseNeeded</title>
 <path fill="none" stroke="black" d="M461.472,-481.697C462.574,-473.983 463.898,-464.712 465.127,-456.112"/>
 <polygon fill="black" stroke="black" points="468.607,-456.499 466.557,-446.104 461.677,-455.509 468.607,-456.499"/>
 </g>
 <!-- releaseNeeded&#45;&gt;releaseNeeded -->
-<g id="edge27" class="edge"><title>releaseNeeded&#45;&gt;releaseNeeded</title>
+<g id="edge26" class="edge"><title>releaseNeeded&#45;&gt;releaseNeeded</title>
 <path fill="none" stroke="red" d="M516.326,-441.101C526.571,-439.82 534,-435.453 534,-428 534,-423.225 530.951,-419.717 526.066,-417.476"/>
 <polygon fill="red" stroke="red" points="526.889,-414.073 516.326,-414.899 525.098,-420.84 526.889,-414.073"/>
 </g>
@@ -294,7 +284,7 @@
 <text text-anchor="middle" x="610" y="-424.3" font-family="Times,serif" font-size="14.00">export</text>
 </g>
 <!-- exportX&#45;&gt;export -->
-<g id="edge25" class="edge"><title>exportX&#45;&gt;export</title>
+<g id="edge24" class="edge"><title>exportX&#45;&gt;export</title>
 <path fill="none" stroke="black" d="M610,-481.697C610,-473.983 610,-464.712 610,-456.112"/>
 <polygon fill="black" stroke="black" points="613.5,-456.104 610,-446.104 606.5,-456.104 613.5,-456.104"/>
 </g>
@@ -304,7 +294,7 @@
 <text text-anchor="middle" x="402" y="-280.3" font-family="Times,serif" font-size="14.00">buildDependents</text>
 </g>
 <!-- build&#45;&gt;buildDependents -->
-<g id="edge18" class="edge"><title>build&#45;&gt;buildDependents</title>
+<g id="edge17" class="edge"><title>build&#45;&gt;buildDependents</title>
 <path fill="none" stroke="black" d="M402,-337.697C402,-329.983 402,-320.712 402,-312.112"/>
 <polygon fill="black" stroke="black" points="405.5,-312.104 402,-302.104 398.5,-312.104 405.5,-312.104"/>
 </g>
@@ -314,29 +304,34 @@
 <text text-anchor="middle" x="535" y="-280.3" font-family="Times,serif" font-size="14.00">buildNeeded</text>
 </g>
 <!-- build&#45;&gt;buildNeeded -->
-<g id="edge20" class="edge"><title>build&#45;&gt;buildNeeded</title>
+<g id="edge19" class="edge"><title>build&#45;&gt;buildNeeded</title>
 <path fill="none" stroke="black" d="M429.235,-340.666C447.772,-330.91 472.649,-317.816 493.62,-306.779"/>
 <polygon fill="black" stroke="black" points="495.421,-309.786 502.64,-302.032 492.161,-303.592 495.421,-309.786"/>
 </g>
 <!-- buildDependents&#45;&gt;buildDependents -->
-<g id="edge19" class="edge"><title>buildDependents&#45;&gt;buildDependents</title>
+<g id="edge18" class="edge"><title>buildDependents&#45;&gt;buildDependents</title>
 <path fill="none" stroke="yellow" d="M456.007,-296.899C466.529,-295.401 474,-291.102 474,-284 474,-279.451 470.934,-276.051 465.964,-273.801"/>
 <polygon fill="yellow" stroke="yellow" points="466.575,-270.341 456.007,-271.101 464.742,-277.097 466.575,-270.341"/>
 </g>
 <!-- buildNeeded&#45;&gt;buildNeeded -->
-<g id="edge21" class="edge"><title>buildNeeded&#45;&gt;buildNeeded</title>
+<g id="edge20" class="edge"><title>buildNeeded&#45;&gt;buildNeeded</title>
 <path fill="none" stroke="red" d="M578.036,-297.262C588.355,-296.225 596,-291.805 596,-284 596,-279 592.862,-275.389 587.894,-273.167"/>
 <polygon fill="red" stroke="red" points="588.583,-269.732 578.036,-270.738 586.909,-276.529 588.583,-269.732"/>
 </g>
 <!-- findbugsMain&#45;&gt;check -->
-<g id="edge30" class="edge"><title>findbugsMain&#45;&gt;check</title>
+<g id="edge29" class="edge"><title>findbugsMain&#45;&gt;check</title>
 <path fill="none" stroke="green" d="M308.36,-481.697C303.873,-473.644 298.441,-463.894 293.476,-454.982"/>
 <polygon fill="green" stroke="green" points="296.454,-453.137 288.53,-446.104 290.339,-456.544 296.454,-453.137"/>
 </g>
 <!-- findbugsTest&#45;&gt;check -->
-<g id="edge31" class="edge"><title>findbugsTest&#45;&gt;check</title>
+<g id="edge30" class="edge"><title>findbugsTest&#45;&gt;check</title>
 <path fill="none" stroke="green" d="M227.056,-481.697C235.495,-473.135 245.825,-462.656 255.043,-453.304"/>
 <polygon fill="green" stroke="green" points="257.613,-455.683 262.14,-446.104 252.627,-450.769 257.613,-455.683"/>
+</g>
+<!-- javadoc -->
+<g id="node22" class="node"><title>javadoc</title>
+<polygon fill="lightcyan" stroke="black" points="560.25,-916 501.75,-916 501.75,-880 560.25,-880 560.25,-916"/>
+<text text-anchor="middle" x="531" y="-894.3" font-family="Times,serif" font-size="14.00">javadoc</text>
 </g>
 <!-- clean -->
 <g id="node23" class="node"><title>clean</title>
@@ -349,19 +344,19 @@
 <text text-anchor="middle" x="1040" y="-803.3" font-family="Times,serif" font-size="14.00">clean</text>
 </g>
 <!-- clean&#45;&gt;cleanAll -->
-<g id="edge33" class="edge"><title>clean&#45;&gt;cleanAll</title>
+<g id="edge32" class="edge"><title>clean&#45;&gt;cleanAll</title>
 <path fill="none" stroke="blue" d="M669.043,-890.953C738.532,-875.414 923.432,-834.067 1002.88,-816.301"/>
 <polygon fill="blue" stroke="blue" points="1003.92,-819.654 1012.92,-814.056 1002.4,-812.822 1003.92,-819.654"/>
 </g>
 <!-- echo -->
 <g id="node24" class="node"><title>echo</title>
-<polygon fill="cyan" stroke="black" points="223,-916 169,-916 169,-880 223,-880 223,-916"/>
-<text text-anchor="middle" x="196" y="-894.3" font-family="Times,serif" font-size="14.00">echo</text>
+<polygon fill="cyan" stroke="black" points="198,-916 144,-916 144,-880 198,-880 198,-916"/>
+<text text-anchor="middle" x="171" y="-894.3" font-family="Times,serif" font-size="14.00">echo</text>
 </g>
 <!-- bndproperties -->
 <g id="node25" class="node"><title>bndproperties</title>
-<polygon fill="cyan" stroke="black" points="122.25,-916 31.75,-916 31.75,-880 122.25,-880 122.25,-916"/>
-<text text-anchor="middle" x="77" y="-894.3" font-family="Times,serif" font-size="14.00">bndproperties</text>
+<polygon fill="cyan" stroke="black" points="109.25,-916 18.75,-916 18.75,-880 109.25,-880 109.25,-916"/>
+<text text-anchor="middle" x="64" y="-894.3" font-family="Times,serif" font-size="14.00">bndproperties</text>
 </g>
 <!-- init -->
 <g id="node27" class="node"><title>init</title>
@@ -384,7 +379,7 @@
 <text text-anchor="middle" x="1040" y="-731.3" font-family="Times,serif" font-size="14.00">cleanNeeded</text>
 </g>
 <!-- cleanAll&#45;&gt;cleanAllNeeded -->
-<g id="edge34" class="edge"><title>cleanAll&#45;&gt;cleanAllNeeded</title>
+<g id="edge33" class="edge"><title>cleanAll&#45;&gt;cleanAllNeeded</title>
 <path fill="none" stroke="blue" d="M1040,-788.697C1040,-780.983 1040,-771.712 1040,-763.112"/>
 <polygon fill="blue" stroke="blue" points="1043.5,-763.104 1040,-753.104 1036.5,-763.104 1043.5,-763.104"/>
 </g>
@@ -394,12 +389,12 @@
 <text text-anchor="middle" x="1152" y="-731.3" font-family="Times,serif" font-size="14.00">distclean</text>
 </g>
 <!-- cleanAll&#45;&gt;distclean -->
-<g id="edge36" class="edge"><title>cleanAll&#45;&gt;distclean</title>
+<g id="edge35" class="edge"><title>cleanAll&#45;&gt;distclean</title>
 <path fill="none" stroke="blue" d="M1067.11,-789.055C1081.86,-779.837 1100.29,-768.319 1116.21,-758.371"/>
 <polygon fill="blue" stroke="blue" points="1118.12,-761.3 1124.75,-753.032 1114.41,-755.364 1118.12,-761.3"/>
 </g>
 <!-- cleanAllNeeded&#45;&gt;cleanAllNeeded -->
-<g id="edge35" class="edge"><title>cleanAllNeeded&#45;&gt;cleanAllNeeded</title>
+<g id="edge34" class="edge"><title>cleanAllNeeded&#45;&gt;cleanAllNeeded</title>
 <path fill="none" stroke="red" d="M1083.04,-748.262C1093.35,-747.225 1101,-742.805 1101,-735 1101,-730 1097.86,-726.389 1092.89,-724.167"/>
 <polygon fill="red" stroke="red" points="1093.58,-720.732 1083.04,-721.738 1091.91,-727.529 1093.58,-720.732"/>
 </g>
@@ -409,12 +404,12 @@
 <text text-anchor="middle" x="1114" y="-659.3" font-family="Times,serif" font-size="14.00">distcleanNeeded</text>
 </g>
 <!-- distclean&#45;&gt;distcleanNeeded -->
-<g id="edge37" class="edge"><title>distclean&#45;&gt;distcleanNeeded</title>
+<g id="edge36" class="edge"><title>distclean&#45;&gt;distcleanNeeded</title>
 <path fill="none" stroke="black" d="M1142.61,-716.697C1138.24,-708.644 1132.94,-698.894 1128.1,-689.982"/>
 <polygon fill="black" stroke="black" points="1131.13,-688.223 1123.29,-681.104 1124.98,-691.563 1131.13,-688.223"/>
 </g>
 <!-- distcleanNeeded&#45;&gt;distcleanNeeded -->
-<g id="edge38" class="edge"><title>distcleanNeeded&#45;&gt;distcleanNeeded</title>
+<g id="edge37" class="edge"><title>distcleanNeeded&#45;&gt;distcleanNeeded</title>
 <path fill="none" stroke="red" d="M1167.26,-675.899C1177.63,-674.401 1185,-670.102 1185,-663 1185,-658.451 1181.98,-655.051 1177.08,-652.801"/>
 <polygon fill="red" stroke="red" points="1177.83,-649.378 1167.26,-650.101 1175.97,-656.128 1177.83,-649.378"/>
 </g>
@@ -424,7 +419,7 @@
 <text text-anchor="middle" x="765" y="-568.3" font-family="Times,serif" font-size="14.00">p2FeaturesTree</text>
 </g>
 <!-- p2Entry&#45;&gt;p2FeaturesTree -->
-<g id="edge40" class="edge"><title>p2Entry&#45;&gt;p2FeaturesTree</title>
+<g id="edge39" class="edge"><title>p2Entry&#45;&gt;p2FeaturesTree</title>
 <path fill="none" stroke="black" d="M765,-644.84C765,-632.281 765,-614.979 765,-600.502"/>
 <polygon fill="black" stroke="black" points="768.5,-600.107 765,-590.107 761.5,-600.107 768.5,-600.107"/>
 </g>
@@ -434,7 +429,7 @@
 <text text-anchor="middle" x="910" y="-496.3" font-family="Times,serif" font-size="14.00">p2PluginsPelagic</text>
 </g>
 <!-- p2Entry&#45;&gt;p2PluginsPelagic -->
-<g id="edge43" class="edge"><title>p2Entry&#45;&gt;p2PluginsPelagic</title>
+<g id="edge42" class="edge"><title>p2Entry&#45;&gt;p2PluginsPelagic</title>
 <path fill="none" stroke="black" d="M780.867,-644.969C792.796,-632.121 809.507,-614.03 824,-598 846.021,-573.643 870.875,-545.543 888.18,-525.877"/>
 <polygon fill="black" stroke="black" points="890.902,-528.082 894.876,-518.261 885.645,-523.461 890.902,-528.082"/>
 </g>
@@ -444,7 +439,7 @@
 <text text-anchor="middle" x="765" y="-496.3" font-family="Times,serif" font-size="14.00">p2FeatureGradlePlugin</text>
 </g>
 <!-- p2FeaturesTree&#45;&gt;p2FeatureGradlePlugin -->
-<g id="edge41" class="edge"><title>p2FeaturesTree&#45;&gt;p2FeatureGradlePlugin</title>
+<g id="edge40" class="edge"><title>p2FeaturesTree&#45;&gt;p2FeatureGradlePlugin</title>
 <path fill="none" stroke="black" d="M765,-553.697C765,-545.983 765,-536.712 765,-528.112"/>
 <polygon fill="black" stroke="black" points="768.5,-528.104 765,-518.104 761.5,-528.104 768.5,-528.104"/>
 </g>
@@ -454,7 +449,7 @@
 <text text-anchor="middle" x="778" y="-424.3" font-family="Times,serif" font-size="14.00">p2Features</text>
 </g>
 <!-- p2FeatureGradlePlugin&#45;&gt;p2Features -->
-<g id="edge42" class="edge"><title>p2FeatureGradlePlugin&#45;&gt;p2Features</title>
+<g id="edge41" class="edge"><title>p2FeatureGradlePlugin&#45;&gt;p2Features</title>
 <path fill="none" stroke="black" d="M768.213,-481.697C769.646,-473.983 771.368,-464.712 772.965,-456.112"/>
 <polygon fill="black" stroke="black" points="776.439,-456.575 774.823,-446.104 769.556,-455.297 776.439,-456.575"/>
 </g>
@@ -464,7 +459,7 @@
 <text text-anchor="middle" x="813" y="-352.3" font-family="Times,serif" font-size="14.00">p2</text>
 </g>
 <!-- p2Features&#45;&gt;p2 -->
-<g id="edge45" class="edge"><title>p2Features&#45;&gt;p2</title>
+<g id="edge44" class="edge"><title>p2Features&#45;&gt;p2</title>
 <path fill="none" stroke="black" d="M786.652,-409.697C790.636,-401.728 795.45,-392.1 799.868,-383.264"/>
 <polygon fill="black" stroke="black" points="803.106,-384.614 804.448,-374.104 796.845,-381.483 803.106,-384.614"/>
 </g>
@@ -474,12 +469,12 @@
 <text text-anchor="middle" x="896" y="-424.3" font-family="Times,serif" font-size="14.00">p2Plugins</text>
 </g>
 <!-- p2PluginsPelagic&#45;&gt;p2Plugins -->
-<g id="edge44" class="edge"><title>p2PluginsPelagic&#45;&gt;p2Plugins</title>
+<g id="edge43" class="edge"><title>p2PluginsPelagic&#45;&gt;p2Plugins</title>
 <path fill="none" stroke="black" d="M906.539,-481.697C904.997,-473.983 903.142,-464.712 901.422,-456.112"/>
 <polygon fill="black" stroke="black" points="904.814,-455.224 899.421,-446.104 897.95,-456.597 904.814,-455.224"/>
 </g>
 <!-- p2Plugins&#45;&gt;p2 -->
-<g id="edge46" class="edge"><title>p2Plugins&#45;&gt;p2</title>
+<g id="edge45" class="edge"><title>p2Plugins&#45;&gt;p2</title>
 <path fill="none" stroke="black" d="M875.483,-409.697C865.131,-400.965 852.414,-390.24 841.161,-380.75"/>
 <polygon fill="black" stroke="black" points="843.182,-377.876 833.281,-374.104 838.669,-383.227 843.182,-377.876"/>
 </g>
@@ -489,7 +484,7 @@
 <text text-anchor="middle" x="813" y="-280.3" font-family="Times,serif" font-size="14.00">index</text>
 </g>
 <!-- p2&#45;&gt;indexBuild -->
-<g id="edge47" class="edge"><title>p2&#45;&gt;indexBuild</title>
+<g id="edge46" class="edge"><title>p2&#45;&gt;indexBuild</title>
 <path fill="none" stroke="black" d="M813,-337.697C813,-329.983 813,-320.712 813,-312.112"/>
 <polygon fill="black" stroke="black" points="816.5,-312.104 813,-302.104 809.5,-312.104 816.5,-312.104"/>
 </g>
@@ -499,7 +494,7 @@
 <text text-anchor="middle" x="787" y="-197.3" font-family="Times,serif" font-size="14.00">distCompositePelagic</text>
 </g>
 <!-- indexBuild&#45;&gt;distCompositePelagic -->
-<g id="edge48" class="edge"><title>indexBuild&#45;&gt;distCompositePelagic</title>
+<g id="edge47" class="edge"><title>indexBuild&#45;&gt;distCompositePelagic</title>
 <path fill="none" stroke="black" d="M807.486,-265.822C804.039,-255.083 799.527,-241.025 795.614,-228.837"/>
 <polygon fill="black" stroke="black" points="798.895,-227.605 792.506,-219.153 792.23,-229.744 798.895,-227.605"/>
 </g>
@@ -509,12 +504,12 @@
 <text text-anchor="middle" x="830" y="-125.3" font-family="Times,serif" font-size="14.00">distZipPelagic</text>
 </g>
 <!-- indexBuild&#45;&gt;distZipPelagic -->
-<g id="edge49" class="edge"><title>indexBuild&#45;&gt;distZipPelagic</title>
+<g id="edge48" class="edge"><title>indexBuild&#45;&gt;distZipPelagic</title>
 <path fill="none" stroke="black" d="M831.544,-265.948C843.036,-254.061 856.757,-237.131 863,-219 868.209,-203.872 867.398,-198.384 863,-183 860.287,-173.51 855.328,-164.065 850.065,-155.834"/>
 <polygon fill="black" stroke="black" points="852.858,-153.717 844.327,-147.434 847.078,-157.666 852.858,-153.717"/>
 </g>
 <!-- distCompositePelagic&#45;&gt;distZipPelagic -->
-<g id="edge50" class="edge"><title>distCompositePelagic&#45;&gt;distZipPelagic</title>
+<g id="edge49" class="edge"><title>distCompositePelagic&#45;&gt;distZipPelagic</title>
 <path fill="none" stroke="black" d="M797.629,-182.697C802.628,-174.559 808.691,-164.689 814.212,-155.701"/>
 <polygon fill="black" stroke="black" points="817.241,-157.457 819.493,-147.104 811.277,-153.793 817.241,-157.457"/>
 </g>
@@ -524,7 +519,7 @@
 <text text-anchor="middle" x="830" y="-53.3" font-family="Times,serif" font-size="14.00">dist</text>
 </g>
 <!-- distZipPelagic&#45;&gt;dist -->
-<g id="edge51" class="edge"><title>distZipPelagic&#45;&gt;dist</title>
+<g id="edge50" class="edge"><title>distZipPelagic&#45;&gt;dist</title>
 <path fill="none" stroke="black" d="M830,-110.697C830,-102.983 830,-93.7125 830,-85.1124"/>
 <polygon fill="black" stroke="black" points="833.5,-85.1043 830,-75.1043 826.5,-85.1044 833.5,-85.1043"/>
 </g>

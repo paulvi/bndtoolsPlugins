@@ -100,7 +100,6 @@ digraph GradleSetup {
 
     compileJava            -> classes
     processResources       -> classes
-    classes                -> javadoc
     classes                -> compileTestJava
     classes                -> jar
     classes                -> test
