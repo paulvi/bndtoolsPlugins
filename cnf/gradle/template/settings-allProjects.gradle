@@ -21,9 +21,6 @@ buildscript {
 }
 
 
-/* Export task settings */
-ext.gradleBuildExportDir                      = 'export'            /* relative to build directory             */
-
 /* Load the overrides */
 apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")
 
