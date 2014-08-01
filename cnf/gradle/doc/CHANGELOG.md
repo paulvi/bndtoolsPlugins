@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The ```gradleBuildLogging...``` properties were renamed
+  to ```logging...```.
 * The property ```gradleBuildDependenciesCacheDir``` was renamed
   to ```buildDependenciesCacheDir```.
 * The property ```gradleBuildBuildProperties``` was renamed
@@ -10,7 +12,7 @@
   to ```root_defaultTask``` and is now a comma-separated list of tasks.
 * The bindex and repoindex properties for the jar and the main class can no
   longer be overridden.
-* The ```gradleBuildLibsDirName...``` property was renamed
+* The ```gradleBuildLibsDirName``` property was renamed
   to ```javaLibsDirName```.
 * The ```gradleBuildTest...``` properties were renamed
   to ```javaTest...```.

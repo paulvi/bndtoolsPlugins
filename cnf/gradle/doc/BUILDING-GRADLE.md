@@ -348,10 +348,7 @@ The build has the following flow:
 
   * Scan for the configuration project (see [Configuration Project](#ProjectsAndWorkspacesCnf)).
 
-  * In order to be able to configure the build itself, the workspace build
-    settings are loaded from
-    the ```cnf/gradle/template/settings-workspace.gradle``` file, which
-    then loads overrides from
+  * The workspace build settings overrides are loaded from
     the ```cnf/gradle/custom/settings-workspace.gradle``` file.
 
   * Build logging is setup, as specified by the workspace build settings.

@@ -10,6 +10,10 @@
 assert(project == rootProject)
 
 
+if (!hasProperty('loggingCaptureStandardOutput')) ext.loggingCaptureStandardOutput = LogLevel.WARN
+if (!hasProperty('loggingLevel'                )) ext.loggingLevel                 = LogLevel.WARN
+
+
 /* Scan for the location of the configuration (cnf) project, relative to the root project */
 def cnfs = new LinkedList<String>();
 rootDir.eachFile {
@@ -26,14 +30,12 @@ if (cnfs.size() > 1) {
 ext.bndCnf = cnfs.get(0)
 
 
-/* Load the workspace build settings */
-apply from: file("${bndCnf}/gradle/template/settings-workspace.gradle")
+/* Load the workspace build settings overrides */
+apply from: file("${bndCnf}/gradle/custom/settings-workspace.gradle")
 
 /* Logging */
-assert(hasProperty('gradleBuildLoggingCaptureStandardOutput'))
-assert(hasProperty('gradleBuildLoggingLevel'))
-logging.captureStandardOutput   gradleBuildLoggingCaptureStandardOutput
-logging.level                 = gradleBuildLoggingLevel
+logging.captureStandardOutput   loggingCaptureStandardOutput
+logging.level                 = loggingLevel
 
 /* Determine the build dependencies */
 apply from: file("${bndCnf}/gradle/template/buildDependencies.gradle")
