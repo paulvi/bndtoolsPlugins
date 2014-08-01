@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The bindex and repoindex properties for the jar and the main class can no
+  longer be overridden.
 * The ```gradleBuildLibsDirName...``` property was renamed
   to ```javaLibsDirName```.
 * The ```gradleBuildTest...``` properties were renamed
