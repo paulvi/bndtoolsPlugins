@@ -24,6 +24,11 @@ buildscript {
   }
 }
 
+
+/* Gradle default task settings */
+if (!hasProperty('bnd_defaultTask'   )) ext.bnd_defaultTask    = 'jar' /* comma separated */
+if (!hasProperty('others_defaultTask')) ext.others_defaultTask = 'jar' /* comma separated */
+
 /* Load the BndPlugin class */
 apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')
 

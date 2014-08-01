@@ -26,10 +26,6 @@ ext.gradleBuildLibsDirName                    = '.'                 /* relative 
 ext.gradleBuildTestReportDirName              = 'tests/html'        /* relative to bnd target directory / reports   */
 ext.gradleBuildTestResultsDirName             = 'reports/tests/xml' /* relative to bnd target directory             */
 
-/* Gradle default task settings */
-ext.bnd_defaultTask                           = 'jar'               /* comma separated                              */
-ext.others_defaultTask                        = 'jar'               /* comma separated                              */
-
 /* Java test settings */
 ext.gradleBuildTestEnableAssertions           = true
 ext.gradleBuildTestIgnoreFailures             = false
