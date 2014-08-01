@@ -44,4 +44,4 @@ apply from: file("${bndCnf}/gradle/template/buildDependencies.gradle")
 apply from: file("${bndCnf}/gradle/template/bndWorkspace.gradle")
 
 /* Apply the build template */
-apply from: file("${bndCnf}/gradle/template/template.gradle")
+apply from: file("${bndCnf}/gradle/template/master.gradle")

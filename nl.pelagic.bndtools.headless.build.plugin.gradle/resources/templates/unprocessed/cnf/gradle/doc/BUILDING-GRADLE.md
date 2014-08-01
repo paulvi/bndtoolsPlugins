@@ -361,7 +361,7 @@ The build has the following flow:
     file ```cnf/gradle/template/bndWorkspace.gradle```.
 
   * The build template is applied by loading the
-    file ```cnf/gradle/template/template.gradle```.
+    file ```cnf/gradle/template/master.gradle```.
 
     The build template has 3 distinct sections which are applied in the order:
 
