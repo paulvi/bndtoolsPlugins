@@ -12,9 +12,9 @@
 
 properties.rootDir.eachFile {
   if (it.isDirectory()
-      && (   new File(it, "bnd.bnd"     ).exists()
-          || new File(it, "build.gradle").exists())
+      && (   new File(it, 'bnd.bnd'     ).exists()
+          || new File(it, 'build.gradle').exists())
      ) {
-    include "$it.name"
+    include "${it.name}"
   }
 }

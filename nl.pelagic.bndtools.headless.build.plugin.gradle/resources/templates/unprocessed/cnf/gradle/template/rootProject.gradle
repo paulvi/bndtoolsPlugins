@@ -20,7 +20,7 @@ assert(hasProperty('bndCnf'))
 
 
 /* Load the default build settings for the root project */
-apply from: file("$bndCnf/gradle/template/settings-rootProject.gradle")
+apply from: file("${bndCnf}/gradle/template/settings-rootProject.gradle")
 
 
 assert(hasProperty('gradleBuildGradleVersion'          ))
@@ -45,10 +45,10 @@ task wrapper(type: Wrapper) {
 }
 
 distclean.doLast {
-  delete("$bndCnf/cache")
+  delete("${bndCnf}/cache")
   delete('.gradle'      )
 }
 
 
 /* Load the build customisations */
-apply from: file("$bndCnf/gradle/custom/rootProject.gradle")
+apply from: file("${bndCnf}/gradle/custom/rootProject.gradle")

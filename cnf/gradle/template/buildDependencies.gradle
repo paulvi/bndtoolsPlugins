@@ -27,7 +27,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
   assert(hasProperty('bndBuildProperties'             ))
   assert(hasProperty('gradleBuildDependenciesCacheDir'))
 
-  def propKeyExtensionRegex = "\\." + extension + "\$"
+  def propKeyExtensionRegex = '\\.' + extension + '\$'
   bndBuildProperties
      .findAll({it -> it.key.trim().toLowerCase() ==~ ('.+' + propKeyExtensionRegex)})
      .each {
@@ -102,7 +102,7 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
 
 /* Ensure the build properties file exists */
 if (!file(gradleBuildBuildProperties).exists()) {
-  throw new GradleException("Build properties file \"${gradleBuildBuildProperties}\" does not exist")
+  throw new GradleException("Build properties file (${gradleBuildBuildProperties}) does not exist")
 }
 
 /* Load the build properties */

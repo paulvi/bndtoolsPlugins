@@ -22,10 +22,10 @@ assert(hasProperty('gradleBuildIndexR5Compressed'   ))
 FileTree getFileTreeInstance(String propertyName) {
   def fileTreeInstance = properties.get(propertyName)
   if (fileTreeInstance == null) {
-    throw new GradleException("Property \"${propertyName}\" not found")
+    throw new GradleException("Property ${propertyName} not found")
   }
   if (!(fileTreeInstance instanceof FileTree)) {
-    throw new GradleException("Property \"${propertyName}\" is not an instance of FileTree")
+    throw new GradleException("Property ${propertyName} is not an instance of FileTree")
   }
 
   return fileTreeInstance
@@ -64,11 +64,11 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
     indexerMain         =                   rootProject.gradleBuildRepoindexMain
   }
 
-  gradleBuildIndexDirectories.trim().split("\\s*,\\s*").each { indexDirectory ->
-    def parts              = indexDirectory.trim().split("\\s*;\\s*")
+  gradleBuildIndexDirectories.trim().split('\\s*,\\s*').each { indexDirectory ->
+    def parts              = indexDirectory.trim().split('\\s*;\\s*')
 
     if (parts.length > 3) {
-        throw new GradleException("Too many parts to the indexing configuration \"${gradleBuildIndexDirectories}\"")
+        throw new GradleException("Too many parts to the indexing configuration (${gradleBuildIndexDirectories})")
     }
 
     if (parts.length > 1) {
@@ -171,7 +171,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
  */
 
 task index {
-  description "Generate OBR and R5 repository indexes (set the '${gradleBuildIndexDirectoriesProperty}' property)"
+  description "Generate OBR and R5 repository indexes (set the ${gradleBuildIndexDirectoriesProperty} property)"
   group       'Release'
 
   doLast {
