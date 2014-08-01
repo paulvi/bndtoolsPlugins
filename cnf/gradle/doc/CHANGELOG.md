@@ -1,29 +1,30 @@
 # Changes since bndtools 2.3.0 release
 
-* The ```gradleBuildLogging...``` properties were renamed
-  to ```logging...```.
-* The property ```gradleBuildDependenciesCacheDir``` was renamed
-  to ```buildDependenciesCacheDir```.
-* The property ```gradleBuildBuildProperties``` was renamed
-  to ```buildDependenciesPropertiesFile```.
-* The property ```gradleBuildGradleVersion``` was renamed
-  to ```rootGradleVersion```.
-* The property ```gradleBuildRootProjectDefaultTasks``` was renamed
-  to ```root_defaultTask``` and is now a comma-separated list of tasks.
 * The bindex and repoindex properties for the jar and the main class can no
   longer be overridden.
-* The ```gradleBuildLibsDirName``` property was renamed
-  to ```javaLibsDirName```.
-* The ```gradleBuildTest...``` properties were renamed
-  to ```javaTest...```.
-* The ```gradleBuildJacoco...``` properties were renamed
-  to ```jacoco...```.
-* The ```gradleBuildIndex...``` properties were renamed
-  to ```index...```.
-* The ```gradleBuildJavaDoc...``` properties were renamed
-  to ```javadoc...```.
-* The ```gradleBuildFindbugs...``` properties were renamed
-  to ```findbugs...```.
+* All ```gradleBuild...``` properties were renamed.
+  * The ```gradleBuildLogging...``` properties were renamed
+    to ```logging...```.
+  * The property ```gradleBuildDependenciesCacheDir``` was renamed
+    to ```buildDependenciesCacheDir```.
+  * The property ```gradleBuildBuildProperties``` was renamed
+    to ```buildDependenciesPropertiesFile```.
+  * The property ```gradleBuildGradleVersion``` was renamed
+    to ```rootGradleVersion```.
+  * The property ```gradleBuildRootProjectDefaultTasks``` was renamed
+    to ```root_defaultTask``` and is now a comma-separated list of tasks.
+  * The ```gradleBuildLibsDirName``` property was renamed
+    to ```javaLibsDirName```.
+  * The ```gradleBuildTest...``` properties were renamed
+    to ```javaTest...```.
+  * The ```gradleBuildJacoco...``` properties were renamed
+    to ```jacoco...```.
+  * The ```gradleBuildIndex...``` properties were renamed
+    to ```index...```.
+  * The ```gradleBuildJavaDoc...``` properties were renamed
+    to ```javadoc...```.
+  * The ```gradleBuildFindbugs...``` properties were renamed
+    to ```findbugs...```.
 * The file ```cnf/build.gradle.properties``` was moved
   to ```cnf/gradle/build.gradle.properties```.
 * The findbugs include and exclude files were moved from ```cnf```
@@ -67,10 +68,10 @@ bndTargetDir
   should manually setup their source sets
   (as described [here](#AddingJavaProjectsToTheBuild)).
 * The property ```in.ant``` is no longer set to indicate a headless build.
-  Instead, you can now use the ```driver``` of ``gestallt``` macros from bnd.
+  Instead, you can now use the ```driver``` of ```gestallt``` macros from bnd.
   For example: setting a different release repository in the gradle build can
   be accomplished by
-  setting ```-releaserepo: ${if;${driver;gradle};ReleaseCI;Release}``` in the
+  setting ```-releaserepo:${if;${driver;gradle};ReleaseCI;Release}``` in the
   file ```cnf/ext/repositories.bnd```.
 * The ```jsr14``` compiler support has changed is no longer directly supported.
   Refer to the official bnd plugin for details.
