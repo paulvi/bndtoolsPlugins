@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The ```gradleBuildLibsDirName...``` property was renamed
+  to ```javaLibsDirName```.
 * The ```gradleBuildTest...``` properties were renamed
   to ```javaTest...```.
 * The ```gradleBuildJacoco...``` properties were renamed

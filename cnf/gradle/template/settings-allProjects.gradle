@@ -21,9 +21,6 @@ buildscript {
 }
 
 
-/* Gradle directory settings */
-ext.gradleBuildLibsDirName                    = '.'                 /* relative to build directory             */
-
 /* Export task settings */
 ext.gradleBuildExportDir                      = 'export'            /* relative to build directory             */
 

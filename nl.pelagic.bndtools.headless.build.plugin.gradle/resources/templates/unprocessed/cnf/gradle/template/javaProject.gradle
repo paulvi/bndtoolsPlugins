@@ -14,23 +14,16 @@ assert(rootProject.hasProperty('bndCnf'    ))
 assert(            hasProperty('sourceSets'))
 
 
-/*
- * Java Project
- */
-
-/* Setup main directory */
-libsDirName           = gradleBuildLibsDirName
-
-/* Setup result and report directories */
-if (!hasProperty('javaTestReportDirName ')) ext.javaTestReportDirName  = 'tests/html'        /* relative to build directory / reports   */
-if (!hasProperty('javaTestResultsDirName')) ext.javaTestResultsDirName = 'reports/tests/xml' /* relative to build directory             */
-testResultsDirName    = javaTestResultsDirName
-testReportDirName     = javaTestReportDirName
-
-/* Setup test options */
+if (!hasProperty('javaLibsDirName '        )) ext.javaLibsDirName          = '.'                 /* relative to build directory             */
+if (!hasProperty('javaTestReportDirName '  )) ext.javaTestReportDirName    = 'tests/html'        /* relative to build directory / reports   */
+if (!hasProperty('javaTestResultsDirName'  )) ext.javaTestResultsDirName   = 'reports/tests/xml' /* relative to build directory             */
 if (!hasProperty('javaTestEnableAssertions')) ext.javaTestEnableAssertions = true
 if (!hasProperty('javaTestIgnoreFailures'  )) ext.javaTestIgnoreFailures   = false
 if (!hasProperty('javaTestMaxParallelForks')) ext.javaTestMaxParallelForks = 1
+
+libsDirName           = javaLibsDirName
+testResultsDirName    = javaTestResultsDirName
+testReportDirName     = javaTestReportDirName
 test.enableAssertions = javaTestEnableAssertions
 test.ignoreFailures   = javaTestIgnoreFailures
 test.maxParallelForks = javaTestMaxParallelForks
