@@ -29,7 +29,7 @@ apply plugin: 'findbugs'
 
 if (!hasProperty('findbugsReportXML'     )) ext.findbugsReportXML      = 'CI'
 
-if (!hasProperty('findbugsToolVersion'   )) ext.findbugsToolVersion    = '2.0.3'
+if (!hasProperty('findbugsToolVersion'   )) ext.findbugsToolVersion    = '3.0.0'
 if (!hasProperty('findbugsIgnoreFailures')) ext.findbugsIgnoreFailures = true
 if (!hasProperty('findbugsEffort'        )) ext.findbugsEffort         = 'default'  /* min, default, max           */
 if (!hasProperty('findbugsReportLevel'   )) ext.findbugsReportLevel    = 'medium'   /* low, medium (default), high */
