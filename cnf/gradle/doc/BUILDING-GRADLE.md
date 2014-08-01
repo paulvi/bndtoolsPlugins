@@ -357,7 +357,7 @@ The build has the following flow:
   * Build logging is setup, as specified by the workspace build settings.
 
   * The build dependencies are setup by loading the (bootstrap) build
-    properties from the ```cnf/build.gradle.properties``` file
+    properties from the ```cnf/gradle/build.gradle.properties``` file
     (see [the explanation of the build properties file](#BuildProperties).
 
   * The bnd workspace is initialised by loading the

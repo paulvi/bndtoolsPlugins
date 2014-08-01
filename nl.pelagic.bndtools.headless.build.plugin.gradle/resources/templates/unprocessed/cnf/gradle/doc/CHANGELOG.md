@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The property ```gradleBuildBuildProperties``` was renamed
+  to ```buildDependenciesPropertiesFile```.
 * The property ```gradleBuildGradleVersion``` was renamed
   to ```rootGradleVersion```.
 * The property ```gradleBuildRootProjectDefaultTasks``` was renamed

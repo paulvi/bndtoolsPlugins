@@ -17,7 +17,6 @@ assert(hasProperty('bndCnf'))
 ext.gradleBuildLoggingCaptureStandardOutput = LogLevel.WARN
 ext.gradleBuildLoggingLevel                 = LogLevel.WARN
 
-ext.gradleBuildBuildProperties              = "${bndCnf}/gradle/build.gradle.properties"
 ext.gradleBuildDependenciesCacheDir         = "${bndCnf}/cache/gradle"
 
 

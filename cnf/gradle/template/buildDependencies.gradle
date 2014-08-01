@@ -11,7 +11,9 @@
 
 assert(project == rootProject                   )
 assert(hasProperty('bndCnf')                    )
-assert(hasProperty('gradleBuildBuildProperties'))
+
+
+if (!hasProperty('buildDependenciesPropertiesFile')) ext.buildDependenciesPropertiesFile = "${bndCnf}/gradle/build.gradle.properties"
 
 
 /*
@@ -101,13 +103,13 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
 
 
 /* Ensure the build properties file exists */
-if (!file(gradleBuildBuildProperties).exists()) {
-  throw new GradleException("Build properties file (${gradleBuildBuildProperties}) does not exist")
+if (!file(buildDependenciesPropertiesFile).exists()) {
+  throw new GradleException("Build properties file (${buildDependenciesPropertiesFile}) does not exist")
 }
 
 /* Load the build properties */
 ext.bndBuildProperties = new Properties()
-file(gradleBuildBuildProperties).withReader {
+file(buildDependenciesPropertiesFile).withReader {
   reader -> bndBuildProperties.load(reader)
 }
 
