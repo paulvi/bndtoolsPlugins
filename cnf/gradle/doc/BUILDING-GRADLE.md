@@ -441,6 +441,10 @@ The build has the following flow:
         * Build customisations are loaded from
           the ```cnf/gradle/custom/bndProjects.gradle``` file.
 
+      * For all projects that have applied the Gradle Java plugin the
+        buildscript ```cnf/gradle/template/javaProject.gradle``` is applied,
+        thereby adding tasks that are relevant to Java projects.
+
       * Build customisations are loaded from
         the ```cnf/gradle/custom/subProjects.gradle``` file.
 
@@ -780,6 +784,10 @@ However, regular Java projects are not included automatically,
 a ```build.gradle``` file in the root directory of the project is needed to make
 that happen.
 
+Such projects only need to apply the Gradle Java plugin and setup their
+sourceSets, the template will then automatically apply the
+buildscript ```cnf/gradle/template/javaProject.gradle```.
+
 The ```build.gradle``` file shown below can be used as the basis. This will
 setup the Java project with the default bnd layout and add tasks that are
 relevant to a Java project (```javadoc```, findbugs tasks and ```distclean```).
@@ -793,8 +801,6 @@ assert(project != rootProject)
 
 apply plugin: 'java'
 
-assert(rootProject.hasProperty('bndCnf'))
-
 /* We use the same directory for java and resources. */
 sourceSets {
   main {
@@ -806,8 +812,5 @@ sourceSets {
     output.classesDir   = output.resourcesDir =       'test_bin'
   }
 }
-
-/* Add tasks that are relevant to Java projects */
-apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaProject.gradle")
 ```
 

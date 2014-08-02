@@ -35,28 +35,28 @@ apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.grad
 
 allprojects { project ->
   /* Load the build settings overrides */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")
+  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")
 
   /* Allow projects to individually override build settings */
   def settingsFile = file('build-settings.gradle')
   if (settingsFile.exists()) {
-    apply from: settingsFile
+    project.apply from: settingsFile
   }
 
   /* The Gradle build directory */
   project.buildDir = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Add findbugs placeholder tasks to the project */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/findbugs-placeholders.gradle")
+  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/findbugs-placeholders.gradle")
 
   /* Add index tasks to the project */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/index.gradle")
+  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/index.gradle")
 
   /* Add clean tasks to the project */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/clean.gradle")
+  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/clean.gradle")
 
   /* Load the build customisations */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/allProjects.gradle")
+  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/allProjects.gradle")
 }
 
 
@@ -73,7 +73,7 @@ subprojects { project ->
     }
 
     /* Load the build customisations */
-    apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/nonBndProjects.gradle")
+    project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/nonBndProjects.gradle")
   } else {
     /* Store the bnd project for use in the bnd project template */
     project.ext.bndProject = bndProject
@@ -83,15 +83,17 @@ subprojects { project ->
     /* Override the javadoc bootclasspath */
     ext.javadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }
 
-    /* Add tasks that are relevant to Java projects */
-    apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaProject.gradle")
-
     /* Load the build customisations */
-    apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/bndProjects.gradle")
+    project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/bndProjects.gradle")
+  }
+
+  plugins.withType(JavaPlugin) {
+    /* Add tasks that are relevant to Java projects */
+    project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaProject.gradle")
   }
 
   /* Load the build customisations */
-  apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/subProjects.gradle")
+  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/subProjects.gradle")
 }
 
 

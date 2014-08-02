@@ -1,5 +1,8 @@
 # Changes since bndtools 2.3.0 release
 
+* The template now automatically applies the
+  buildscript ```cnf/gradle/template/javaProject.gradle``` to projects that
+  hava applied the Gradle Java plugin.
 * The bindex and repoindex properties for the jar and the main class can no
   longer be overridden.
 * All ```gradleBuild...``` properties were renamed.
