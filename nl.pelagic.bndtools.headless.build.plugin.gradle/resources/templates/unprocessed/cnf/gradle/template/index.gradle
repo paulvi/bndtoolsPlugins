@@ -8,6 +8,8 @@
 
 
 /*
+ * Create repository indexes
+ *
  * Syntax:
  * ext.indexDirectories = \
  *   '<root directory>;<name>;<name of fileTree property>, ...'
@@ -32,71 +34,34 @@ ext.indexRepoindexJar  = "${rootDir}/${bndCnf}/gradle/dependencies/org.osgi.impl
 ext.indexRepoindexMain = 'org.osgi.impl.bundle.bindex.cli.Index'
 
 
-/*
- * Retrieve a property and ensure that it's an instance of FileTree
- */
-FileTree getFileTreeInstance(String propertyName) {
-  def fileTreeInstance = properties.get(propertyName)
-  if (fileTreeInstance == null) {
-    throw new GradleException("Property ${propertyName} not found")
-  }
-  if (!(fileTreeInstance instanceof FileTree)) {
-    throw new GradleException("Property ${propertyName} is not an instance of FileTree")
-  }
-
-  return fileTreeInstance
-}
-
-
-/*
- * Create repository indexes
- *
- * Syntax:
- * ext.indexDirectories = \
- *   '<root directory>;<name>;<name of fileTree property>, ...'
- *
- *  root directory           : mandatory.
- *  name                     : optional. if not specified then the basename of
- *                             the root directory is used.
- *  name of fileTree variable: optional. if not specified then all *.jar files
- *                             below the root directory will be indexed
- */
 void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
-  assert(hasProperty('indexDirectories'))
-
   def indexerClasspath
   def indexerMain
   if (!r5) {
-    assert(rootProject.hasProperty('indexBindexJar'))
-    assert(rootProject.hasProperty('indexBindexMain'))
-
-    indexerClasspath    = rootProject.files(rootProject.indexBindexJar )
-    indexerMain         =                   rootProject.indexBindexMain
+    indexerClasspath = rootProject.files(rootProject.indexBindexJar )
+    indexerMain      =                   rootProject.indexBindexMain
   } else {
-    assert(rootProject.hasProperty('indexRepoindexJar'))
-    assert(rootProject.hasProperty('indexRepoindexMain'))
-
-    indexerClasspath    = rootProject.files(rootProject.indexRepoindexJar )
-    indexerMain         =                   rootProject.indexRepoindexMain
+    indexerClasspath = rootProject.files(rootProject.indexRepoindexJar )
+    indexerMain      =                   rootProject.indexRepoindexMain
   }
 
   indexDirectories.trim().split('\\s*,\\s*').each { indexDirectory ->
-    def parts              = indexDirectory.trim().split('\\s*;\\s*')
+    def parts        = indexDirectory.trim().split('\\s*;\\s*')
 
     if (parts.length > 3) {
-        throw new GradleException("Too many parts to the indexing configuration (${indexDirectories})")
+      throw new GradleException("Too many parts to the indexing configuration (${indexDirectory})")
     }
 
     if (parts.length > 1) {
-        indexDirectory     = parts[0]
+      indexDirectory = parts[0]
     }
     def indexDirectoryFile = file(indexDirectory)
 
     def repoName
-    if (parts.length > 1) {
-      repoName             = parts[1]
+    if (parts.length > 1 && !parts[1].empty) {
+      repoName       = parts[1]
     } else {
-      repoName             = indexDirectoryFile.name
+      repoName       = indexDirectoryFile.name
     }
 
     if ((!indexDirectoryFile.exists() && !indexDirectoryFile.mkdirs()) || !indexDirectoryFile.isDirectory()) {
@@ -105,7 +70,13 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
 
     def bundlesToIndex
     if (parts.length > 2) {
-      bundlesToIndex = getFileTreeInstance(parts[2])
+      bundlesToIndex = properties.get(parts[2])
+      if (bundlesToIndex == null) {
+        throw new GradleException("Property ${parts[2]} not found")
+      }
+      if (!(bundlesToIndex instanceof FileTree)) {
+        throw new GradleException("Property ${parts[2]} is not an instance of FileTree")
+      }
     } else {
       bundlesToIndex = fileTree(indexDirectoryFile).include("**/*.jar")
     }
@@ -134,41 +105,31 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
       if (generateIndex) {
         def indexFile
         if (!compress) {
-          indexFile        = uncompressedIndexFile
+          indexFile     = uncompressedIndexFile
         } else {
-          indexFile        = compressedIndexFile
+          indexFile     = compressedIndexFile
         }
 
-        def indexArgs      = []
+        def indexArgs   = []
         if (!r5) {
-          indexArgs       += '-r'
-          indexArgs       += indexFile
-          indexArgs       += '-d'
-          indexArgs       += indexDirectoryFile.toURI()
-          indexArgs       += '-n'
-          indexArgs       += repoName
+          indexArgs    += ['-r', indexFile, '-d', indexDirectoryFile.toURI(), '-n', repoName]
         } else {
           if (!compress) {
-            indexArgs     += '--pretty'
+            indexArgs  += ['--pretty']
           }
-          indexArgs       += '-r'
-          indexArgs       += indexFile
-          indexArgs       += '-d'
-          indexArgs       += indexDirectoryFile
-          indexArgs       += '-n'
-          indexArgs       += repoName
+          indexArgs    += ['-r', indexFile, '-d', indexDirectoryFile, '-n', repoName]
         }
 
         if (!bundlesToIndex.isEmpty()) {
           bundlesToIndex.each {
-            indexArgs     += relativePath(it)
+            indexArgs  += relativePath(it)
           }
         }
 
         def result = javaexec {
-          classpath      = indexerClasspath
-          main           = indexerMain
-          args           = indexArgs
+          classpath     = indexerClasspath
+          main          = indexerMain
+          args          = indexArgs
         }
         if (result.exitValue != 0) {
           String msg = String.format("Could not create %s %s index in directory ${indexDirectory}",
