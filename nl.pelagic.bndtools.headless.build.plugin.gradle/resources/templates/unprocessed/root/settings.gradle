@@ -4,7 +4,23 @@
  * This file should not be edited.
  */
 
+/* Scan for the location of the configuration (cnf) project, relative to the root project */
+def cnfs = new LinkedList<String>();
+rootDir.eachFile {
+  if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
+    cnfs.add(relativePath(it))
+  }
+}
+if (cnfs.isEmpty()) {
+  throw new GradleException('Could not locate the cnf project.')
+}
+if (cnfs.size() > 1) {
+  throw new GradleException("Multiple cnf projects found: ${cnfs}")
+}
+def bndCnf = cnfs.get(0)
 
+
+/* include all bnd projects and all gradle projects */
 properties.rootDir.eachFile {
   if (it.isDirectory()
       && (   new File(it, 'bnd.bnd'     ).exists()
@@ -12,4 +28,10 @@ properties.rootDir.eachFile {
      ) {
     include "${it.name}"
   }
+}
+
+
+/* After the rootProject is created, set up some properties. */
+gradle.rootProject { rootProject ->
+  rootProject.ext.bndCnf = bndCnf
 }

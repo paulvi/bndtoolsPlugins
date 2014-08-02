@@ -11,22 +11,6 @@ if (!hasProperty('loggingCaptureStandardOutput')) ext.loggingCaptureStandardOutp
 if (!hasProperty('loggingLevel'                )) ext.loggingLevel                 = LogLevel.WARN
 
 
-/* Scan for the location of the configuration (cnf) project, relative to the root project */
-def cnfs = new LinkedList<String>();
-rootDir.eachFile {
-  if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
-    cnfs.add(relativePath(it))
-  }
-}
-if (cnfs.isEmpty()) {
-  throw new GradleException('Could not locate the cnf project.')
-}
-if (cnfs.size() > 1) {
-  throw new GradleException("Multiple cnf projects found: ${cnfs}")
-}
-ext.bndCnf = cnfs.get(0)
-
-
 /* Load the workspace build settings overrides */
 apply from: file("${bndCnf}/gradle/custom/settings-workspace.gradle")
 
