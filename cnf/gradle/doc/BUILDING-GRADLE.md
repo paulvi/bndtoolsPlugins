@@ -386,8 +386,7 @@ The build has the following flow:
       root of an included project and allows overrides of the build
       settings on an project-by-project basis.
 
-    * Findbugs (placeholder) tasks, index tasks and clean (placeholder) tasks
-      are added to the project.
+    * Index tasks and clean tasks are added to the project.
 
     * Build customisations are loaded from
       the ```cnf/gradle/custom/allProjects.gradle``` file.

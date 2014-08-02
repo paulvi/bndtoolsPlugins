@@ -46,9 +46,6 @@ allprojects { project ->
   /* The Gradle build directory */
   project.buildDir = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
-  /* Add findbugs placeholder tasks to the project */
-  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/findbugs-placeholders.gradle")
-
   /* Add index tasks to the project */
   project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/index.gradle")
 
