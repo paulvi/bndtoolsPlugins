@@ -6,53 +6,48 @@
  * Add clean tasks to the project.
  */
 
-
-/*
- * Setup tasks
- */
-
 task cleanNeeded {
-  description 'Clean this project and all projects it depends on.'
-  group       'Cleanup'
+  description 'Clean the project and all projects it depends on.'
+  group 'build'
 }
 
 task distclean {
-  description 'Thoroughly clean this project.'
-  group       'Cleanup'
+  description 'Thoroughly clean the project.'
+  group 'cleanup'
 }
 
 task distcleanNeeded {
-  description 'Thoroughly clean this project and all projects it depends on.'
-  group       'Cleanup'
+  description 'Thoroughly clean the project and all projects it depends on.'
+  group 'cleanup'
+  dependsOn distclean
 }
 
 
-/*
- * Setup task dependencies
- */
-
-distcleanNeeded.dependsOn       += [distclean                         ]
-
 gradle.projectsEvaluated {
-  /* add dependencies to the clean task when the project has a clean task */
-  if (!getTasksByName('clean', false).isEmpty()) {
-    cleanNeeded.dependsOn       += [clean                             ]
-    distclean.dependsOn         += [clean                             ]
+  /* add a clean task when not present */
+  if (getTasksByName('clean', false).empty) {
+    task clean {
+      description 'Clean the project.'
+      group 'build'
+    }
   }
+
+  cleanNeeded.dependsOn(clean)
+  distclean.dependsOn(clean)
 
   /* bnd project dependencies */
   if (hasProperty('bndProject')) {
     bndProject.dependson.each {
-      cleanNeeded.dependsOn     += [':' + it.name + ':cleanNeeded'    ]
-      distcleanNeeded.dependsOn += [':' + it.name + ':distcleanNeeded']
+      cleanNeeded.dependsOn(":${it.name}:cleanNeeded")
+      distcleanNeeded.dependsOn(":${it.name}:distcleanNeeded")
     }
   }
 
   /* make sure that the root project clean tasks are run last */
   if (project == rootProject) {
     rootProject.subprojects.each {
-      cleanNeeded.dependsOn     += [':' + it.name + ':cleanNeeded'    ]
-      distcleanNeeded.dependsOn += [':' + it.name + ':distcleanNeeded']
+      clean.dependsOn(":${it.name}:clean")
+      distclean.dependsOn(":${it.name}:distclean")
     }
   }
 }
