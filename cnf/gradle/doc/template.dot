@@ -169,16 +169,14 @@ digraph GradleSetup {
     subgraph cluster302 {
       label="";
       style=invis;
-      cleanAll             [shape=box, style=filled, fillcolor=orange   , label="clean"               ]
-      cleanAllNeeded       [shape=box, style=filled, fillcolor=orange   , label="cleanNeeded"         ]
+      cleanNeeded          [shape=box, style=filled, fillcolor=orange   , label="cleanNeeded"         ]
       distclean            [shape=box, style=filled, fillcolor=orange   , label="distclean"           ]
       distcleanNeeded      [shape=box, style=filled, fillcolor=orange   , label="distcleanNeeded"     ]
     }
 
-    clean                  -> cleanAll           [color=blue  ]
-    cleanAll               -> cleanAllNeeded     [color=blue  ]
-    cleanAllNeeded         -> cleanAllNeeded     [color=red   ]
-    cleanAll               -> distclean          [color=blue  ]
+    clean                  -> cleanNeeded        [color=blue  ]
+    cleanNeeded            -> cleanNeeded        [color=red   ]
+    clean                  -> distclean          [color=blue  ]
     distclean              -> distcleanNeeded
     distcleanNeeded        -> distcleanNeeded    [color=red   ]
   }
