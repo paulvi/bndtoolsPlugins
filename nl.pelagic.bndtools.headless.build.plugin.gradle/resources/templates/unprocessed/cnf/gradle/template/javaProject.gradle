@@ -11,9 +11,9 @@ assert(rootProject.hasProperty('bndCnf'    ))
 assert(            hasProperty('sourceSets'))
 
 
-if (!hasProperty('javaLibsDirName '        )) ext.javaLibsDirName          = '.'                 /* relative to build directory             */
-if (!hasProperty('javaTestReportDirName '  )) ext.javaTestReportDirName    = 'tests/html'        /* relative to build directory / reports   */
-if (!hasProperty('javaTestResultsDirName'  )) ext.javaTestResultsDirName   = 'reports/tests/xml' /* relative to build directory             */
+if (!hasProperty('javaLibsDirName '        )) ext.javaLibsDirName          = '.'                 /* relative to build directory         */
+if (!hasProperty('javaTestResultsDirName'  )) ext.javaTestResultsDirName   = 'reports/tests/xml' /* relative to build directory         */
+if (!hasProperty('javaTestReportDirName '  )) ext.javaTestReportDirName    = 'tests/html'        /* relative to build reports directory */
 if (!hasProperty('javaTestEnableAssertions')) ext.javaTestEnableAssertions = true
 if (!hasProperty('javaTestIgnoreFailures'  )) ext.javaTestIgnoreFailures   = false
 if (!hasProperty('javaTestMaxParallelForks')) ext.javaTestMaxParallelForks = 1
