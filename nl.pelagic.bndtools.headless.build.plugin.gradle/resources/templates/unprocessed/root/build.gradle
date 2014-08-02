@@ -1,10 +1,7 @@
 /*
  * WARNING
  *
- * This file is maintained automatically by Bndtools.
- * You should not edit it.
- *
- * See the BUILDING-GRADLE.md document in the root project for more details.
+ * This file should not be edited.
  */
 
 assert(project == rootProject)
