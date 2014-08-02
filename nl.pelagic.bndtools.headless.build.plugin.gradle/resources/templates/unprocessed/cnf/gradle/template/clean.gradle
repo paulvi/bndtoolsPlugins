@@ -6,11 +6,6 @@
  * Add clean tasks to the project.
  */
 
-task cleanNeeded {
-  description 'Clean the project and all projects it depends on.'
-  group 'build'
-}
-
 task distclean {
   description 'Thoroughly clean the project.'
   group 'cleanup'
@@ -32,13 +27,20 @@ gradle.projectsEvaluated {
     }
   }
 
+  /* add a cleanNeeded task when not present */
+  if (getTasksByName('cleanNeeded', false).empty) {
+    task cleanNeeded {
+      description 'Cleans the project and all projects it depends on.'
+      group 'build'
+    }
+  }
+
   cleanNeeded.dependsOn(clean)
   distclean.dependsOn(clean)
 
   /* bnd project dependencies */
   if (hasProperty('bndProject')) {
     bndProject.dependson.each {
-      cleanNeeded.dependsOn(":${it.name}:cleanNeeded")
       distcleanNeeded.dependsOn(":${it.name}:distcleanNeeded")
     }
   }
