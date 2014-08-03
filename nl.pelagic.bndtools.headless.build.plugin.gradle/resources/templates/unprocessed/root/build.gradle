@@ -6,13 +6,11 @@
 
 assert(project == rootProject)
 
+/* Load the workspace build settings overrides */
+apply from: file("${bndCnf}/gradle/custom/settings-workspace.gradle")
 
 if (!hasProperty('loggingCaptureStandardOutput')) ext.loggingCaptureStandardOutput = LogLevel.WARN
 if (!hasProperty('loggingLevel'                )) ext.loggingLevel                 = LogLevel.WARN
-
-
-/* Load the workspace build settings overrides */
-apply from: file("${bndCnf}/gradle/custom/settings-workspace.gradle")
 
 /* Logging */
 logging.captureStandardOutput   loggingCaptureStandardOutput
