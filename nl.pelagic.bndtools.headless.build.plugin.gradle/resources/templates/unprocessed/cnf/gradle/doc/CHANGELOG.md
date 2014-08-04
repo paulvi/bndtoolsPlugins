@@ -6,6 +6,7 @@ bndtools 2.4.0.M1).
 
 Below the changes that affect users are detailed.
 
+* The jacoco reports are now placed in ```generated/reports/jacoco```.
 * The findbugs reports are now placed in ```generated/reports/findbugs```.
 * All custom buildscripts were renamed to better reflect that they're hooks,
   when they're invoked and the scope they affect.

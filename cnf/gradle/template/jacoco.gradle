@@ -14,8 +14,8 @@ apply plugin: 'jacoco'
 
 
 if (!hasProperty('jacocoToolVersion')) ext.jacocoToolVersion = '0.7.1.201405082137'
-if (!hasProperty('jacocoReportsDir' )) ext.jacocoReportsDir  = 'reports/jacoco/test' /* relative to build directory  */
-if (!hasProperty('jacocoHtmlDir'    )) ext.jacocoHtmlDir     = 'html'                /* relative to jacocoReportsDir */
+if (!hasProperty('jacocoReportsDir' )) ext.jacocoReportsDir  = 'reports/jacoco'    /* relative to build directory  */
+if (!hasProperty('jacocoHtmlDir'    )) ext.jacocoHtmlDir     = 'html'              /* relative to jacocoReportsDir */
 if (!hasProperty('jacocoXmlReport'  )) ext.jacocoXmlReport   = true
 if (!hasProperty('jacocoCsvReport'  )) ext.jacocoCsvReport   = false
 
