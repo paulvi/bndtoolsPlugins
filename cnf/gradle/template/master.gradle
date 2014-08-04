@@ -14,18 +14,18 @@ import aQute.bnd.build.Workspace
 import aQute.bnd.osgi.Constants
 
 
-assert(project == rootProject     )
-assert(hasProperty('bnd_cnf'     ))
-assert(hasProperty('bndURI'      ))
-assert(hasProperty('bndWorkspace'))
-
-
 /* Setup the build dependencies */
 buildscript {
   dependencies {
     classpath files(bndURI) + rootProject.bndBuildDependencies
   }
 }
+
+
+assert(project == rootProject     )
+assert(hasProperty('bnd_cnf'     ))
+assert(hasProperty('bndURI'      ))
+assert(hasProperty('bndWorkspace'))
 
 
 /* Gradle default task settings */
