@@ -11,7 +11,7 @@ assert(hasProperty('bnd_cnf'))
 
 
 if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.0'
-if (!hasProperty('root_defaultTask' )) ext.root_defaultTask  = 'jar'
+if (!hasProperty('root_defaultTask' )) ext.root_defaultTask  = 'build'
 
 
 /* Load the overrides */

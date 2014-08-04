@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The default task is now 'build'' for all projects (root project, bnd projects
+  and other projects)
 * The build dependencies cache directory is no longer configurable and is fixed
   to ```cnf/cache```.
 * The file ```cnf/build.gradle.properties``` was moved
