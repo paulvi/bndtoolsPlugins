@@ -16,8 +16,5 @@ if (!hasProperty('loggingLevel'                )) ext.loggingLevel              
 logging.captureStandardOutput   loggingCaptureStandardOutput
 logging.level                 = loggingLevel
 
-/* Initialise the bnd workspace and load the workspace defaults */
-apply from: file("${bndCnf}/gradle/template/bndWorkspace.gradle")
-
 /* Apply the build template */
 apply from: file("${bndCnf}/gradle/template/master.gradle")

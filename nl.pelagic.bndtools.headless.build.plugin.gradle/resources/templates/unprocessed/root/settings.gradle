@@ -4,7 +4,9 @@
  * This file should not be edited.
  */
 
+import aQute.bnd.ant.ConsoleProgress
 import aQute.bnd.build.Workspace
+
 
 /* Add bnd as a script dependency */
 buildscript {
@@ -60,6 +62,21 @@ rootDir.eachFile {
 }
 
 
+/* Initialise the bnd workspace */
+def workspace = Workspace.getWorkspace(rootDir, bndCnf)
+if (workspace == null) {
+  throw new GradleException("Unable to load bnd workspace ${rootDir}/${bndCnf}")
+}
+
+/* Delay run dependency evaluations since they may not yet be built */
+workspace.allProjects.each {
+  it.setDelayRunDependencies(true)
+}
+
+/* Ensure that the bnd output goes to the console */
+workspace.addBasicPlugin(new ConsoleProgress())
+
+
 /* Determine the build dependencies */
 apply from: file("${bndCnf}/gradle/template/buildDependencies.gradle")
 
@@ -77,5 +94,6 @@ properties.rootDir.eachFile {
 
 /* After the rootProject is created, set up some properties. */
 gradle.rootProject { rootProject ->
+  rootProject.ext.bndWorkspace = workspace
   rootProject.ext.bndCnf = bndCnf
 }
