@@ -10,48 +10,40 @@ assert(hasProperty('bnd_cnf'))
 
 
 void getBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies) {
-  assert(buildDependencies != null               )
-  assert(evaluatedDependencies != null           )
+  assert(buildDependencies     != null)
+  assert(evaluatedDependencies != null)
 
-  def propKeyExtensionRegex = '\\.url\$'
+  def propKeyExtRegex    = '\\.uri\$'
   properties
-     .findAll({it -> it.key.trim().toLowerCase() ==~ ('.+' + propKeyExtensionRegex)})
+     .findAll({it -> it.key.trim().toLowerCase() ==~ ('.+' + propKeyExtRegex)})
      .each {
-    def propKey        = it.key.trim()
-    def propValue      = it.value.trim()
-    def dependencyName = propKey.toLowerCase().replaceFirst(propKeyExtensionRegex, '')
+    def propValue        = it.value.trim()
     if (!propValue.empty) {
+      def propKey        = it.key.trim()
+      def dependencyName = propKey.toLowerCase().replaceFirst(propKeyExtRegex, '')
       if (evaluatedDependencies.contains(dependencyName)) {
         println "Warning: Build dependency ${dependencyName} was already processed, skipping ${propKey}"
       } else {
-        def url = null
-        try {
-          url = new URL(propValue)
-        } catch (MalformedURLException e) {
-          throw new GradleException("Build dependency ${propKey} specifies an invalid URL", e)
-        }
-
+        def uri          = rootDir.toURI().resolve(propValue)
         def dependencyFile = null
-        if (url.protocol.toLowerCase().equals('file')) {
-          def urlPath = url.path
-          dependencyFile     = new File(urlPath)
-          if (!dependencyFile.absolute) {
-            dependencyFile   = new File(rootDir, urlPath)
-          }
+        if (uri.scheme == 'file') {
+          dependencyFile = new File(uri.path)
         } else {
-          def urlBaseName    = new File(url.path).name
-          dependencyFile     = new File(rootDir, "${bnd_cnf}/cache/${urlBaseName}")
-          /* Download from the URL when needed */
+          dependencyFile = new File(rootDir, "${bnd_cnf}/cache/${new File(uri.path).name}")
+
+          /* Download from the URI when needed */
           if (!dependencyFile.exists()) {
-            println "Downloading build dependency ${dependencyName} from ${url}"
-            def downloadDir = dependencyFile.parentFile
-            if ((!downloadDir.exists() && !downloadDir.mkdirs()) || !downloadDir.isDirectory()) {
-              throw new GradleException("Could not create directory ${downloadDir}")
-            }
+            println "Downloading ${uri} to ${dependencyFile} ..."
+            dependencyFile.parentFile.mkdirs()
             try {
-              url.withInputStream{ is -> dependencyFile.withOutputStream{ it << is }}
+              uri.toURL().withInputStream{ is ->
+                dependencyFile.withOutputStream{ os ->
+                  def bos = new BufferedOutputStream(os)
+                  bos << is
+                }
+              }
             } catch (Exception e) {
-              throw new GradleException("Downloading build dependency ${dependencyName} from ${url} failed", e)
+              throw new GradleException("Downloading build dependency ${dependencyName} from ${uri.toURL()} failed", e)
             }
           }
         }

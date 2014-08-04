@@ -13,9 +13,11 @@ Below the changes that affect users are detailed.
   to ```cnf/cache```.
 * The build properties in ```cnf/build.gradle.properties``` were moved
   to ```gradle.properties```.
-* Build dependencies now only support '*.url' properties (configured
+* Build dependencies now only support '*.uri' properties (configured
   in ```gradle.properties```), support for the '*.location' properties was
-  dropped.
+  dropped and the '*.url' properties are now interpreted as URIs, hence the
+  name-change. It is also no longer needed to list the bnd jar in these
+  properties because it is defined in the ```gradle.properties``` file.
 * The template now automatically applies the
   buildscript ```cnf/gradle/template/javaProject.gradle``` to projects that
   hava applied the Gradle Java plugin.
