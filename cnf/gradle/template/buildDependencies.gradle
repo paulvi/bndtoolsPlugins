@@ -9,7 +9,7 @@
 assert(hasProperty('bnd_cnf'))
 
 
-void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies) {
+void getBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies) {
   assert(buildDependencies != null               )
   assert(evaluatedDependencies != null           )
 
@@ -72,7 +72,7 @@ void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDe
 /* Determine build dependencies */
 def buildDependencies     = new HashSet<File>();
 def evaluatedDependencies = new HashSet<String>()
-addToBuildDependencies(buildDependencies, evaluatedDependencies)
+getBuildDependencies(buildDependencies, evaluatedDependencies)
 
 /* After the rootProject is created, set up some properties. */
 gradle.rootProject { rootProject ->
