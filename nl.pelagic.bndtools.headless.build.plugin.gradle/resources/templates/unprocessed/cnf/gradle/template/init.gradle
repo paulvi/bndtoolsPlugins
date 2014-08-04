@@ -58,10 +58,10 @@ apply from: new File(rootDir, "${bnd_cnf}/gradle/template/buildDependencies.grad
 
 
 /* include all bnd projects and all gradle projects */
-properties.rootDir.eachFile {
+rootDir.eachFile {
   if (it.isDirectory()
-      && (   new File(it, 'bnd.bnd'     ).exists()
-          || new File(it, 'build.gradle').exists())
+      && (   new File(it, 'bnd.bnd'     ).isFile()
+          || new File(it, 'build.gradle').isFile())
      ) {
     include "${it.name}"
   }
