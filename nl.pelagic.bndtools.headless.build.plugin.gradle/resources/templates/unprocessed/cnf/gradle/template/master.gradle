@@ -29,18 +29,18 @@ assert(hasProperty('bndURI'              ))
 assert(hasProperty('bndWorkspace'        ))
 
 
-/* Pre Hook */
-apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-pre.gradle")
-
 /* Load the BndPlugin class */
 apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')
+
+/* Pre Hook */
+apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-pre.gradle")
 
 /*
  * All Projects
  */
 
 allprojects { project ->
-  /* The Gradle build directory */
+  /* Set a default Gradle build directory */
   project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Pre Hook */
@@ -73,15 +73,15 @@ subprojects { project ->
 
   def bndProject = bndWorkspace.getProject(name)
   if (bndProject == null) {
+    /* Pre Hook */
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/nonBndProject-pre.gradle")
+
     /* Setup the default tasks */
     if (project.hasProperty('others_defaultTask')) {
       defaultTasks = others_defaultTask.trim().split(/\s*,\s*/)
     }
-
-    /* Pre Hook */
-    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/nonBndProject-pre.gradle")
   } else {
-    /* Store the bnd project for use in the bnd project template */
+    /* Store the bnd project */
     project.ext.bndProject = bndProject
 
     /* Pre Hook */

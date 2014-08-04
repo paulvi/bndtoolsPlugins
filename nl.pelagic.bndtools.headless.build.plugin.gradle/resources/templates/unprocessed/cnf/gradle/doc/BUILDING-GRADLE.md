@@ -356,9 +356,9 @@ The build has the following flow:
 * Gradle loads the ```build.gradle``` file from the root project. This file
   sets up the build:
 
-  * The hook ```cnf/gradle/custom/workspace-pre.gradle``` is invoked.
-
   * The bnd plugin is loaded.
+
+  * The hook ```cnf/gradle/custom/workspace-pre.gradle``` is invoked.
 
   * From now on the build template has 3 sections which are applied in the order:
 
@@ -398,10 +398,10 @@ The build has the following flow:
 
     * Gradle projects (Non-Bnd Projects)
 
+      * The hook ```cnf/gradle/custom/nonBndProject-pre.gradle``` is invoked.
+
       * The default tasks are setup (specified by the ```others_defaultTask```
         property). This is a comma separated list of task names.
-
-      * The hook ```cnf/gradle/custom/nonBndProject-pre.gradle``` is invoked.
 
     * bnd projects
 
