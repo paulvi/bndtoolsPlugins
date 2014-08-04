@@ -14,7 +14,7 @@
 # we really need this, otherwise Eclipse will not start our bundles
 Bundle-ActivationPolicy: lazy
 
-Bundle-Version: 1.0.1.${tstamp}
+Bundle-Version: 2.0.0.${tstamp}
 Private-Package: \
 	nl.pelagic.bndtools.headless.build.plugin.gradle
 Service-Component: *
