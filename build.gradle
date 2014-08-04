@@ -4,17 +4,4 @@
  * This file should not be edited.
  */
 
-assert(project == rootProject)
-
-/* Load the workspace build settings overrides */
-apply from: new File(rootDir, "${bnd_cnf}/gradle/custom/settings-workspace.gradle")
-
-if (!hasProperty('loggingCaptureStandardOutput')) ext.loggingCaptureStandardOutput = LogLevel.WARN
-if (!hasProperty('loggingLevel'                )) ext.loggingLevel                 = LogLevel.WARN
-
-/* Logging */
-logging.captureStandardOutput   loggingCaptureStandardOutput
-logging.level                 = loggingLevel
-
-/* Apply the build template */
 apply from: new File(rootDir, "${bnd_cnf}/gradle/template/master.gradle")

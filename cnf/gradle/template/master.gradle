@@ -28,9 +28,18 @@ assert(hasProperty('bndURI'      ))
 assert(hasProperty('bndWorkspace'))
 
 
+/* Load the workspace build settings overrides */
+apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/settings-workspace.gradle")
+
 /* Gradle default task settings */
-if (!hasProperty('bnd_defaultTask'   )) ext.bnd_defaultTask    = 'build' /* comma separated */
-if (!hasProperty('others_defaultTask')) ext.others_defaultTask = 'build' /* comma separated */
+if (!hasProperty('bnd_defaultTask'             )) ext.bnd_defaultTask    = 'build' /* comma separated */
+if (!hasProperty('others_defaultTask'          )) ext.others_defaultTask = 'build' /* comma separated */
+if (!hasProperty('loggingCaptureStandardOutput')) ext.loggingCaptureStandardOutput = LogLevel.WARN
+if (!hasProperty('loggingLevel'                )) ext.loggingLevel                 = LogLevel.WARN
+
+/* Logging */
+logging.captureStandardOutput   loggingCaptureStandardOutput
+logging.level                 = loggingLevel
 
 /* Load the BndPlugin class */
 apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')
@@ -105,4 +114,4 @@ subprojects { project ->
  */
 
 /* Apply the rootProject template */
-apply from: rootProject.file("${bnd_cnf}/gradle/template/rootProject.gradle")
+apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/rootProject.gradle")
