@@ -223,7 +223,6 @@ digraph GradleSetup {
     p2                     -> indexBuild
 
     indexBuild             -> distCompositePelagic
-    indexBuild             -> distZipPelagic
     distCompositePelagic   -> distZipPelagic
     distZipPelagic         -> dist
   }

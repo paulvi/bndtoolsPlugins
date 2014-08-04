@@ -1,21 +1,21 @@
-ext.p2TargetDir            = 'generated'
-ext.p2SubDir               = "pelagic"
-ext.p2BndtoolsdateSiteUrl  = "https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/"
-ext.p2PelagicUpdateSiteUrl = "http://bndtools-plugins.pelagic.nl/master/"
+ext.p2TargetDir                = 'generated'
+ext.p2SubDir                   = 'pelagic'
+ext.p2BndtoolsdateSiteUrl      = 'https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/'
+ext.p2PelagicUpdateSiteUrl     = 'http://bndtools-plugins.pelagic.nl/master/'
 
 
-ext.bndBuildP2IndexRootPelagic = "$p2TargetDir/p2/$p2SubDir"
-ext.bndBuildP2IndexTreePelagic = fileTree("$bndBuildP2IndexRootPelagic/plugins").include("**/*.jar")
+ext.bndBuildP2IndexRootPelagic = "${p2TargetDir}/p2/${p2SubDir}"
+ext.bndBuildP2IndexTreePelagic = fileTree("${bndBuildP2IndexRootPelagic}/plugins").include("**/*.jar")
 
 /* Index task overrides */
 ext.indexDirectories = \
-  "$bndBuildP2IndexRootPelagic;Bndtools Plugins by Pelagic;bndBuildP2IndexTreePelagic"
+  "${bndBuildP2IndexRootPelagic};Bndtools Plugins by Pelagic;bndBuildP2IndexTreePelagic"
 
 /* Default tasks override */
-defaultTasks "dist"
+defaultTasks 'dist'
 
 
 /* the pelagic feature */
 ext.p2_pelagic = [
-    "nl.pelagic.bndtools.headless.build.plugin.gradle"
+  'nl.pelagic.bndtools.headless.build.plugin.gradle'
   ]
