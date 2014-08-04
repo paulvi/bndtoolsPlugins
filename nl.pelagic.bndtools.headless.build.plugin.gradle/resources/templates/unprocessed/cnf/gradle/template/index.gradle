@@ -120,7 +120,7 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
           indexArgs    += ['-r', indexFile, '-d', indexDirectoryFile, '-n', repoName]
         }
 
-        if (!bundlesToIndex.isEmpty()) {
+        if (!bundlesToIndex.empty) {
           bundlesToIndex.each {
             indexArgs  += relativePath(it)
           }

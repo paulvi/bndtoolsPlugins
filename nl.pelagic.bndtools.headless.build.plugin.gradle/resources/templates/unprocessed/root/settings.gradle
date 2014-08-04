@@ -12,7 +12,7 @@ rootDir.eachFile {
     ext.bnd_cnf = canonicalCnf
   }
 }
-if (cnfs.isEmpty()) {
+if (cnfs.empty) {
   throw new GradleException('Could not locate the cnf project.')
 }
 if (cnfs.size() > 1) {
