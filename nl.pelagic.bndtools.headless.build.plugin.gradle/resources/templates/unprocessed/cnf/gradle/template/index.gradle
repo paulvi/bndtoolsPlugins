@@ -28,9 +28,9 @@ if (!hasProperty('indexR5Uncompressed' )) ext.indexR5Uncompressed  = false
 if (!hasProperty('indexR5Compressed'   )) ext.indexR5Compressed    = true
 
 
-ext.indexBindexJar     = "${rootDir}/${bndCnf}/gradle/dependencies/org.osgi.impl.bundle.bindex.jar"
+ext.indexBindexJar     = "${rootDir}/${bnd_cnf}/gradle/dependencies/org.osgi.impl.bundle.bindex.jar"
 ext.indexBindexMain    = 'org.osgi.impl.bundle.bindex.cli.Index'
-ext.indexRepoindexJar  = "${rootDir}/${bndCnf}/gradle/dependencies/org.osgi.impl.bundle.repoindex.cli.jar"
+ext.indexRepoindexJar  = "${rootDir}/${bnd_cnf}/gradle/dependencies/org.osgi.impl.bundle.repoindex.cli.jar"
 ext.indexRepoindexMain = 'org.osgi.impl.bundle.bindex.cli.Index'
 
 

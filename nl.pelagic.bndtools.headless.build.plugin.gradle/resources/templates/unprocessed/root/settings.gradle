@@ -4,96 +4,21 @@
  * This file should not be edited.
  */
 
-import aQute.bnd.ant.ConsoleProgress
-import aQute.bnd.build.Workspace
-
-
-/* Add bnd as a script dependency */
-buildscript {
-  dependencies {
-    def cnfs = new LinkedList<String>();
-    rootDir.eachFile {
-      if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
-        def canonicalCnf = it.canonicalFile.name
-        if (!cnfs.contains(canonicalCnf)) {
-          cnfs.add(canonicalCnf)
-        }
-      }
-    }
-    if (cnfs.isEmpty()) {
-      throw new GradleException('Could not locate the cnf project.')
-    }
-    if (cnfs.size() > 1) {
-      throw new GradleException("Multiple cnf projects found: ${cnfs}")
-    }
-    def bnd_cnf = cnfs.get(0)
-
-    def bndURI = rootDir.toURI().resolve(bnd_jar)
-    if (bndURI.scheme != 'file') {
-      /* If not a local file, copy to a local file in cnf/cache */
-      def cnfCache = mkdir("${rootDir}/${bnd_cnf}/cache")
-      def bndJarFile = new File(cnfCache, 'biz.aQute.bnd.jar')
-      if (!bndJarFile.exists()) {
-        println "Downloading ${bndURI} to ${bndJarFile} ..."
-        bndURI.toURL().withInputStream { is ->
-          bndJarFile.withOutputStream { os ->
-            def bos = new BufferedOutputStream( os )
-            bos << is
-          }
-        }
-      }
-      bndURI = bndJarFile.toURI()
-    }
-    classpath files(bndURI)
-
-    /* After the rootProject is created, pass URI to projects */
-    gradle.rootProject { rootProject ->
-      rootProject.ext.bndURI = bndURI
-    }
-  }
-}
-
-
-ext.bndCnf = ''
+def cnfs = new LinkedList<String>();
 rootDir.eachFile {
-  if (bndCnf.empty && it.isDirectory() && new File(it, 'build.bnd').exists()) {
-    ext.bndCnf = it.name
+  if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
+    def canonicalCnf = it.canonicalFile.name
+    if (!cnfs.contains(canonicalCnf)) {
+      cnfs.add(canonicalCnf)
+    }
   }
 }
-
-
-/* Initialise the bnd workspace */
-def workspace = Workspace.getWorkspace(rootDir, bndCnf)
-if (workspace == null) {
-  throw new GradleException("Unable to load bnd workspace ${rootDir}/${bndCnf}")
+if (cnfs.isEmpty()) {
+  throw new GradleException('Could not locate the cnf project.')
 }
-
-/* Delay run dependency evaluations since they may not yet be built */
-workspace.allProjects.each {
-  it.setDelayRunDependencies(true)
+if (cnfs.size() > 1) {
+  throw new GradleException("Multiple cnf projects found: ${cnfs}")
 }
+ext.bnd_cnf = cnfs.get(0)
 
-/* Ensure that the bnd output goes to the console */
-workspace.addBasicPlugin(new ConsoleProgress())
-
-
-/* Determine the build dependencies */
-apply from: file("${bndCnf}/gradle/template/buildDependencies.gradle")
-
-
-/* include all bnd projects and all gradle projects */
-properties.rootDir.eachFile {
-  if (it.isDirectory()
-      && (   new File(it, 'bnd.bnd'     ).exists()
-          || new File(it, 'build.gradle').exists())
-     ) {
-    include "${it.name}"
-  }
-}
-
-
-/* After the rootProject is created, set up some properties. */
-gradle.rootProject { rootProject ->
-  rootProject.ext.bndWorkspace = workspace
-  rootProject.ext.bndCnf = bndCnf
-}
+apply from: new File(rootDir, "${bnd_cnf}/gradle/template/init.gradle")

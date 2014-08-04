@@ -1,0 +1,77 @@
+/*
+ * WARNING
+ *
+ * This file should not be edited.
+ */
+
+import aQute.bnd.ant.ConsoleProgress
+import aQute.bnd.build.Workspace
+
+
+assert(hasProperty('bnd_cnf'))
+
+
+/* Add bnd as a script dependency */
+buildscript {
+  dependencies {
+    def bndURI = rootDir.toURI().resolve(bnd_jar)
+    if (bndURI.scheme != 'file') {
+      /* If not a local file, copy to a local file in cnf/cache */
+      def cnfCache = mkdir("${rootDir}/${bnd_cnf}/cache")
+      def bndJarFile = new File(cnfCache, 'biz.aQute.bnd.jar')
+      if (!bndJarFile.exists()) {
+        println "Downloading ${bndURI} to ${bndJarFile} ..."
+        bndURI.toURL().withInputStream { is ->
+          bndJarFile.withOutputStream { os ->
+            def bos = new BufferedOutputStream( os )
+            bos << is
+          }
+        }
+      }
+      bndURI = bndJarFile.toURI()
+    }
+    classpath files(bndURI)
+
+    /* After the rootProject is created, pass URI to projects */
+    gradle.rootProject { rootProject ->
+      rootProject.ext.bndURI = bndURI
+    }
+  }
+}
+
+
+/* Initialise the bnd workspace */
+def workspace = Workspace.getWorkspace(rootDir, bnd_cnf)
+if (workspace == null) {
+  throw new GradleException("Unable to load bnd workspace ${rootDir}/${bnd_cnf}")
+}
+
+/* Delay run dependency evaluations since they may not yet be built */
+workspace.allProjects.each {
+  it.setDelayRunDependencies(true)
+}
+
+/* Ensure that the bnd output goes to the console */
+workspace.addBasicPlugin(new ConsoleProgress())
+
+
+/* Determine the build dependencies */
+apply from: new File(rootDir, "${bnd_cnf}/gradle/template/buildDependencies.gradle")
+
+
+/* include all bnd projects and all gradle projects */
+properties.rootDir.eachFile {
+  if (it.isDirectory()
+      && (   new File(it, 'bnd.bnd'     ).exists()
+          || new File(it, 'build.gradle').exists())
+     ) {
+    include "${it.name}"
+  }
+}
+
+
+/* After the rootProject is created, set up some properties. */
+gradle.rootProject { rootProject ->
+  rootProject.ext.bndWorkspace = workspace
+  rootProject.ext.bnd_cnf = bnd_cnf
+}

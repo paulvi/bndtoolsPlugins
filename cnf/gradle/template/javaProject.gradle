@@ -7,7 +7,7 @@
  */
 
 assert(project != rootProject               )
-assert(rootProject.hasProperty('bndCnf'    ))
+assert(rootProject.hasProperty('bnd_cnf'   ))
 assert(            hasProperty('sourceSets'))
 
 
@@ -26,13 +26,13 @@ test.ignoreFailures   = javaTestIgnoreFailures
 test.maxParallelForks = javaTestMaxParallelForks
 
 /* Setup javadoc options */
-apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaDoc.gradle")
+apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/javaDoc.gradle")
 
 /* Add findbugs to the project */
-apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/findbugs.gradle")
+apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/findbugs.gradle")
 
 /* Add jacoco to the project */
-apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/jacoco.gradle")
+apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/jacoco.gradle")
 
 distclean.doLast {
   sourceSets.each {

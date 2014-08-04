@@ -6,7 +6,7 @@
  * Determine the build dependencies.
  */
 
-assert(hasProperty('bndCnf'))
+assert(hasProperty('bnd_cnf'))
 
 
 void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies) {
@@ -40,7 +40,7 @@ void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDe
           }
         } else {
           def urlBaseName    = new File(url.path).name
-          dependencyFile     = new File(rootDir, "${bndCnf}/cache/${urlBaseName}")
+          dependencyFile     = new File(rootDir, "${bnd_cnf}/cache/${urlBaseName}")
           /* Download from the URL when needed */
           if (!dependencyFile.exists()) {
             println "Downloading build dependency ${dependencyName} from ${url}"

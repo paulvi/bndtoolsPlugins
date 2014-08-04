@@ -10,8 +10,8 @@ import aQute.bnd.build.Workspace
 import aQute.bnd.osgi.Constants
 
 
-assert(project == rootProject      )
-assert(hasProperty('bndCnf'      ))
+assert(project == rootProject     )
+assert(hasProperty('bnd_cnf'     ))
 assert(hasProperty('bndWorkspace'))
 
 
@@ -42,7 +42,7 @@ apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.grad
 
 allprojects { project ->
   /* Load the build settings overrides */
-  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/settings-allProjects.gradle")
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/settings-allProjects.gradle")
 
   /* Allow projects to individually override build settings */
   def settingsFile = file('build-settings.gradle')
@@ -54,13 +54,13 @@ allprojects { project ->
   project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Add index tasks to the project */
-  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/index.gradle")
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/index.gradle")
 
   /* Add clean tasks to the project */
-  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/clean.gradle")
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/clean.gradle")
 
   /* Load the build customisations */
-  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/allProjects.gradle")
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/allProjects.gradle")
 }
 
 
@@ -77,7 +77,7 @@ subprojects { project ->
     }
 
     /* Load the build customisations */
-    project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/nonBndProjects.gradle")
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/nonBndProjects.gradle")
   } else {
     /* Store the bnd project for use in the bnd project template */
     project.ext.bndProject = bndProject
@@ -88,16 +88,16 @@ subprojects { project ->
     ext.javadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }
 
     /* Load the build customisations */
-    project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/bndProjects.gradle")
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/bndProjects.gradle")
   }
 
   plugins.withType(JavaPlugin) {
     /* Add tasks that are relevant to Java projects */
-    project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/javaProject.gradle")
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/javaProject.gradle")
   }
 
   /* Load the build customisations */
-  project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/custom/subProjects.gradle")
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/subProjects.gradle")
 }
 
 
@@ -106,4 +106,4 @@ subprojects { project ->
  */
 
 /* Apply the rootProject template */
-apply from: file("${bndCnf}/gradle/template/rootProject.gradle")
+apply from: rootProject.file("${bnd_cnf}/gradle/template/rootProject.gradle")
