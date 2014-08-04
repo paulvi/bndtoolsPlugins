@@ -40,6 +40,9 @@ apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.grad
  */
 
 allprojects { project ->
+  /* The Gradle build directory */
+  project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
+
   /* Load the build settings overrides */
   project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/settings-allProjects.gradle")
 
@@ -48,9 +51,6 @@ allprojects { project ->
   if (settingsFile.exists()) {
     project.apply from: settingsFile
   }
-
-  /* The Gradle build directory */
-  project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Add index tasks to the project */
   project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/index.gradle")
