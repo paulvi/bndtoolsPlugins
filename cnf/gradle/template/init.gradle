@@ -10,12 +10,7 @@
  * Depends on bnd_* values from gradle.properties.
  */
 
-import aQute.bnd.ant.ConsoleProgress
 import aQute.bnd.build.Workspace
-
-
-assert(hasProperty('bnd_cnf'))
-
 
 /* Add bnd as a script dependency */
 buildscript {
@@ -56,9 +51,6 @@ if (workspace == null) {
 workspace.allProjects.each {
   it.setDelayRunDependencies(true)
 }
-
-/* Ensure that the bnd output goes to the console */
-workspace.addBasicPlugin(new ConsoleProgress())
 
 
 /* Determine the build dependencies */
