@@ -19,8 +19,11 @@ task distcleanNeeded {
 
 
 gradle.projectsEvaluated {
+  def hasClean       = !getTasksByName('clean'      , false).empty
+  def hasCleanNeeded = !getTasksByName('cleanNeeded', false).empty
+
   /* add a clean task when not present */
-  if (getTasksByName('clean', false).empty) {
+  if (!hasClean) {
     task clean {
       description 'Clean the project.'
       group 'build'
@@ -28,7 +31,7 @@ gradle.projectsEvaluated {
   }
 
   /* add a cleanNeeded task when not present */
-  if (getTasksByName('cleanNeeded', false).empty) {
+  if (!hasCleanNeeded) {
     task cleanNeeded {
       description 'Cleans the project and all projects it depends on.'
       group 'build'
@@ -37,6 +40,7 @@ gradle.projectsEvaluated {
 
   cleanNeeded.dependsOn(clean)
   distclean.dependsOn(clean)
+  distcleanNeeded.dependsOn(cleanNeeded)
 
   /* bnd project dependencies */
   if (hasProperty('bndProject')) {
@@ -49,7 +53,9 @@ gradle.projectsEvaluated {
   if (project == rootProject) {
     rootProject.subprojects.each {
       clean.dependsOn(":${it.name}:clean")
+      cleanNeeded.dependsOn(":${it.name}:cleanNeeded")
       distclean.dependsOn(":${it.name}:distclean")
+      distcleanNeeded.dependsOn(":${it.name}:distcleanNeeded")
     }
   }
 }

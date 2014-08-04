@@ -136,7 +136,7 @@
 <text text-anchor="middle" x="757" y="-659.3" font-family="Times,serif" font-size="14.00">p2Entry</text>
 </g>
 <!-- jar&#45;&gt;p2Entry -->
-<g id="edge41" class="edge"><title>jar&#45;&gt;p2Entry</title>
+<g id="edge42" class="edge"><title>jar&#45;&gt;p2Entry</title>
 <path fill="none" stroke="red" d="M480.246,-727.726C533.947,-715.361 653.701,-687.786 716.615,-673.299"/>
 <polygon fill="red" stroke="red" points="717.613,-676.661 726.573,-671.006 716.043,-669.839 717.613,-676.661"/>
 </g>
@@ -399,29 +399,34 @@
 <text text-anchor="middle" x="1144" y="-731.3" font-family="Times,serif" font-size="14.00">distclean</text>
 </g>
 <!-- cleanAll&#45;&gt;distclean -->
-<g id="edge38" class="edge"><title>cleanAll&#45;&gt;distclean</title>
+<g id="edge37" class="edge"><title>cleanAll&#45;&gt;distclean</title>
 <path fill="none" stroke="black" d="M1059.11,-789.055C1073.86,-779.837 1092.29,-768.319 1108.21,-758.371"/>
 <polygon fill="black" stroke="black" points="1110.12,-761.3 1116.75,-753.032 1106.41,-755.364 1110.12,-761.3"/>
 </g>
 <!-- cleanAllNeeded&#45;&gt;cleanAllNeeded -->
-<g id="edge37" class="edge"><title>cleanAllNeeded&#45;&gt;cleanAllNeeded</title>
+<g id="edge38" class="edge"><title>cleanAllNeeded&#45;&gt;cleanAllNeeded</title>
 <path fill="none" stroke="red" d="M1075.04,-748.262C1085.35,-747.225 1093,-742.805 1093,-735 1093,-730 1089.86,-726.389 1084.89,-724.167"/>
 <polygon fill="red" stroke="red" points="1085.58,-720.732 1075.04,-721.738 1083.91,-727.529 1085.58,-720.732"/>
 </g>
 <!-- distcleanNeeded -->
 <g id="node32" class="node"><title>distcleanNeeded</title>
-<polygon fill="orange" stroke="black" points="1159,-681 1053,-681 1053,-645 1159,-645 1159,-681"/>
-<text text-anchor="middle" x="1106" y="-659.3" font-family="Times,serif" font-size="14.00">distcleanNeeded</text>
+<polygon fill="orange" stroke="black" points="1127,-681 1021,-681 1021,-645 1127,-645 1127,-681"/>
+<text text-anchor="middle" x="1074" y="-659.3" font-family="Times,serif" font-size="14.00">distcleanNeeded</text>
+</g>
+<!-- cleanAllNeeded&#45;&gt;distcleanNeeded -->
+<g id="edge39" class="edge"><title>cleanAllNeeded&#45;&gt;distcleanNeeded</title>
+<path fill="none" stroke="black" d="M1042.38,-716.697C1047.26,-708.559 1053.19,-698.689 1058.58,-689.701"/>
+<polygon fill="black" stroke="black" points="1061.59,-691.48 1063.74,-681.104 1055.59,-687.879 1061.59,-691.48"/>
 </g>
 <!-- distclean&#45;&gt;distcleanNeeded -->
-<g id="edge39" class="edge"><title>distclean&#45;&gt;distcleanNeeded</title>
-<path fill="none" stroke="black" d="M1134.61,-716.697C1130.24,-708.644 1124.94,-698.894 1120.1,-689.982"/>
-<polygon fill="black" stroke="black" points="1123.13,-688.223 1115.29,-681.104 1116.98,-691.563 1123.13,-688.223"/>
+<g id="edge40" class="edge"><title>distclean&#45;&gt;distcleanNeeded</title>
+<path fill="none" stroke="black" d="M1126.7,-716.697C1118.14,-708.135 1107.66,-697.656 1098.3,-688.304"/>
+<polygon fill="black" stroke="black" points="1100.65,-685.701 1091.1,-681.104 1095.7,-690.65 1100.65,-685.701"/>
 </g>
 <!-- distcleanNeeded&#45;&gt;distcleanNeeded -->
-<g id="edge40" class="edge"><title>distcleanNeeded&#45;&gt;distcleanNeeded</title>
-<path fill="none" stroke="red" d="M1159.26,-675.899C1169.63,-674.401 1177,-670.102 1177,-663 1177,-658.451 1173.98,-655.051 1169.08,-652.801"/>
-<polygon fill="red" stroke="red" points="1169.83,-649.378 1159.26,-650.101 1167.97,-656.128 1169.83,-649.378"/>
+<g id="edge41" class="edge"><title>distcleanNeeded&#45;&gt;distcleanNeeded</title>
+<path fill="none" stroke="red" d="M1127.26,-675.899C1137.63,-674.401 1145,-670.102 1145,-663 1145,-658.451 1141.98,-655.051 1137.08,-652.801"/>
+<polygon fill="red" stroke="red" points="1137.83,-649.378 1127.26,-650.101 1135.97,-656.128 1137.83,-649.378"/>
 </g>
 <!-- init -->
 <g id="node33" class="node"><title>init</title>
@@ -439,7 +444,7 @@
 <text text-anchor="middle" x="757" y="-568.3" font-family="Times,serif" font-size="14.00">p2FeaturesTree</text>
 </g>
 <!-- p2Entry&#45;&gt;p2FeaturesTree -->
-<g id="edge42" class="edge"><title>p2Entry&#45;&gt;p2FeaturesTree</title>
+<g id="edge43" class="edge"><title>p2Entry&#45;&gt;p2FeaturesTree</title>
 <path fill="none" stroke="black" d="M757,-644.84C757,-632.281 757,-614.979 757,-600.502"/>
 <polygon fill="black" stroke="black" points="760.5,-600.107 757,-590.107 753.5,-600.107 760.5,-600.107"/>
 </g>
@@ -449,7 +454,7 @@
 <text text-anchor="middle" x="902" y="-496.3" font-family="Times,serif" font-size="14.00">p2PluginsPelagic</text>
 </g>
 <!-- p2Entry&#45;&gt;p2PluginsPelagic -->
-<g id="edge45" class="edge"><title>p2Entry&#45;&gt;p2PluginsPelagic</title>
+<g id="edge46" class="edge"><title>p2Entry&#45;&gt;p2PluginsPelagic</title>
 <path fill="none" stroke="black" d="M772.867,-644.969C784.796,-632.121 801.507,-614.03 816,-598 838.021,-573.643 862.875,-545.543 880.18,-525.877"/>
 <polygon fill="black" stroke="black" points="882.902,-528.082 886.876,-518.261 877.645,-523.461 882.902,-528.082"/>
 </g>
@@ -459,7 +464,7 @@
 <text text-anchor="middle" x="757" y="-496.3" font-family="Times,serif" font-size="14.00">p2FeatureGradlePlugin</text>
 </g>
 <!-- p2FeaturesTree&#45;&gt;p2FeatureGradlePlugin -->
-<g id="edge43" class="edge"><title>p2FeaturesTree&#45;&gt;p2FeatureGradlePlugin</title>
+<g id="edge44" class="edge"><title>p2FeaturesTree&#45;&gt;p2FeatureGradlePlugin</title>
 <path fill="none" stroke="black" d="M757,-553.697C757,-545.983 757,-536.712 757,-528.112"/>
 <polygon fill="black" stroke="black" points="760.5,-528.104 757,-518.104 753.5,-528.104 760.5,-528.104"/>
 </g>
@@ -469,7 +474,7 @@
 <text text-anchor="middle" x="770" y="-424.3" font-family="Times,serif" font-size="14.00">p2Features</text>
 </g>
 <!-- p2FeatureGradlePlugin&#45;&gt;p2Features -->
-<g id="edge44" class="edge"><title>p2FeatureGradlePlugin&#45;&gt;p2Features</title>
+<g id="edge45" class="edge"><title>p2FeatureGradlePlugin&#45;&gt;p2Features</title>
 <path fill="none" stroke="black" d="M760.213,-481.697C761.646,-473.983 763.368,-464.712 764.965,-456.112"/>
 <polygon fill="black" stroke="black" points="768.439,-456.575 766.823,-446.104 761.556,-455.297 768.439,-456.575"/>
 </g>
@@ -479,7 +484,7 @@
 <text text-anchor="middle" x="829" y="-352.3" font-family="Times,serif" font-size="14.00">p2</text>
 </g>
 <!-- p2Features&#45;&gt;p2 -->
-<g id="edge47" class="edge"><title>p2Features&#45;&gt;p2</title>
+<g id="edge48" class="edge"><title>p2Features&#45;&gt;p2</title>
 <path fill="none" stroke="black" d="M784.584,-409.697C791.658,-401.305 800.283,-391.07 808.045,-381.861"/>
 <polygon fill="black" stroke="black" points="810.815,-384.006 814.583,-374.104 805.463,-379.495 810.815,-384.006"/>
 </g>
@@ -489,12 +494,12 @@
 <text text-anchor="middle" x="888" y="-424.3" font-family="Times,serif" font-size="14.00">p2Plugins</text>
 </g>
 <!-- p2PluginsPelagic&#45;&gt;p2Plugins -->
-<g id="edge46" class="edge"><title>p2PluginsPelagic&#45;&gt;p2Plugins</title>
+<g id="edge47" class="edge"><title>p2PluginsPelagic&#45;&gt;p2Plugins</title>
 <path fill="none" stroke="black" d="M898.539,-481.697C896.997,-473.983 895.142,-464.712 893.422,-456.112"/>
 <polygon fill="black" stroke="black" points="896.814,-455.224 891.421,-446.104 889.95,-456.597 896.814,-455.224"/>
 </g>
 <!-- p2Plugins&#45;&gt;p2 -->
-<g id="edge48" class="edge"><title>p2Plugins&#45;&gt;p2</title>
+<g id="edge49" class="edge"><title>p2Plugins&#45;&gt;p2</title>
 <path fill="none" stroke="black" d="M873.416,-409.697C866.342,-401.305 857.717,-391.07 849.955,-381.861"/>
 <polygon fill="black" stroke="black" points="852.537,-379.495 843.417,-374.104 847.185,-384.006 852.537,-379.495"/>
 </g>
@@ -504,7 +509,7 @@
 <text text-anchor="middle" x="829" y="-280.3" font-family="Times,serif" font-size="14.00">index</text>
 </g>
 <!-- p2&#45;&gt;indexBuild -->
-<g id="edge49" class="edge"><title>p2&#45;&gt;indexBuild</title>
+<g id="edge50" class="edge"><title>p2&#45;&gt;indexBuild</title>
 <path fill="none" stroke="black" d="M829,-337.697C829,-329.983 829,-320.712 829,-312.112"/>
 <polygon fill="black" stroke="black" points="832.5,-312.104 829,-302.104 825.5,-312.104 832.5,-312.104"/>
 </g>
@@ -514,7 +519,7 @@
 <text text-anchor="middle" x="829" y="-197.3" font-family="Times,serif" font-size="14.00">distCompositePelagic</text>
 </g>
 <!-- indexBuild&#45;&gt;distCompositePelagic -->
-<g id="edge50" class="edge"><title>indexBuild&#45;&gt;distCompositePelagic</title>
+<g id="edge51" class="edge"><title>indexBuild&#45;&gt;distCompositePelagic</title>
 <path fill="none" stroke="black" d="M829,-265.822C829,-255.19 829,-241.306 829,-229.204"/>
 <polygon fill="black" stroke="black" points="832.5,-229.153 829,-219.153 825.5,-229.153 832.5,-229.153"/>
 </g>
@@ -524,7 +529,7 @@
 <text text-anchor="middle" x="829" y="-125.3" font-family="Times,serif" font-size="14.00">distZipPelagic</text>
 </g>
 <!-- distCompositePelagic&#45;&gt;distZipPelagic -->
-<g id="edge51" class="edge"><title>distCompositePelagic&#45;&gt;distZipPelagic</title>
+<g id="edge52" class="edge"><title>distCompositePelagic&#45;&gt;distZipPelagic</title>
 <path fill="none" stroke="black" d="M829,-182.697C829,-174.983 829,-165.712 829,-157.112"/>
 <polygon fill="black" stroke="black" points="832.5,-157.104 829,-147.104 825.5,-157.104 832.5,-157.104"/>
 </g>
@@ -534,7 +539,7 @@
 <text text-anchor="middle" x="829" y="-53.3" font-family="Times,serif" font-size="14.00">dist</text>
 </g>
 <!-- distZipPelagic&#45;&gt;dist -->
-<g id="edge52" class="edge"><title>distZipPelagic&#45;&gt;dist</title>
+<g id="edge53" class="edge"><title>distZipPelagic&#45;&gt;dist</title>
 <path fill="none" stroke="black" d="M829,-110.697C829,-102.983 829,-93.7125 829,-85.1124"/>
 <polygon fill="black" stroke="black" points="832.5,-85.1043 829,-75.1043 825.5,-85.1044 832.5,-85.1043"/>
 </g>

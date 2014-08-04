@@ -168,8 +168,9 @@ digraph GradleSetup {
     clean                  -> cleanAll           [color=blue  ]
     cleanNeeded            -> cleanAllNeeded     [color=blue  ]
     cleanAll               -> cleanAllNeeded
-    cleanAllNeeded         -> cleanAllNeeded     [color=red   ]
     cleanAll               -> distclean
+    cleanAllNeeded         -> cleanAllNeeded     [color=red   ]
+    cleanAllNeeded         -> distcleanNeeded
     distclean              -> distcleanNeeded
     distcleanNeeded        -> distcleanNeeded    [color=red   ]
   }
