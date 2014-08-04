@@ -44,7 +44,7 @@ buildscript {
 /* Initialize the bnd workspace */
 def workspace = Workspace.getWorkspace(rootDir, bnd_cnf)
 if (workspace == null) {
-  throw new GradleException("Unable to load bnd workspace ${rootDir}/${bnd_cnf}")
+  throw new GradleException("Unable to load workspace ${rootDir}/${bnd_cnf}")
 }
 
 /* Delay run dependency evaluations since they may not yet be built */
