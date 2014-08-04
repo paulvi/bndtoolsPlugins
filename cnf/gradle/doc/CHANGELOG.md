@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* The file ```cnf/build.gradle.properties``` was moved
+  to ```gradle.properties```.
 * Build dependencies now only support '*.url' properties, the '*.location'
   properties are dropped.
 * The template now automatically applies the
@@ -30,8 +32,6 @@
     to ```javadoc...```.
   * The ```gradleBuildFindbugs...``` properties were renamed
     to ```findbugs...```.
-* The file ```cnf/build.gradle.properties``` was moved
-  to ```cnf/gradle/build.gradle.properties```.
 * The findbugs include and exclude files were moved from ```cnf```
   into ```cnf/findbugs```.
 * The official bnd plugin as delivered by the bnd project is now used. This adds

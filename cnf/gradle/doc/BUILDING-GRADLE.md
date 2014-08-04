@@ -231,9 +231,10 @@ It contains:
 
 * Build files.
 
-  * <a name="BuildProperties"/>```build.gradle.properties```
+  * <a name="BuildProperties"/>```gradle.properties```
 
-    This file is used to bootstrap the build and defines the build dependencies:
+    This file is used to bootstrap the build and (among other things) defines
+    the build dependencies:
 
     * All ```*.url``` settings are considered to be build dependencies.
 
@@ -248,7 +249,7 @@ It contains:
       not **not recommended** since the build will then no longer be
       self-contained (because it needs network access).
 
-  * &nbsp;```gradle```
+  * &nbsp;```cnf/gradle```
 
     This directory contains all build script files that are used by the build,
     and documentation pertaining to the build.
@@ -335,6 +336,8 @@ build, properties must be overridden, etc.
 
 The build has the following flow:
 
+* Gradle loads all properties defined in the ```gradle.properties``` file.
+
 * Gradle loads the ```settings.gradle``` file from the root project. This file
   instructs Gradle to include all **bnd** projects and all **Gradle** projects
   (see [Sub-Projects](#ProjectsAndWorkspacesSubProjects) for an explanation).
@@ -350,7 +353,7 @@ The build has the following flow:
   * Build logging is setup, as specified by the workspace build settings.
 
   * The build dependencies are setup by loading the (bootstrap) build
-    properties from the ```cnf/gradle/build.gradle.properties``` file
+    properties that were loaded from the ```gradle.properties``` file
     (see [the explanation of the build properties file](#BuildProperties).
 
   * The bnd workspace is initialised by loading the

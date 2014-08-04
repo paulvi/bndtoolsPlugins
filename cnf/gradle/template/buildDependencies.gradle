@@ -9,18 +9,16 @@
 assert(hasProperty('bndCnf'))
 
 
-if (!hasProperty('buildDependenciesPropertiesFile')) ext.buildDependenciesPropertiesFile = "${bndCnf}/gradle/build.gradle.properties" /* relative to the root project */
-if (!hasProperty('buildDependenciesCacheDir'      )) ext.buildDependenciesCacheDir       = "${bndCnf}/cache/gradle"                   /* relative to the root project */
+if (!hasProperty('buildDependenciesCacheDir')) ext.buildDependenciesCacheDir = "${bndCnf}/cache/gradle" /* relative to the root project */
 
 
 void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies) {
   assert(buildDependencies != null               )
   assert(evaluatedDependencies != null           )
-  assert(hasProperty('bndBuildProperties'       ))
   assert(hasProperty('buildDependenciesCacheDir'))
 
   def propKeyExtensionRegex = '\\.url\$'
-  bndBuildProperties
+  properties
      .findAll({it -> it.key.trim().toLowerCase() ==~ ('.+' + propKeyExtensionRegex)})
      .each {
     def propKey        = it.key.trim()
@@ -73,18 +71,6 @@ void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDe
       }
     }
   }
-}
-
-/* Ensure the build properties file exists */
-def buildDependenciesPropertiesFileRoot = new File(rootDir, buildDependenciesPropertiesFile)
-if (!buildDependenciesPropertiesFileRoot.exists()) {
-  throw new GradleException("Build properties file (${buildDependenciesPropertiesFileRoot.absolutePath}) does not exist")
-}
-
-/* Load the build properties */
-ext.bndBuildProperties = new Properties()
-buildDependenciesPropertiesFileRoot.withReader {
-  reader -> bndBuildProperties.load(reader)
 }
 
 /* Determine build dependencies */
