@@ -29,8 +29,8 @@ assert(hasProperty('bndURI'              ))
 assert(hasProperty('bndWorkspace'        ))
 
 
-/* Load the workspace build settings overrides */
-apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/settings-workspace.gradle")
+/* Pre Hook */
+apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-pre.gradle")
 
 /* Load the BndPlugin class */
 apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')
@@ -43,8 +43,8 @@ allprojects { project ->
   /* The Gradle build directory */
   project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
-  /* Load the build settings overrides */
-  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/settings-allProjects.gradle")
+  /* Pre Hook */
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/allProject-pre.gradle")
 
   /* Allow projects to individually override build settings */
   def settingsFile = file('build-settings.gradle')
@@ -58,8 +58,8 @@ allprojects { project ->
   /* Add clean tasks to the project */
   project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/clean.gradle")
 
-  /* Load the build customisations */
-  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/allProjects.gradle")
+  /* Post Hook */
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/allProject-post.gradle")
 }
 
 
@@ -68,6 +68,9 @@ allprojects { project ->
  */
 
 subprojects { project ->
+  /* Pre Hook */
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/subProject-pre.gradle")
+
   def bndProject = bndWorkspace.getProject(name)
   if (bndProject == null) {
     /* Setup the default tasks */
@@ -75,11 +78,14 @@ subprojects { project ->
       defaultTasks = others_defaultTask.trim().split(/\s*,\s*/)
     }
 
-    /* Load the build customisations */
-    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/nonBndProjects.gradle")
+    /* Pre Hook */
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/nonBndProject-pre.gradle")
   } else {
     /* Store the bnd project for use in the bnd project template */
     project.ext.bndProject = bndProject
+
+    /* Pre Hook */
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/bndProject-pre.gradle")
 
     plugins.apply BndPlugin
 
@@ -91,17 +97,23 @@ subprojects { project ->
       ext.javadocClassPathBoot += project.bndProject.bootclasspath.collect { it.file }
     }
 
-    /* Load the build customisations */
-    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/bndProjects.gradle")
+    /* Post Hook */
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/bndProject-post.gradle")
   }
 
   plugins.withType(JavaPlugin) {
+    /* Pre Hook */
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/javaProject-pre.gradle")
+
     /* Add tasks that are relevant to Java projects */
     project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/javaProject.gradle")
+
+    /* Post Hook */
+    project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/javaProject-post.gradle")
   }
 
-  /* Load the build customisations */
-  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/subProjects.gradle")
+  /* Post Hook */
+  project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/subProject-post.gradle")
 }
 
 
@@ -109,5 +121,14 @@ subprojects { project ->
  * Root Project
  */
 
+/* Pre Hook */
+apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/rootProject-pre.gradle")
+
 /* Apply the rootProject template */
 apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/rootProject.gradle")
+
+/* Post Hook */
+apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/rootProject-post.gradle")
+
+/* Post Hook */
+apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-post.gradle")

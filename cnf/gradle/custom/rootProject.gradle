@@ -1,5 +1,0 @@
-/*
- * Build customisations that are applied to the root project.
- */
-
-assert(project == rootProject)

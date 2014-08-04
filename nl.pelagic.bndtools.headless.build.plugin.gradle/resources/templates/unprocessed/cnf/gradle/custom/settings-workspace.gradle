@@ -1,5 +1,0 @@
-/*
- * Build settings overrides that are applied to the workspace.
- */
-
-assert(project == rootProject)

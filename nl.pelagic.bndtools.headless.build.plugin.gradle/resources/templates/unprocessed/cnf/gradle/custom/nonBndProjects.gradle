@@ -1,5 +1,0 @@
-/*
- * Build customisations that are applied to all non-bnd projects.
- */
-
-assert(project != rootProject)

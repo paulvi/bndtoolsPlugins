@@ -10,10 +10,6 @@ assert(project == rootProject)
 assert(hasProperty('bnd_cnf'))
 
 
-/* Load the overrides */
-apply from: rootProject.file("${bnd_cnf}/gradle/custom/settings-rootProject.gradle")
-
-
 if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.0'
 
 
@@ -22,10 +18,6 @@ if (project.hasProperty('root_defaultTask')) {
   defaultTasks = root_defaultTask.trim().split(/\s*,\s*/)
 }
 
-
-/*
- * Setup tasks
- */
 
 /* Setup the gradle wrapper */
 wrapper {
@@ -36,9 +28,5 @@ wrapper {
 
 distclean.doLast {
   delete("${bnd_cnf}/cache")
-  delete('.gradle'      )
+  delete('.gradle'         )
 }
-
-
-/* Load the build customisations */
-apply from: rootProject.file("${bnd_cnf}/gradle/custom/rootProject.gradle")

@@ -1,5 +1,0 @@
-/*
- * Build settings overrides that are applied to the root project.
- */
-
-assert(project == rootProject)

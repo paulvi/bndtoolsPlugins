@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* All custom buildscripts were renamed to better reflect that they're hooks and
+  to better reflect when they're invoked.
 * The default task is now 'build'' for all projects (root project, bnd projects
   and other projects)
 * The build dependencies cache directory is no longer configurable and is fixed
