@@ -47,11 +47,6 @@ if (workspace == null) {
   throw new GradleException("Unable to load workspace ${rootDir}/${bnd_cnf}")
 }
 
-/* Delay run dependency evaluations since they may not yet be built */
-workspace.allProjects.each {
-  it.setDelayRunDependencies(true)
-}
-
 
 /* Determine the build dependencies */
 apply from: new File(rootDir, "${bnd_cnf}/gradle/template/buildDependencies.gradle")
