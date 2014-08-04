@@ -91,10 +91,10 @@ subprojects { project ->
 
     if (!hasProperty('javadocClassPathBoot')) {
       /* Set the javadoc bootclasspath */
-      ext.javadocClassPathBoot  = project.bndProject.bootclasspath.collect { it.file }
+      ext.javadocClassPathBoot  = project.bndProject.bootclasspath*.file
     } else {
       /* Add to the javadoc bootclasspath */
-      ext.javadocClassPathBoot += project.bndProject.bootclasspath.collect { it.file }
+      ext.javadocClassPathBoot += project.bndProject.bootclasspath*.file
     }
 
     /* Post Hook */
