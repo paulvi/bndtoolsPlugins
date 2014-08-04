@@ -242,8 +242,7 @@ It contains:
       indicated by the URL to the build dependencies when the file exists on the
       local filesystem. If the file doesn't exist on the local filesystem, then
       the build script will download the build dependency from the specified URL
-      into the ```cnf/cache/gradle``` directory and add it to the build
-      dependencies.
+      into the ```cnf/cache``` directory and add it to the build dependencies.
 
       Using a ```*.url``` setting that points to an external location is
       not **not recommended** since the build will then no longer be

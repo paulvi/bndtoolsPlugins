@@ -9,13 +9,9 @@
 assert(hasProperty('bndCnf'))
 
 
-if (!hasProperty('buildDependenciesCacheDir')) ext.buildDependenciesCacheDir = "${bndCnf}/cache/gradle" /* relative to the root project */
-
-
 void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies) {
   assert(buildDependencies != null               )
   assert(evaluatedDependencies != null           )
-  assert(hasProperty('buildDependenciesCacheDir'))
 
   def propKeyExtensionRegex = '\\.url\$'
   properties
@@ -44,7 +40,7 @@ void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDe
           }
         } else {
           def urlBaseName    = new File(url.path).name
-          dependencyFile     = new File(rootDir, "${buildDependenciesCacheDir}/${urlBaseName}")
+          dependencyFile     = new File(rootDir, "${bndCnf}/cache/${urlBaseName}")
           /* Download from the URL when needed */
           if (!dependencyFile.exists()) {
             println "Downloading build dependency ${dependencyName} from ${url}"
