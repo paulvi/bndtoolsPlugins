@@ -6,6 +6,7 @@
  * Main build template.
  */
 
+import aQute.bnd.build.Workspace
 import aQute.bnd.osgi.Constants
 
 
@@ -44,7 +45,7 @@ allprojects { project ->
   }
 
   /* The Gradle build directory */
-  project.buildDir = relativePath(rootProject.bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
+  project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Add index tasks to the project */
   project.apply from: rootProject.file("${rootProject.bndCnf}/gradle/template/index.gradle")

@@ -37,13 +37,9 @@ bndWorkspace.allProjects.each {
 /* Ensure that the bnd output goes to the console */
 bndWorkspace.addBasicPlugin(new ConsoleProgress());
 
-/* Load the workspace defaults */
-assert(!hasProperty('bndWorkspaceDefaults'))
-ext.bndWorkspaceDefaults = Workspace.defaults
-
 /*
  * Early setup of the Gradle build directory to ensure that output gets into
  * the correct directory; less chance of output ending up in the default Gradle
  * build directory when the build script fails.
  */
-buildDir = relativePath(bndWorkspaceDefaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
+buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
