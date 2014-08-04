@@ -3,7 +3,11 @@
  *
  * This file should not be edited.
  *
- * Main build template.
+ * Master Gradle build script
+ *
+ * Called by build.gradle in the root of the workspace to configure the project set.
+ *
+ * Depends on bndURI and bndWorkspace properties set by settings.gradle.
  */
 
 import aQute.bnd.build.Workspace
@@ -12,6 +16,7 @@ import aQute.bnd.osgi.Constants
 
 assert(project == rootProject     )
 assert(hasProperty('bnd_cnf'     ))
+assert(hasProperty('bndURI'      ))
 assert(hasProperty('bndWorkspace'))
 
 

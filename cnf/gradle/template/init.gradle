@@ -2,6 +2,12 @@
  * WARNING
  *
  * This file should not be edited.
+ *
+ * Master Gradle initialization script
+ *
+ * Called by settings.gradle to initialize the project set.
+ *
+ * Depends on bnd_* values from gradle.properties.
  */
 
 import aQute.bnd.ant.ConsoleProgress
@@ -40,7 +46,7 @@ buildscript {
 }
 
 
-/* Initialise the bnd workspace */
+/* Initialize the bnd workspace */
 def workspace = Workspace.getWorkspace(rootDir, bnd_cnf)
 if (workspace == null) {
   throw new GradleException("Unable to load bnd workspace ${rootDir}/${bnd_cnf}")
