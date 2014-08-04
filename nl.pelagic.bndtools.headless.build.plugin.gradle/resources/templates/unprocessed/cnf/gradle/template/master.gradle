@@ -83,8 +83,13 @@ subprojects { project ->
 
     plugins.apply BndPlugin
 
-    /* Override the javadoc bootclasspath */
-    ext.javadocClassPathBoot = project.bndProject.bootclasspath.collect { it.file }
+    if (!hasProperty('javadocClassPathBoot')) {
+      /* Set the javadoc bootclasspath */
+      ext.javadocClassPathBoot  = project.bndProject.bootclasspath.collect { it.file }
+    } else {
+      /* Add to the javadoc bootclasspath */
+      ext.javadocClassPathBoot += project.bndProject.bootclasspath.collect { it.file }
+    }
 
     /* Load the build customisations */
     project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/bndProjects.gradle")
