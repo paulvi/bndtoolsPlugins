@@ -17,29 +17,20 @@ import aQute.bnd.osgi.Constants
 /* Setup the build dependencies */
 buildscript {
   dependencies {
-    classpath files(bndURI) + rootProject.bndBuildDependencies
+    classpath files(bndURI) + bndBuildDependencies
   }
 }
 
 
-assert(project == rootProject     )
-assert(hasProperty('bnd_cnf'     ))
-assert(hasProperty('bndURI'      ))
-assert(hasProperty('bndWorkspace'))
+assert(project == rootProject             )
+assert(hasProperty('bnd_cnf'             ))
+assert(hasProperty('bndBuildDependencies'))
+assert(hasProperty('bndURI'              ))
+assert(hasProperty('bndWorkspace'        ))
 
 
 /* Load the workspace build settings overrides */
 apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/settings-workspace.gradle")
-
-/* Gradle default task settings */
-if (!hasProperty('bnd_defaultTask'             )) ext.bnd_defaultTask    = 'build' /* comma separated */
-if (!hasProperty('others_defaultTask'          )) ext.others_defaultTask = 'build' /* comma separated */
-if (!hasProperty('loggingCaptureStandardOutput')) ext.loggingCaptureStandardOutput = LogLevel.WARN
-if (!hasProperty('loggingLevel'                )) ext.loggingLevel                 = LogLevel.WARN
-
-/* Logging */
-logging.captureStandardOutput   loggingCaptureStandardOutput
-logging.level                 = loggingLevel
 
 /* Load the BndPlugin class */
 apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')

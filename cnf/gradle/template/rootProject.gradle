@@ -10,12 +10,11 @@ assert(project == rootProject)
 assert(hasProperty('bnd_cnf'))
 
 
-if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.0'
-if (!hasProperty('root_defaultTask' )) ext.root_defaultTask  = 'build'
-
-
 /* Load the overrides */
 apply from: rootProject.file("${bnd_cnf}/gradle/custom/settings-rootProject.gradle")
+
+
+if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.0'
 
 
 /* Setup the default tasks */
