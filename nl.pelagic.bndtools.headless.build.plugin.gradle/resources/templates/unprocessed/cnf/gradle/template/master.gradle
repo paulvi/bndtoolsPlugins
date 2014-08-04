@@ -27,12 +27,6 @@ buildscript {
   }
 }
 
-/*
- * Early setup of the Gradle build directory to ensure that output gets into
- * the correct directory; less chance of output ending up in the default Gradle
- * build directory when the build script fails.
- */
-buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
 /* Gradle default task settings */
 if (!hasProperty('bnd_defaultTask'   )) ext.bnd_defaultTask    = 'build' /* comma separated */
