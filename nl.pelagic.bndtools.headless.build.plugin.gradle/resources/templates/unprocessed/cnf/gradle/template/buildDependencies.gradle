@@ -6,26 +6,19 @@
  * Determine the build dependencies.
  */
 
-assert(project == rootProject                   )
-assert(hasProperty('bndCnf')                    )
+assert(hasProperty('bndCnf'))
 
 
-if (!hasProperty('buildDependenciesCacheDir')) ext.buildDependenciesCacheDir = "${bndCnf}/cache/gradle"
-if (!hasProperty('buildDependenciesPropertiesFile')) ext.buildDependenciesPropertiesFile = "${bndCnf}/gradle/build.gradle.properties"
+if (!hasProperty('buildDependenciesPropertiesFile')) ext.buildDependenciesPropertiesFile = "${bndCnf}/gradle/build.gradle.properties" /* relative to the root project */
+if (!hasProperty('buildDependenciesCacheDir'      )) ext.buildDependenciesCacheDir       = "${bndCnf}/cache/gradle"                   /* relative to the root project */
 
 
-/*
- * Determine the build dependencies from the bnd build properties that end with
- * the specified extension and interpret the value as an URL (when asUrl is
- * true) or as a path (when asUrl is false). Add these build dependencies to the
- * 'bndBuildDependencies' file tree.
- * URL dependencies are downloaded into the configured cache directory.
- */
-void addToBuildDependencies(Set<String> evaluatedDependencies, String extension, boolean asUrl) {
-  assert(evaluatedDependencies != null                 )
-  assert(extension != null && !extension.isEmpty()     )
-  assert(hasProperty('bndBuildProperties'             ))
-  assert(hasProperty('buildDependenciesCacheDir'))
+void addToBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDependencies, String extension, boolean asUrl) {
+  assert(buildDependencies != null                )
+  assert(evaluatedDependencies != null            )
+  assert(extension != null && !extension.isEmpty())
+  assert(hasProperty('bndBuildProperties'        ))
+  assert(hasProperty('buildDependenciesCacheDir' ))
 
   def propKeyExtensionRegex = '\\.' + extension + '\$'
   bndBuildProperties
@@ -38,11 +31,12 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
       if (evaluatedDependencies.contains(dependencyName)) {
         println "Warning: Build dependency ${dependencyName} was already processed, skipping ${propKey}"
       } else {
-        def dependencyFileName = null
         def dependencyFile     = null
         if (!asUrl) {
-          dependencyFileName   = relativePath(propValue)
-          dependencyFile       = file(dependencyFileName)
+          dependencyFile       = new File(propValue)
+          if (!dependencyFile.absolute) {
+            dependencyFile     = new File(rootDir, propValue)
+          }
         } else {
           def url = null
           try {
@@ -53,17 +47,17 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
 
           if (url.protocol.toLowerCase().equals('file')) {
             def urlPath = url.path
-            dependencyFileName = relativePath(urlPath)
-            dependencyFile     = file(dependencyFileName)
+            dependencyFile     = new File(urlPath)
+            if (!dependencyFile.absolute) {
+              dependencyFile   = new File(rootDir, urlPath)
+            }
           } else {
             def urlBaseName    = new File(url.path).name
-            dependencyFileName = "${buildDependenciesCacheDir}/${urlBaseName}"
-            dependencyFile     = file(dependencyFileName)
-
+            dependencyFile     = new File(rootDir, "${buildDependenciesCacheDir}/${urlBaseName}")
             /* Download from the URL when needed */
             if (!dependencyFile.exists()) {
-              printf "Downloading build dependency ${dependencyName}..."
-              def downloadDir = file(dependencyFileName).parentFile
+              println "Downloading build dependency ${dependencyName} from ${url}"
+              def downloadDir = dependencyFile.parentFile
               if ((!downloadDir.exists() && !downloadDir.mkdirs()) || !downloadDir.isDirectory()) {
                 throw new GradleException("Could not create directory ${downloadDir}")
               }
@@ -72,51 +66,42 @@ void addToBuildDependencies(Set<String> evaluatedDependencies, String extension,
               } catch (Exception e) {
                 throw new GradleException("Downloading build dependency ${dependencyName} from ${url} failed", e)
               }
-              println ' done'
             }
           }
         }
 
-        assert(dependencyFileName != null)
-        assert(dependencyFile     != null)
+        assert(dependencyFile != null)
 
         if (!dependencyFile.exists()) {
-          throw new GradleException("Build dependency ${dependencyName} (${dependencyFileName}) does not exist.")
+          throw new GradleException("Build dependency ${dependencyName} (${dependencyFile.absolutePath}) does not exist.")
         }
 
-        /* Include the dependency in the bndBuildDependencies file tree (created when needed) */
-        if (!rootProject.hasProperty('bndBuildDependencies')) {
-          rootProject.ext.bndBuildDependencies = fileTree(rootDir).include(dependencyFileName)
-        } else {
-          /* Avoid duplicate build dependencies */
-          if (!rootProject.bndBuildDependencies.contains(dependencyFile)) {
-            rootProject.bndBuildDependencies.include(dependencyFileName)
-          }
-        }
+        buildDependencies.add(dependencyFile)
         evaluatedDependencies.add(dependencyName)
       }
     }
   }
 }
 
-
 /* Ensure the build properties file exists */
-if (!file(buildDependenciesPropertiesFile).exists()) {
-  throw new GradleException("Build properties file (${buildDependenciesPropertiesFile}) does not exist")
+def buildDependenciesPropertiesFileRoot = new File(rootDir, buildDependenciesPropertiesFile)
+if (!buildDependenciesPropertiesFileRoot.exists()) {
+  throw new GradleException("Build properties file (${buildDependenciesPropertiesFileRoot.absolutePath}) does not exist")
 }
 
 /* Load the build properties */
 ext.bndBuildProperties = new Properties()
-file(buildDependenciesPropertiesFile).withReader {
+buildDependenciesPropertiesFileRoot.withReader {
   reader -> bndBuildProperties.load(reader)
 }
 
 /* Determine build dependencies */
+def buildDependencies  = new HashSet<File>();
 def evaluatedDependencies = new HashSet<String>()
-addToBuildDependencies(evaluatedDependencies, 'location', false)
-addToBuildDependencies(evaluatedDependencies, 'url'     , true)
+addToBuildDependencies(buildDependencies, evaluatedDependencies, 'location', false)
+addToBuildDependencies(buildDependencies, evaluatedDependencies, 'url'     , true)
 
-/* Setup an empty file tree when there are no dependencies */
-if (!hasProperty('bndBuildDependencies')) {
-  ext.bndBuildDependencies = fileTree(rootDir).exclude('**')
+/* After the rootProject is created, set up some properties. */
+gradle.rootProject { rootProject ->
+ rootProject.ext.bndBuildDependencies = files(buildDependencies)
 }

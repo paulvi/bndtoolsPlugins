@@ -17,7 +17,11 @@ if (cnfs.isEmpty()) {
 if (cnfs.size() > 1) {
   throw new GradleException("Multiple cnf projects found: ${cnfs}")
 }
-def bndCnf = cnfs.get(0)
+ext.bndCnf = cnfs.get(0)
+
+
+/* Determine the build dependencies */
+apply from: file("${bndCnf}/gradle/template/buildDependencies.gradle")
 
 
 /* include all bnd projects and all gradle projects */
