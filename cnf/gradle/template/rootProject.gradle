@@ -14,7 +14,7 @@ if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.0'
 
 
 /* Setup the default tasks */
-if (project.hasProperty('root_defaultTask')) {
+if (hasProperty('root_defaultTask')) {
   defaultTasks = root_defaultTask.trim().split(/\s*,\s*/)
 }
 
