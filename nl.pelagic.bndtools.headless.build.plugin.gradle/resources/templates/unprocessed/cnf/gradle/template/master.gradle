@@ -17,7 +17,7 @@ assert(hasProperty('bndWorkspace'))
 /* Setup the build dependencies */
 buildscript {
   dependencies {
-    classpath rootProject.bndBuildDependencies
+    classpath files(bndURI) + rootProject.bndBuildDependencies
   }
 }
 

@@ -4,20 +4,60 @@
  * This file should not be edited.
  */
 
-/* Scan for the location of the configuration (cnf) project, relative to the root project */
-def cnfs = new LinkedList<String>();
-rootDir.eachFile {
-  if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
-    cnfs.add(relativePath(it))
+import aQute.bnd.build.Workspace
+
+/* Add bnd as a script dependency */
+buildscript {
+  dependencies {
+    def cnfs = new LinkedList<String>();
+    rootDir.eachFile {
+      if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
+        def canonicalCnf = it.canonicalFile.name
+        if (!cnfs.contains(canonicalCnf)) {
+          cnfs.add(canonicalCnf)
+        }
+      }
+    }
+    if (cnfs.isEmpty()) {
+      throw new GradleException('Could not locate the cnf project.')
+    }
+    if (cnfs.size() > 1) {
+      throw new GradleException("Multiple cnf projects found: ${cnfs}")
+    }
+    def bnd_cnf = cnfs.get(0)
+
+    def bndURI = rootDir.toURI().resolve(bnd_jar)
+    if (bndURI.scheme != 'file') {
+      /* If not a local file, copy to a local file in cnf/cache */
+      def cnfCache = mkdir("${rootDir}/${bnd_cnf}/cache")
+      def bndJarFile = new File(cnfCache, 'biz.aQute.bnd.jar')
+      if (!bndJarFile.exists()) {
+        println "Downloading ${bndURI} to ${bndJarFile} ..."
+        bndURI.toURL().withInputStream { is ->
+          bndJarFile.withOutputStream { os ->
+            def bos = new BufferedOutputStream( os )
+            bos << is
+          }
+        }
+      }
+      bndURI = bndJarFile.toURI()
+    }
+    classpath files(bndURI)
+
+    /* After the rootProject is created, pass URI to projects */
+    gradle.rootProject { rootProject ->
+      rootProject.ext.bndURI = bndURI
+    }
   }
 }
-if (cnfs.isEmpty()) {
-  throw new GradleException('Could not locate the cnf project.')
+
+
+ext.bndCnf = ''
+rootDir.eachFile {
+  if (bndCnf.empty && it.isDirectory() && new File(it, 'build.bnd').exists()) {
+    ext.bndCnf = it.name
+  }
 }
-if (cnfs.size() > 1) {
-  throw new GradleException("Multiple cnf projects found: ${cnfs}")
-}
-ext.bndCnf = cnfs.get(0)
 
 
 /* Determine the build dependencies */
