@@ -6,7 +6,7 @@
 
 def cnfs = new TreeSet<String>();
 rootDir.eachFile {
-  if (it.isDirectory() && new File(it, 'build.bnd').exists()) {
+  if (it.isDirectory() && new File(it, 'build.bnd').isFile()) {
     def canonicalCnf = it.canonicalFile.name
     cnfs.add(canonicalCnf)
     ext.bnd_cnf = canonicalCnf
