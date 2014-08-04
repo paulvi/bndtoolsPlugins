@@ -235,22 +235,18 @@ It contains:
 
     This file is used to bootstrap the build and defines the build dependencies:
 
-    * All ```*.location``` and ```*.url``` settings are considered to be build
+    * All ```*.url``` settings are considered to be build dependencies.
+
+    * An ```example.url``` setting will make the build script add the file
+      indicated by the URL to the build dependencies when the file exists on the
+      local filesystem. If the file doesn't exist on the local filesystem, then
+      the build script will download the build dependency from the specified URL
+      into the ```cnf/cache/gradle``` directory and add it to the build
       dependencies.
 
-    * A ```*.location``` setting has priority over the corresponding ```*.url```
-      setting, which means that the ```example.url``` setting will be ignored
-      if ```example.location``` is also specified.
-
-    * An ```example.location``` setting will make the build script add the
-      specified location (path) to the build dependencies.
-
-    * An ```example.url``` setting will make the build script download
-      the ```example``` build dependency from the specified URL into
-      the ```cnf/cache/gradle``` directory and add it to the build dependencies.
-
-      Using a ```*.url``` setting is not **not recommended** since the build
-      will then no longer be self-contained (because it needs network access).
+      Using a ```*.url``` setting that points to an external location is
+      not **not recommended** since the build will then no longer be
+      self-contained (because it needs network access).
 
   * &nbsp;```gradle```
 

@@ -1,5 +1,7 @@
 # Changes since bndtools 2.3.0 release
 
+* Build dependencies now only support '*.url' properties, the '*.location'
+  properties are dropped.
 * The template now automatically applies the
   buildscript ```cnf/gradle/template/javaProject.gradle``` to projects that
   hava applied the Gradle Java plugin.
