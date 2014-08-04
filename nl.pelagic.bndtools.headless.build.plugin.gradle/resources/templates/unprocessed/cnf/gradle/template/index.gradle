@@ -46,36 +46,36 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
   }
 
   indexDirectories.trim().split('\\s*,\\s*').each { indexDirectory ->
-    def parts        = indexDirectory.trim().split('\\s*;\\s*')
+    def parts        = indexDirectory.split('\\s*;\\s*')
 
     if (parts.length > 3) {
       throw new GradleException("Too many parts to the indexing configuration (${indexDirectory})")
     }
 
     if (parts.length > 1) {
+      if (parts[0].empty) {
+        throw new GradleException("Can't have an empty index directory (${indexDirectory})")
+      }
       indexDirectory = parts[0]
     }
     def indexDirectoryFile = file(indexDirectory)
 
-    def repoName
+    def repoName     = indexDirectoryFile.name
     if (parts.length > 1 && !parts[1].empty) {
       repoName       = parts[1]
-    } else {
-      repoName       = indexDirectoryFile.name
     }
 
-    if ((!indexDirectoryFile.exists() && !indexDirectoryFile.mkdirs()) || !indexDirectoryFile.isDirectory()) {
-      throw new GradleException("Could not create directory ${indexDirectory}")
-    }
+    indexDirectoryFile.mkdirs()
 
     def bundlesToIndex
     if (parts.length > 2) {
-      bundlesToIndex = properties.get(parts[2])
+      def treeProperty = parts[2]
+      bundlesToIndex = properties.get(treeProperty)
       if (bundlesToIndex == null) {
-        throw new GradleException("Property ${parts[2]} not found")
+        throw new GradleException("Property ${treeProperty} not found")
       }
       if (!(bundlesToIndex instanceof FileTree)) {
-        throw new GradleException("Property ${parts[2]} is not an instance of FileTree")
+        throw new GradleException("Property ${treeProperty} is not an instance of FileTree")
       }
     } else {
       bundlesToIndex = fileTree(indexDirectoryFile).include("**/*.jar")
@@ -112,12 +112,16 @@ void createIndexes(boolean r5, boolean uncompressed, boolean compressed) {
 
         def indexArgs   = []
         if (!r5) {
-          indexArgs    += ['-r', indexFile, '-d', indexDirectoryFile.toURI(), '-n', repoName]
+          indexArgs    += ['-r', indexFile,
+                           '-d', indexDirectoryFile.toURI(),
+                           '-n', repoName]
         } else {
           if (!compress) {
             indexArgs  += ['--pretty']
           }
-          indexArgs    += ['-r', indexFile, '-d', indexDirectoryFile, '-n', repoName]
+          indexArgs    += ['-r', indexFile,
+                           '-d', indexDirectoryFile,
+                           '-n', repoName]
         }
 
         if (!bundlesToIndex.empty) {
