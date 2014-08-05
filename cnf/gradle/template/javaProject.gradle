@@ -37,7 +37,7 @@ apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/findbugs.gr
 /* Add jacoco to the project */
 apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/template/jacoco.gradle")
 
-distclean.doLast {
+clean.doLast {
   sourceSets.each {
     if (projectDir != it.output.classesDir) {
       delete(it.output.classesDir)
