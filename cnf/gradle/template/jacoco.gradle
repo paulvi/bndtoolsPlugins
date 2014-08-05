@@ -20,6 +20,12 @@ if (!hasProperty('jacocoXmlReport'  )) ext.jacocoXmlReport   = true
 if (!hasProperty('jacocoCsvReport'  )) ext.jacocoCsvReport   = false
 
 
+test {
+  jacoco {
+    destinationFile = new File(buildDir, "${jacocoReportsDir}/test.exec")
+  }
+}
+
 jacoco {
   reportsDir  = new File(buildDir, "${jacocoReportsDir}")
   toolVersion = jacocoToolVersion
