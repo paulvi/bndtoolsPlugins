@@ -3,6 +3,9 @@
  *
  * This file should not be edited.
  *
+ * GNU LIBRARY GENERAL PUBLIC LICENSE
+ * Version 2, June 1991
+ *
  * Add findbugs tasks to a (java) project.
  *
  * Note: the 'java' plugin must have been applied to the project before this

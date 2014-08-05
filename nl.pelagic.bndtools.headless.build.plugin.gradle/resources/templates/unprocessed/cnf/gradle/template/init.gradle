@@ -3,6 +3,9 @@
  *
  * This file should not be edited.
  *
+ * GNU LIBRARY GENERAL PUBLIC LICENSE
+ * Version 2, June 1991
+ *
  * Master Gradle initialization script
  *
  * Called by settings.gradle to initialize the project set.

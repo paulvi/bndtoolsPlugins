@@ -2,6 +2,9 @@
  * WARNING
  *
  * This file should not be edited.
+ *
+ * GNU LIBRARY GENERAL PUBLIC LICENSE
+ * Version 2, June 1991
  */
 
 def cnfs = new TreeSet<String>();

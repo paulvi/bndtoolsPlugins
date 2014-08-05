@@ -12,7 +12,7 @@ since been replaced with a different implemention in bndtools. The plugin was
 thereon forked and now lives on through the support
 of [Pelagic](http://www.pelagic.nl).
 
-The project is fully Open Source and can be found
+The project is fully Open Source, licensed under the LGPL, and can be found
 at [GitHub](https://github.com/fhuberts/bndtoolsPlugins).
 
 Contributions are welcome!
