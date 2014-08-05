@@ -316,7 +316,7 @@
 </g>
 <!-- javadoc -->
 <g id="node22" class="node"><title>javadoc</title>
-<polygon fill="lightcyan" stroke="black" points="589.25,-697 530.75,-697 530.75,-661 589.25,-661 589.25,-697"/>
+<polygon fill="orange" stroke="black" points="589.25,-697 530.75,-697 530.75,-661 589.25,-661 589.25,-697"/>
 <text text-anchor="middle" x="560" y="-675.3" font-family="Times,serif" font-size="14.00">javadoc</text>
 </g>
 <!-- clean -->

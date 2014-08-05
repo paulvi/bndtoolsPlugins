@@ -49,20 +49,31 @@ Contributions are welcome!
     * [echo](#BuildTasksEcho)
     * [bndproperties](#BuildTasksBndProperties)
     * [clean](#BuildTasksClean)
+    * [cleanNeeded](#BuildTasksCleanNeeded)
   * [All Projects](#BuildTasksAllProjects)
     * [index](#BuildTasksIndex)
-    * [cleanNeeded](#BuildTasksCleanNeeded)
+      * [Settings](#BuildTasksIndexSettings)
+    * [clean](#BuildTasksAllClean)
+    * [cleanNeeded](#BuildTasksAllCleanNeeded)
     * [distClean](#BuildTasksDistClean)
     * [distcleanNeeded](#BuildTasksDistCleanNeeded)
   * [Java Projects](#BuildTasksJavaProjects)
+    * [Settings](#BuildTasksJavaProjectsSettings)
     * [Findbugs](#BuildTasksFindbugs)
       * [findbugsMain](#BuildTasksFindbugsMain)
       * [findbugsTest](#BuildTasksFindbugsTest)
       * [findbugs](#BuildTasksfindbugs)
       * [findbugstest](#BuildTasksfindbugstest)
+      * [Settings](#FindbugsSettings)
+    * [Jacoco](#BuildTasksJacoco)
+      * [Settings](#BuildTasksJacocoSettings)
     * [javadoc](#BuildTasksJavadoc)
+      * [Settings](#BuildTasksJavadocSettings)
+    * [clean](#BuildTasksJavaClean)
   * [Root Project](#BuildTasksRootProject)
+    * [Settings](#BuildTasksRootProjectSettings)
     * [wrapper](#BuildTasksWrapper)
+* [Overriding Task Properties](#OverridingTaskProperties)
 * [Build Options](#BuildOptions)
   * [Bnd Projects](#BuildOptionsBndProjects)
   * [Findbugs](#BuildOptionsFindbugs)
@@ -84,14 +95,20 @@ This description assumes a Linux machine. Details may vary on other OSes.
 * Download Gradle from [http://www.gradle.org](http://www.gradle.org).
 
 * Unpack the downloaded archive and put it in ```/usr/local/lib```
-  as ```/usr/local/lib/gradle-1.11``` (assuming Gradle 1.11 was downloaded).
+  as ```/usr/local/lib/gradle-2.0``` (assuming Gradle 2.0 was downloaded).
 
-* Put the Gradle executable ```/usr/local/lib/gradle-1.11/bin/gradle``` on
+* Create a symbolic link to the Gradle installation directory to be able to
+  easily switch Gradle versions later on:
+
+  ```
+  ln -s gradle-2.0 /usr/local/lib/gradle
+  ```
+
+* Put the Gradle executable ```/usr/local/lib/gradle/bin/gradle``` on
   the search path by linking to it from ```/usr/local/bin```:
 
   ```
-  rm -f /usr/local/bin/gradle
-  ln -s /usr/local/lib/gradle-1.11/bin/gradle /usr/local/bin/
+  ln -s /usr/local/lib/gradle/bin/gradle /usr/local/bin/
   ```
 
 ## <a name="InstallingGradleInTheWorkspace"/>In The Workspace
@@ -103,7 +120,8 @@ The procedure is:
 
 * Open a shell and go into the workspace root directory.
 
-* Assuming Gradle is properly installed on the system, run:
+* Assuming Gradle is properly installed on the system
+  (see [Installing Gradle On The System](#InstallingGradleOnTheSystem)), run:
 
   ```
   gradle wrapper
@@ -118,8 +136,8 @@ The procedure is:
 Startup times of a Gradle build can be much improved by using the Gradle daemon.
 
 The Gradle daemon works well when the Gradle build scripts are not changed,
-which makes it well suited to regular (where the build scripts are not changed!)
-development but **not** for build servers.
+which makes it well suited to regular development (where the build scripts are
+not changed!) but **not** for build servers.
 
 The daemon can be easily setup by adding the following line
 to ```~/.gradle/gradle.properties```:
@@ -234,27 +252,11 @@ It contains:
 
 * Build files.
 
-  * <a name="BuildProperties"/>```gradle.properties```
-
-    This file is used to bootstrap the build and (among other things) defines
-    the build dependencies:
-
-    * All ```*.url``` settings are considered to be build dependencies.
-
-    * An ```example.url``` setting will make the build script add the file
-      indicated by the URL to the build dependencies when the file exists on the
-      local filesystem. If the file doesn't exist on the local filesystem, then
-      the build script will download the build dependency from the specified URL
-      into the ```cnf/cache``` directory and add it to the build dependencies.
-
-      Using a ```*.url``` setting that points to an external location is
-      not **not recommended** since the build will then no longer be
-      self-contained (because it needs network access).
-
   * &nbsp;```cnf/gradle```
 
-    This directory contains all build script files that are used by the build,
-    and documentation pertaining to the build.
+    This directory contains all Gradle build script files that are used by the
+    Gradle build, dependencies for the build, and documentation pertaining to
+    the build.
 
     * &nbsp;```template```
 
@@ -267,8 +269,7 @@ It contains:
       build process. They allow specification of overrides for various settings,
       additions to the build, modifications to the build, etc.
 
-      These **are** meant to be changed (when the build customisations are
-      needed).
+      These **are** meant to be changed when build customisations are needed.
 
     * &nbsp;```dependencies```
 
@@ -279,12 +280,20 @@ It contains:
       This directory contains documentation pertaining to the build. The
       document you're now reading is located in this directory.
 
-      <a name="svg"/>
-      Also found in this directory is a diagram ([template.svg](template.svg))
-      that provides an overview of the build setup, much like the Gradle User
-      Guide shows for the Java Plugin.
+      <a name="svg"/>Also found in this directory is a
+      diagram ([template.svg](template.svg)) that provides an overview of the
+      build setup, much like the Gradle User Guide shows for the Java Plugin.
 
       The diagram shows all tasks of the build and their dependencies:
+
+      * The light cyan blocks are tasks that are present by default, either
+        because Gradle creates them by default of because the project has
+        applied the Java plugin, which creates these tasks.
+
+      * The cyan block are tasks the are added or modified by the bnd plugin.
+      
+      * The orange blocks are tasks that are added or modified by this build
+        setup.
 
       * The arrows depict **execution flow** (so the dependencies are in the
         reverse direction).
@@ -298,6 +307,9 @@ It contains:
         task of another project if the latter project is on the build path of
         the former project.
 
+      * The **yellow** arrows depict flows to (dependencies from) parent
+        projects. These are the reverse of the **red** arrows.
+
       * The **blue** arrows depict flows/dependencies that are only present
         when the task from which the flows originate is present in the project.
 
@@ -309,37 +321,42 @@ It contains:
 A bnd project has a well defined layout with two source sets and one output
 directory:
 
-* main sources: located in the ```src``` directory. Compiled sources will be
-  placed in the ```bin``` directory.
+* Main sources: located in the ```src``` directory. Compiled sources will be
+  placed in the ```bin``` directory. Can be overridden with the ```src```
+  and ```bin``` bnd settings respectively.
 
-* test sources: located in the ```test``` directory. Compiled sources will be
-  placed in the ```bin_test``` directory.
+* Test sources: located in the ```test``` directory. Compiled sources will be
+  placed in the ```bin_test``` directory. Can be overridden with
+  the ```testsrc``` and ```testbin``` bnd settings respectively.
 
-* output directory ```generated```. Built OSGi bundle(s) will be placed here.
-
-All bnd project layout directories can be customised by adjusting the following
-settings in the project's ```bnd.bnd``` file:
-
-* &nbsp;```src```: directory for main sources
-
-* &nbsp;```bin```: directory for compiled main sources
-
-* &nbsp;```testsrc```: directory for test sources
-
-* &nbsp;```testbin```: directory for compiled test sources
-
-* &nbsp;```target-dir```: directory for the built bundle(s)
+* Output directory ```generated```. Built OSGi bundle(s) will be placed here.
+  Can be overridden with the ```target-dir``` bnd setting
 
 
 # <a name="BuildFlow" />Build Flow
 
-Understanding the build flow is important if extra tasks must be added to the
-build, properties must be overridden, etc.
+Understanding the build flow is especially important if the build must be
+modified: extra tasks must be added, properties must be overridden, etc.
 
 The build has the following flow:
 
-* Gradle loads all properties defined in the ```gradle.properties``` file in
-  the root of the workspace.
+* <a name="BuildProperties"/>Gradle loads all properties defined in
+  the ```gradle.properties``` file in the root of the workspace.
+
+  This file is used to bootstrap the build and (among other things) defines
+  the build dependencies:
+
+  * All ```*.uri``` settings are considered to be build dependencies.
+
+  * An ```example.uri``` setting will make the build script add the file
+    indicated by the URI to the build dependencies when the file exists on the
+    local filesystem. If the file doesn't exist on the local filesystem, then
+    the build script will download the build dependency from the specified URI
+    into the ```cnf/cache``` directory and add it to the build dependencies.
+
+    Using a ```*.uri``` setting that points to an external location
+    is **not recommended** since the build will then no longer be
+    self-contained (because it needs network access).
 
 * Gradle invokes the ```settings.gradle``` file in the root of the workspace.
   This file initialises the build:
@@ -347,23 +364,24 @@ The build has the following flow:
   * Detect the location of the configuration project
     (see [Configuration Project](#ProjectsAndWorkspacesCnf)).
 
-  * initialise the bnd workspace.
+  * Initialise the bnd workspace.
 
-  * The build dependencies are determined from the (bootstrap) build
-    properties that were loaded from the ```gradle.properties``` file
+  * The build dependencies are determined from the build properties that were
+    loaded from the ```gradle.properties``` file
     (see [the explanation of the build properties file](#BuildProperties).
 
   * Include all **bnd** projects and all **Gradle** projects
     (see [Sub-Projects](#ProjectsAndWorkspacesSubProjects) for an explanation).
 
-* Gradle loads the ```build.gradle``` file from the root project. This file
+* Gradle invokes the ```build.gradle``` file from the root project. This file
   sets up the build:
 
   * The bnd plugin is loaded.
 
   * The hook ```cnf/gradle/custom/workspace-pre.gradle``` is invoked.
 
-  * From now on the build template has 3 sections which are applied in the order:
+  * The rest of the build template basically has 3 sections which are applied
+    in the order:
 
     * All projects
     * Sub-Projects
@@ -371,19 +389,22 @@ The build has the following flow:
 
     **All Projects**
 
-    This section sets up the build (defaults) for all included projects by
-    iterating over all included projects and performing the actions described
-    below.
+    This section sets up the build (defaults) for all included projects
+    (including the root project) by iterating over all included projects and
+    performing the actions described below.
+
+    * The Gradle build directory of the project is set to the bnd
+      default (```generated```).
 
     * The hook ```cnf/gradle/custom/allProject-pre.gradle``` is invoked.
 
-    * Load project specific build settings from the ```build-settings.gradle```
-      file in the project directory if the file is present.
+    * If the project has project specific build settings in
+      a ```build-settings.gradle``` file in its root directory then the file
+      invoked.
 
-      A project specific ```build-settings.gradle``` is placed in the
-      root of an included project and allows overrides of the build
-      settings, additions to the build, modifications of the build, etc, on a
-      project-by-project basis.
+      Project specific build settings allow - on a project-by-project basis -
+      overrides of the build settings, additions to the build, modifications of
+      the build, etc.
 
     * Index tasks are added to the project.
 
@@ -395,7 +416,8 @@ The build has the following flow:
 
     This section sets up the build (defaults) for all included projects,
     (excluding the root project) by iterating over all included sub-projects.
-    A distinction is made between **bnd** projects and **Gradle** projects.
+    In the iteration a distinction is made between **bnd** projects
+    and **Gradle** projects.
 
     * The hook ```cnf/gradle/custom/subProject-pre.gradle``` is invoked.
 
@@ -406,34 +428,36 @@ The build has the following flow:
       * The default tasks are setup (specified by the ```others_defaultTask```
         property). This is a comma separated list of task names.
 
-    * bnd projects
+    * Bnd projects
 
-      * The bnd project instance is save in the project as the ```bndProject```
-        property.
+      * The bnd project instance is stored in the project as
+        the ```bndProject``` property.
 
       * The hook ```cnf/gradle/custom/bndProject-pre.gradle``` is invoked.
-      
+
       * The bnd plugin is applied.
+
+      * The javadoc bootclasspath is adjusted to include the bootclasspath
+        of the bnd project.
 
       * The hook ```cnf/gradle/custom/bndProject-post.gradle``` is invoked.
 
-    * For all projects that have applied the Gradle Java plugin the
-      buildscript ```cnf/gradle/template/javaProject.gradle``` is applied,
-      thereby adding tasks that are relevant to Java projects.
+    * For all projects that have applied the Gradle Java plugin:
 
       * The hook ```cnf/gradle/custom/javaProject-pre.gradle``` is invoked.
 
-      * Setup the library directory (when generated artifacts will be placed).
+      * The library directory (where generated artifacts will be placed) is
+        setup (equal to the build directory by default).
 
-      * Setup the test options.
+      * The test options are setup.
 
-      * Setup the javaDoc task.
+      * The javaDoc task is setup.
 
-      * Setup the findbugs tasks.
+      * The findbugs tasks are setup.
 
-      * Setup the jacoco task.
+      * The jacoco task is setup.
 
-      * Adjust the distclean task to clean all output directories of all
+      * The distclean task is adjusted to clean all output directories of all
         sourceSets.
 
       * The hook ```cnf/gradle/custom/javaProject-post.gradle``` is invoked.
@@ -449,40 +473,45 @@ The build has the following flow:
     * The default tasks are setup (specified by the ```root_defaultTask```
       property).  This is a comma separated list of task names.
 
-    * Setup the wrapper task
-    
-    * Setup the distclean task to also clean the ```cnf/cache```
-      and ```.gradle``` directories .
+    * The wrapper task is setup.
+
+    * The distclean task is adjusted to also clean the ```cnf/cache```
+      and ```.gradle``` directories.
 
     * The hook ```cnf/gradle/custom/rootProject-post.gradle``` is invoked.
 
   * The hook ```cnf/gradle/custom/workspace-post.gradle``` is invoked.
 
-* For every included project with a ```build.gradle``` file Gradle loads that
-  file.
+* For every included project with a ```build.gradle``` build script, Gradle
+  invokes that build script.
 
 * Gradle resolves the build setup.
 
-* Gradle can now build the project by running the specified (or default) tasks.
+* Gradle will now build the project by running the specified (or default) tasks.
 
 
 # <a name="BuildTasks"/>Build Tasks
 
-The discussion of the build tasks below is split per project type/category.
+The discussion of the build tasks below is split per project type.
 
 ## <a name="BuildTasksBndProjects"/>Bnd Projects
 
+This section only discusses tasks that are added or modified compared to the
+Gradle Java plugin.
+
 ### <a name="BuildTasksJar"/>jar
 
-This task instructs bnd to construct an OSGi bundle.
+This task instructs bnd to construct the project's OSGi bundles. The bundles
+are placed in the project's ```generated``` directory.
 
 This is comparable to the ```jar``` task that is defined by the Java plugin,
-which instructs the Java compiler to construct a standard jar.
+which instructs the Java compiler to construct a standard jar. However, a
+bnd project completely replaces the ```jar``` task.
 
-A bnd project completely replaces the ```jar``` task.
+The ```bnd.bnd``` file describes how the OSGi bundle(s) must be constructed and
+is therefore taken as input by bnd.
 
-The ```bnd.bnd``` file describes how the OSGi bundle must be constructed and is
-therefore taken as input by bnd.
+This task is automatically disabled when no bundle(s) must be contructed.
 
 ### <a name="BuildTasksCheck"/>check
 
@@ -506,7 +535,8 @@ project itself.
 This task instructs bnd to copy the constructed OSGi bundle into the release
 repository.
 
-This task is automatically disabled when no release repository is defined.
+This task is automatically disabled when no release repository is defined or
+when no bundle(s) must be constructed.
 
 ### <a name="BuildTasksReleaseNeeded"/>releaseNeeded
 
@@ -517,9 +547,10 @@ project itself.
 ### <a name="BuildTasksExportName"/>export.<name>
 
 This task will export the ```<name>.bndrun``` file in the project to an
-executable jar.
+executable jar. The executable jar is placed in
+the project's ```generated/distributions``` directory as ```<name>.jar```.
 
-This task is only setup the project contains a ```<name>.bndrun``` file.
+This task is only setup if the project contains a ```<name>.bndrun``` file.
 
 ### <a name="BuildTasksExport"/>export
 
@@ -554,21 +585,27 @@ the output directory and the directories that hold the class files.
 
 This is in addition to the ```clean``` task that is defined by the Java plugin.
 
+### <a name="BuildTasksCleanNeeded"/>cleanNeeded
+
+This task will invoke the ```clean``` task on all projects on which the
+project is dependent, after which the ```clean``` task is invoked on the
+project itself.
+
 
 ## <a name="BuildTasksAllProjects"/>All Projects
+
+This section discusses tasks that are added to all projects.
 
 ### <a name="BuildTasksIndex"/>index
 
 This task can create one or more of the following:
-* an uncompressed OBR index
-* an uncompressed R5 index
-* a compressed OBR index
-* a compressed R5 index
+* an uncompressed and/or compressed OBR index
+* an uncompressed and/or compressed R5 index
 
-These indexes are generated from/for one or more configured directories.
+These indexes are generated from one *or more* configured file trees.
 
-Which directories are indexed is controlled by
-the ```indexDirectories``` property. Its **syntax** is:
+Which files are indexed is controlled by the ```indexDirectories``` property.
+Its **syntax** is:
 
 ```
 <root directory>;<name>;<name of fileTree property>, ...
@@ -583,11 +620,10 @@ the ```indexDirectories``` property. Its **syntax** is:
 
 * &nbsp;```name of fileTree property```: This is the name of a project property
   that must be an instance of a FileTree. This file tree determines which
-  files will be indexed. If not specified then the all ```*.jar``` files
-  below the ```root directory``` are indexed.
+  files will be indexed. If not specified then all ```*.jar``` files below
+  the ```root directory``` are indexed.
 
-Multiple indexes can be generated by specifying (syntax as displayed in the box
-above):
+Multiple indexes can be generated by specifying (syntax as displayed above):
 
 ```
 syntax,syntax,...
@@ -599,41 +635,45 @@ or when no OBR indexes **and** no R5 indexes are configured to be created
 
 OBR index generation is controlled by the properties
 
-* &nbsp;```indexOBRUncompressed```: if set to ```true``` then an
-  uncompressed OBR index is generated.
-
-* &nbsp;```indexOBRCompressed``` if set to ```true``` then a
-  compressed OBR index is generated.
-
 R5 index generation is controlled by the properties
 
-* &nbsp;```indexR5Uncompressed```: if set to ```true``` then an
-  uncompressed R5 index is generated.
+#### <a name="BuildTasksIndexSettings"/>Settings
 
-* &nbsp;```indexR5Compressed``` if set to ```true``` then a
-  compressed R5 index is generated.
+* &nbsp;```indexDirectories```: See the explanation just above.
 
-### <a name="BuildTasksCleanNeeded"/>cleanNeeded
+* &nbsp;```indexOBRUncompressed```: **true** to generate an uncompressed OBR
+                                    index. Defaults to **false**.
 
-This task will invoke the ```clean``` task on all projects on which the
-project is dependent, after which the ```clean``` task is invoked on the
-project itself.
+* &nbsp;```indexOBRCompressed```: **true** to generate a compressed OBR index.
+                                  Defaults to **false**.
 
-Note that invoking this task on the root project will invoke the task on all
-projects.
+* &nbsp;```indexR5Uncompressed```: **true** to generate an uncompressed R5
+                                   index. Defaults to **false**.
+
+* &nbsp;```indexR5Compressed```: **true** to generate a compressed R5 index.
+                                 Defaults to **true**.
+
+The defaults for the settings can be overridden by defining the settings in the
+project's ```build-settings.gradle``` file.
+
+### <a name="BuildTasksAllClean"/>clean
+
+This (empty) task is only added to the project when it doesn't yet have
+a ```clean``` task. The reason for this is to be able to easily declare clean
+task dependencies.
+
+### <a name="BuildTasksAllCleanNeeded"/>cleanNeeded
+
+This (empty) task is only added to the project when it doesn't yet have
+a ```cleanNeeded``` task. The reason for this is to be able to easily declare
+clean task dependencies.
 
 ### <a name="BuildTasksDistClean"/>distClean
 
-This task performs additional cleanup compared to the ```clean``` task, but is
-empty by default.
+This (empty by default) task is meant to perform additional cleanup compared to
+the ```clean``` task.
 
-For bnd projects and Java projects it removes:
-
-* The class files output directory of all defined sourcesets.
-
-* The resources output directory of all defined sourcesets.
-
-For the root project it removes:
+The build adjusts this task for the root project such that it removes:
 
 * The cache directory in the configuration project.
 
@@ -645,19 +685,49 @@ This task will invoke the ```distClean``` task on all projects on which the
 project is dependent, after which the ```distClean``` task is invoked on the
 project itself.
 
-Note that invoking this task on the root project will invoke the task on all
-projects.
-
 
 ## <a name="BuildTasksJavaProjects"/>Java Projects
 
+This section discusses tasks that are added to all Java projects (which
+includes bnd projects).
+
+### <a name="BuildTasksJavaProjectsSettings"/>Settings
+
+* &nbsp;```javaLibsDirName```: The directory (relative to the project's build
+                               directory) in which to place the generated
+                               artifacts (jars and bundles). Defaults to **.**.
+
+* &nbsp;```javaTestResultsDirName```: The directory (relative to the project's
+                                      build directory) in which to place the
+                                      tests XML reports. Defaults
+                                      to **reports/tests/xml**.
+
+* &nbsp;```javaTestReportDirName```: The directory (relative to the project's
+                                      reports directory) in which to place the
+                                      tests HTML reports. Defaults
+                                      to **tests/html**.
+
+* &nbsp;```javaTestEnableAssertions```: **true** to enable assertions during
+                                        tests. Defaults to **true**.
+
+* &nbsp;```javaTestIgnoreFailures```: **true** to ignore test failures (to
+                                      **not** fail the build). Defaults
+                                      to **false**.
+
+* &nbsp;```javaTestMaxParallelForks```: The maximum number of parallel tests to
+                                        run. Defaults to **1**.
+
+The defaults for the settings can be overridden by defining the settings in the
+project's ```build-settings.gradle``` file.
+
 ### <a name="BuildTasksFindbugs"/>Findbugs
 
-The findbugs plugin is applied to all bnd projects and to all Java projects.
-The plugin adds the tasks ```findbugsMain``` and ```findbugsTest```.
+The findbugs plugin is applied to all Java projects. This plugin adds the
+tasks ```findbugsMain``` and ```findbugsTest```.
 
 These two tasks are disabled by default since running findbugs is an expensive
-operation and is not needed for most builds.
+operation and is not needed for most builds. Enabling these tasks is discussed
+below.
 
 Note that the reports that are generated by the findbugs tasks will only have
 line numbers when the tasks are run on a build that produces artefacts with
@@ -673,26 +743,280 @@ This task will run findbugs on the test source code.
 
 #### <a name="BuildTasksfindbugs"/>findbugs
 
-Specifying this task will **enable** the ```findbugsMain``` task.
+Specifying this (virtual) task will **enable** the ```findbugsMain``` task.
 
-Note: it is needed to specify a task that has a dependency on
-the ```findbugsMain``` that to actually run the task. The tasks ```check```
-and ```build``` are examples is such a task.
+Note: it is still needed to specify a task that has a dependency on
+the ```findbugsMain``` task to actually run it. The tasks ```check```
+and ```build``` are examples of such a task.
 
 #### <a name="BuildTasksfindbugstest"/>findbugstest
 
-Specifying this task will **enable** the ```findbugsTest``` task.
+Specifying this (virtual) task will **enable** the ```findbugsTest``` task.
 
-Note: it is needed to specify a task that has a dependency on
-the ```findbugsTest``` that to actually run the task. The tasks ```check```
-and ```build``` are examples is such a task.
+Note: it is still needed to specify a task that has a dependency on
+the ```findbugsTest``` task to actually run it. The tasks ```check```
+and ```build``` are examples of such a task.
+
+#### <a name="FindbugsSettings"/>Settings
+
+* &nbsp;```findbugsReportXML```: The name of the property that must be defined
+                                 in order to generate XML reports instead of
+                                 HTML reports (since the findbugs plugin can't
+                                 create them both at the same time). Defaults
+                                 to **CI**.
+
+* &nbsp;```findbugsToolVersion```: The version of the findbugs plugin to use.
+                                   Defaults to **3.0.0**.
+
+* &nbsp;```findbugsIgnoreFailures```: **true** to ignore findbugs warning (to
+                                      **not** fail the build). Defaults
+                                      to **true**.
+
+* &nbsp;```findbugsEffort```: The effort the expend; **min**, **default**
+                              or **max**. Defaults to **default**.
+
+* &nbsp;```findbugsReportLevel```: The minimum level to report, in which a
+                                   *lower* setting will report more warnings.
+                                   Can be **low**, **medium** or **high**.
+                                   Defaults to **medium**.
+
+* &nbsp;```findbugsReportsDir```: The directory (relative to the project's build
+                                  directory) in which to place the findbugs
+                                  reports. Defaults to **reports/findbugs**.
+
+* &nbsp;```findbugsIncludesFile```: The file with include rules. Defaults
+                                    to **${rootProject.rootDir}/${rootProject.bnd_cnf}/findbugs/findbugs.include.xml**.
+
+* &nbsp;```findbugsExcludesFile```: The file with exclude rules. Defaults
+                                    to **{rootProject.rootDir}/${rootProject.bnd_cnf}/findbugs/findbugs.exclude.xml**.
+
+The defaults for the settings can be overridden by defining the settings in the
+project's ```build-settings.gradle``` file.
+
+### <a name="BuildTasksJacoco"/>Jacoco
+
+The jacoco plugin is applied to all Java projects. This plugin adds the
+task ```jacocoTestReport``` which details the test coverage.
+
+An ```test.exec``` report - for consumption by a build server - is always
+created and is placed in the directory configured by the ```jacocoReportsDir```
+setting.
+
+#### <a name="BuildTasksJacocoSettings"/>Settings
+
+* &nbsp;```jacocoToolVersion```: The version of the jacoco plugin to use.
+                                 Defaults to **0.7.1.201405082137**.
+
+* &nbsp;```jacocoReportsDir```: The directory (relative to the project's build
+                                directory) in which to place the jacoco
+                                reports. Defaults to **reports/jacoco**.
+
+* &nbsp;```jacocoHtmlDir```: The directory (relative to ```jacocoReportsDir```)
+                             in which to place the html reports. Defaults
+                             to **html**.
+
+* &nbsp;```jacocoXmlReport```: **true** to generate XML reports. Defaults
+                               to **true**.
+
+* &nbsp;```jacocoCsvReport```: **true** to generate CSV reports. Defaults
+                               to **false**.
+
+The defaults for the settings can be overridden by defining the settings in the
+project's ```build-settings.gradle``` file.
 
 ### <a name="BuildTasksJavadoc"/>javadoc
 
 This task generates javadoc for the main source code.
 
+#### <a name="BuildTasksJavadocSettings"/>Settings
+
+* &nbsp;```javadocDir```: The directory (relative to the project's build
+                          directory) in which to place the javadoc. Defaults
+                          to **javadoc**.
+
+* &nbsp;```javadocTitle```: The same as ```javadocDocTitle```. Defaults
+                            to **${project.name}**.
+
+* &nbsp;```javadocFailOnError```: **false** to ignore errors (to **not** fail
+                                  the build). Defaults to **true**.
+
+* &nbsp;```javadocMaxMemory```: The maximum amount of memory that the javadoc
+                                task is allowed to consume. Defaults
+                                to **256M**.
+
+* &nbsp;```javadocVerbose```: **true** for verbose mode: provide more detailed
+                              messages while javadoc is running. Without the
+                              verbose option, messages appear for loading the
+                              source files, generating the documentation (one
+                              message per source file), and sorting. The verbose
+                              option causes the printing of additional messages
+                              specifying the number of milliseconds to parse
+                              each java source file. Defaults to **false**.
+
+* &nbsp;```javadocDocTitle```: The title to be placed near the top of the
+                               overview summary file. The title will be placed
+                               as a centered, level-one heading directly beneath
+                               the upper navigation bar. The title may contain
+                               html tags and white space, though if it does, it
+                               must be enclosed in quotes. Any internal
+                               quotation marks within title may have to be
+                               escaped. Defaults to **${project.name}**.
+
+* &nbsp;```javadocWindowTitle```:  The title to be placed in the HTML <title>
+                                   tag. This appears in the window title and in
+                                   any browser bookmarks (favorite places) that
+                                   someone creates for this page. This title
+                                   should not contain any HTML tags, as the
+                                   browser will not properly interpret them. Any
+                                   internal quotation marks within title may
+                                   have to be escaped. Defaults
+                                  to **${project.name}**.
+
+* &nbsp;```javadocClassPathBoot```: The bootclasspath. Defaults to an empty list
+                                    of files.
+
+* &nbsp;```javadocMemberLevel```: The minimum member level to include in the
+                                  generated documention. Can be (from lowest
+                                  level to highest level): **PRIVATE**
+                                  , **PROTECTED**, **PACKAGE**, **PUBLIC**.
+                                  Defaults to **PUBLIC**.
+
+* &nbsp;```javadocEncoding```: The encoding name of the source files. Defaults
+                               to **UTF-8**.
+
+* &nbsp;```javadocAuthor```: **true** to include the @author text in the
+                              generated documentation. Defaults to **true**.
+
+* &nbsp;```javadocBreakIterator```: **true** to use the internationalized
+                                    sentence boundary of java.text.BreakIterator
+                                    to determine the end of the first sentence
+                                    for English (all other locales already use
+                                    BreakIterator), rather than an English
+                                    language, locale-specific algorithm. By
+                                    first sentence, the first sentence in the
+                                    main description of a package, class or
+                                    member is meant. This sentence is copied to
+                                    the package, class or member summary, and to
+                                    the alphabetic index. Defaults to **true**.
+
+* &nbsp;```javadocDocFilesSubDirs```: **true** to enable deep copying
+                                      of "doc-files" directories. In other
+                                      words, subdirectories and all contents are
+                                      recursively copied to the destination. For
+                                      example, the
+                                      directory ```doc-files/example/images```
+                                      and all its contents would now be copied.
+                                      Defaults to **true**.
+
+* &nbsp;```javadocNoComment```: **true** to suppress the entire comment body,
+                                including the main description and all tags,
+                                generating only declarations. This option
+                                enables re-using source files originally
+                                intended for a different purpose, to produce
+                                skeleton HTML documentation at the early stages
+                                of a new project. Defaults to **false**.
+
+* &nbsp;```javadocNoDeprecated```: **true** to prevent the generation of any
+                                   deprecated API at all in the documentation.
+                                   This does what ```javadocNoDeprecatedList```
+                                   does, plus it does not generate any
+                                   deprecated API throughout the rest of the
+                                   documentation. This is useful when writing
+                                   code and you don't want to be distracted by
+                                   the deprecated code. Defaults to **false**.
+
+* &nbsp;```javadocNoDeprecatedList```: **true** to prevent the generation of the
+                                       file containing the list of deprecated
+                                       APIs (deprecated-list.html) and the link
+                                       in the navigation bar to that page.
+                                       (However, javadoc continues to generate
+                                       the deprecated API throughout the rest of
+                                       the document.) This is useful if your
+                                       source code contains no deprecated API,
+                                       and you want to make the navigation bar
+                                       cleaner. Defaults to **false**.
+
+* &nbsp;```javadocNoHelp```: **true** to omit the HELP link in the navigation
+                             bars at the top and bottom of each page of output. 
+                             Defaults to **false**.
+
+* &nbsp;```javadocNoIndex```: **true** to omit the index from the generated
+                              documentation. The index is produced by default.
+                             Defaults to **false**.
+
+* &nbsp;```javadocNoNavBar```: **true** to prevent the generation of the
+                               navigation bar, header and footer, otherwise
+                               found at the top and bottom of the generated
+                               pages. Has no effect on the "bottom" option.
+                               The option is useful when you are interested only
+                               in the content and have no need for navigation,
+                               such as converting the files to PostScript or PDF
+                               for print only. Defaults to **false**.
+
+* &nbsp;```javadocNoSince```: **true** to omit from the generated documentation
+                              the "Since" sections associated with the @since
+                              tags. Defaults to **false**.
+
+* &nbsp;```javadocNoTimestamp```: **true** to suppress the timestamp, which is
+                                  hidden in an HTML comment in the generated
+                                  HTML near the top of each page. Useful when
+                                  you want to run javadoc on two source bases
+                                  and diff them, as it prevents timestamps from
+                                  causing a diff (which would otherwise be a
+                                  diff on every page). The timestamp includes
+                                  the javadoc version number. Defaults
+                                  to **false**.
+
+* &nbsp;```javadocNoTree```: **true** to omit the class/interface hierarchy
+                             pages from the generated documentation. These are
+                             the pages you reach using the "Tree" button in the
+                             navigation bar. Defaults to **false**.
+
+* &nbsp;```javadocSplitIndex```: **true** to split the index file into multiple
+                                 files, alphabetically, one file per letter,
+                                 plus a file for any index entries that start
+                                 with non-alphabetical characters. Defaults
+                                 to **true**.
+
+* &nbsp;```javadocUse```: **true** to include one "Use" page for each documented
+                          class and package. The page describes what packages,
+                          classes, methods, constructors and fields use any API
+                          of the given class or package. Given class C, things
+                          that use class C would include subclasses of C, fields
+                          declared as C, methods that return C, and methods and
+                          constructors with parameters of type C. You can
+                          access the generated "Use" page by first going to the
+                          class or package, then clicking on the "Use" link in
+                          the navigation bar. Defaults to **true**.
+
+* &nbsp;```javadocVersion```: **true** to include the @version text in the
+                              generated documentation. Defaults to **true**.
+
+The defaults for the settings can be overridden by defining the settings in the
+project's ```build-settings.gradle``` file.
+
+### <a name="BuildTasksJavaClean"/>clean
+
+The build adjusts this task for Java projects (which includes bnd projects)
+such that it removes:
+
+* The class files output directory of all defined sourcesets.
+
+* The resources output directory of all defined sourcesets.
+
 
 ## <a name="BuildTasksRootProject"/>Root Project
+
+This section discusses tasks that are modified for the root project.
+
+### <a name="BuildTasksRootProjectSettings"/>Settings
+
+* &nbsp;```rootGradleVersion```: The version of the Gradle to use when
+                                 generating the Gradle wrapper.
+                                 Defaults to **2.0**.
+
+The defaults for the settings can be overridden by defining the settings in the
+project's ```build-settings.gradle``` file.
 
 ### <a name="BuildTasksWrapper"/>wrapper
 
@@ -718,13 +1042,21 @@ see [Installing Gradle In The Workspace](#InstallingGradleInTheWorkspace).
 
   * Presence of the ```-nojunitosgi``` instruction in the ```bnd.bnd``` file.
 
+  * Absence of the ```Test-Cases``` bnd property .
+
+* The ```release``` task can be disabled by:
+
+  * Presence of the ```-nobundles``` instruction in the ```bnd.bnd``` file.
+
+  * Absence of the ```-releaserepo``` instruction in the ```bnd.bnd``` file.
+
 ## <a name="BuildOptionsFindbugs"/>Findbugs
 
-The findbugs task will - by default - generate HTML reports, but can be
+The findbugs tasks will - by default - generate HTML reports, but can be
 instructed to generate XML reports by setting the ```CI``` Gradle system
 property (```-PCI``` on the command line).
 
-&nbsp;```CI``` = ```C```ontinous ```I```ntegration
+&nbsp;```CI``` = **C**ontinous **I**ntegration
                  (since XML reports are typically used on build servers)
 
 
@@ -733,7 +1065,7 @@ property (```-PCI``` on the command line).
 ## <a name="CustomisingTheBuildGradle"/>Gradle
 
 The build be can easily customised by putting overrides and additions in any of
-the ```cnf/gradle/custom/*.gradle``` build script files,
+the ```cnf/gradle/custom/*.gradle``` build script hook files,
 see [Build Flow](#BuildFlow).
 
 Also, any project can - on an individual basis - customise build settings or
@@ -745,19 +1077,20 @@ the ```build.gradle``` file is meant for tasks.
 
 An example of a ```build-settings.gradle``` file is shown below. This example
 shows how a project instructs the build to index its ```bundles``` directory
-to generate indexes named ```example project```.
+to generate four indexes named ```example project```.
 
 ```
 assert(project != rootProject)
 
 /* Index task overrides */
-ext.bndDistIndexRoot        = 'bundles'
-ext.bndDistIndexDirectories = fileTree(bndDistIndexRoot).include('**/*.jar').exclude('**/*-latest.jar')
-ext.indexDirectories        = "${bndDistIndexRoot};example project;bndDistIndexDirectories"
-ext.indexOBRUncompressed    = true
-ext.indexOBRCompressed      = true
-ext.indexR5Uncompressed     = true
-ext.indexR5Compressed       = true
+ext.indexTreeRoot        = 'bundles'
+ext.indexTree            = fileTree(indexTreeRoot).include('**/*.jar').exclude('**/*-latest.jar')
+
+ext.indexDirectories     = "${indexTreeRoot};example project;indexTree"
+ext.indexOBRUncompressed = true
+ext.indexOBRCompressed   = true
+ext.indexR5Uncompressed  = true
+ext.indexR5Compressed    = true
 ```
 
 ## <a name="CustomisingTheBuildBnd"/>Bnd
@@ -773,17 +1106,19 @@ setting must be defined in the ```bnd.bnd``` file of that specific project.
 
 The build automatically includes all bnd projects.
 
-However, regular Java projects are not included automatically,
+However, regular Java projects are not included automatically:
 a ```build.gradle``` file in the root directory of the project is needed to make
 that happen.
 
-Such projects only need to apply the Gradle Java plugin and setup their
-sourceSets, the template will then automatically apply the
-buildscript ```cnf/gradle/template/javaProject.gradle```.
+Such projects only need to apply the Gradle Java plugin, setup their
+sourceSets, and setup their build directory. The template will then
+automatically apply the buildscript ```cnf/gradle/template/javaProject.gradle```
+which adds tasks that are relevant to Java projects,
+see [Java Projects](#BuildTasksJavaProjects).
 
 The ```build.gradle``` file shown below can be used as the basis. This will
 setup the Java project with the default bnd layout and add tasks that are
-relevant to a Java project (```javadoc```, findbugs tasks and ```distclean```).
+relevant to a Java project (```javadoc```, ```findbugs...```, etc.).
 
 ```
 /*
@@ -805,5 +1140,37 @@ sourceSets {
     output.classesDir   = output.resourcesDir =       'test_bin'
   }
 }
+
+buildDir = 'generated'
 ```
 
+The ```build.gradle``` file shown below can be used as the basis for a project
+with the Maven layout.
+
+```
+/*
+ * A java project with Maven layout
+ */
+
+assert(project != rootProject)
+
+apply plugin: 'java'
+
+/* We use the same directory for java and resources. */
+sourceSets {
+  main {
+    java.srcDirs        = files('src/main/java'     )
+    resources.srcDirs   = files('src/main/resources')
+    output.classesDir   =       'target/classes'
+    output.resourcesDir =       'target/classes'
+  }
+  test {
+    java.srcDirs        = files('src/test/java'     )
+    resources.srcDirs   = files('src/test/resources')
+    output.classesDir   =       'target/test-classes'
+    output.resourcesDir =       'target/test-classes'
+  }
+}
+
+buildDir = 'target'
+```

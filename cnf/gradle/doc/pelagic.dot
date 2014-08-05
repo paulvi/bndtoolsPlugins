@@ -91,7 +91,7 @@ digraph GradleSetup {
       findbugsTest         [shape=box, style=filled, fillcolor=orange   , label="findbugsTest"        ]
     }
 
-    javadoc                [shape=box, style=filled, fillcolor=lightcyan, label="javadoc"             ]
+    javadoc                [shape=box, style=filled, fillcolor=orange   , label="javadoc"             ]
 
     clean                  [shape=box, style=filled, fillcolor=cyan     , label="clean"               ]
     cleanNeeded            [shape=box, style=filled, fillcolor=cyan     , label="cleanNeeded"         ]
