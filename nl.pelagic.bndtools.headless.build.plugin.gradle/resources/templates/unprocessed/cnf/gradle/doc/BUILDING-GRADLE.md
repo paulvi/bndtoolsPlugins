@@ -7,9 +7,12 @@ included in the build; no editing of Gradle build scripts is needed.
 
 # <a name="History"/>History
 
-The bndtools Gradle plugin was originally delivered with bndtools 2.3.0 but has
-since been replaced with a different implemention in bndtools. The plugin was
-thereon forked and now lives on through the support
+The build is set up by the "Bndtools Gradle Plugin by Pelagic" Eclipse plugin.
+
+This plugin was originally developed for - and delivered with bndtools 2.3.0
+but has since been replaced with a different implemention in bndtools.
+
+The plugin was thereon forked and now lives on through the support
 of [Pelagic](http://www.pelagic.nl).
 
 The project is fully Open Source, licensed under the LGPL, and can be found
