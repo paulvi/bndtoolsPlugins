@@ -172,7 +172,8 @@ The build will include all projects in the build that are:
                     a ```bnd.bnd``` file.
 
 * **Gradle** projects: Directories directly below the root project with
-                       a ```build.gradle``` file.
+                       a ```build.gradle``` file or
+                       a ```build-settings.gradle``` file.
 
 ## <a name="ProjectsAndWorkspacesGradleWorkspace"/>Gradle Workspace
 
@@ -1120,8 +1121,8 @@ setting must be defined in the ```bnd.bnd``` file of that specific project.
 The build automatically includes all bnd projects.
 
 However, regular Java projects are not included automatically:
-a ```build.gradle``` file in the root directory of the project is needed to make
-that happen.
+a ```build.gradle``` file or a ```build-settings.gradle``` file in the root
+directory of the project is needed to make that happen.
 
 Such projects only need to apply the Gradle Java plugin, setup their
 sourceSets, and setup their build directory. The template will then
@@ -1129,7 +1130,7 @@ automatically apply the buildscript ```cnf/gradle/template/javaProject.gradle```
 which adds tasks that are relevant to Java projects,
 see [Java Projects](#BuildTasksJavaProjects).
 
-The ```build.gradle``` file shown below can be used as the basis. This will
+The ```build-settings.gradle``` file shown below can be used as the basis. This will
 setup the Java project with the default bnd layout and add tasks that are
 relevant to a Java project (```javadoc```, ```findbugs...```, etc.).
 
@@ -1157,7 +1158,7 @@ sourceSets {
 buildDir = 'generated'
 ```
 
-The ```build.gradle``` file shown below can be used as the basis for a project
+The ```build-settings.gradle``` file shown below can be used as the basis for a project
 with the Maven layout.
 
 ```
