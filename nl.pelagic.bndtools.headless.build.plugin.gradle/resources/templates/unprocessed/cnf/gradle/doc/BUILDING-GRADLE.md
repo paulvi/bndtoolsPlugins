@@ -5,6 +5,11 @@ This bnd workspace is setup to be built with [Gradle](http://www.gradle.org).
 The build is setup in such a way that bnd projects are automatically
 included in the build; no editing of Gradle build scripts is needed.
 
+# <a name="License"/>License
+
+This document is licensed under the GNU Free Documentation License,
+Version 1.3, 3 November 2008
+
 # <a name="History"/>History
 
 The build is set up by the "Bndtools Gradle Plugin by Pelagic" Eclipse plugin.
@@ -23,6 +28,7 @@ Contributions are welcome!
 # <a name="TableOfContents"/>Table Of Contents
 
 * [Introduction](#Introduction)
+* [License](#License)
 * [History](#History)
 * [Table Of Contents](#TableOfContents)
 * [Installing Gradle](#InstallingGradle)

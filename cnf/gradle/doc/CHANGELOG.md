@@ -1,3 +1,6 @@
+This document is licensed under the GNU Free Documentation License,
+Version 1.3, 3 November 2008
+
 # Changes since bndtools 2.3.0 release
 
 The changes were made to let the build be more in-line with what is delivered

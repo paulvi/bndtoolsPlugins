@@ -1,6 +1,13 @@
 /*
  * WARNING
  *
+ * This file should not be edited.
+ *
+ * GNU Free Documentation License
+ * Version 1.3, 3 November 2008
+ *
+ * See the BUILDING-GRADLE.md document in the root project for more details.
+ *
  * To create an SVG diagram from this file, install graphviz and run:
  *   dot -Tsvg "$1.dot" -o "$1.svg"   (on a Linux   machine)
  *   dot -Tsvg "%1.dot" -o "%1.svg"   (on a Windows machine)
