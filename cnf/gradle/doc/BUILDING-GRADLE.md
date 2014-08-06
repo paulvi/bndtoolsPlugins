@@ -141,9 +141,9 @@ The procedure is:
 
 Startup times of a Gradle build can be much improved by using the Gradle daemon.
 
-The Gradle daemon works well when the Gradle build scripts are not changed,
-which makes it well suited to regular development (where the build scripts are
-not changed!) but **not** for build servers.
+The Gradle daemon works well when the Gradle build script dependencies are not
+changed, which makes it well suited to regular development (where these are not
+changed) but **not** for build servers.
 
 The daemon can be easily setup by adding the following line
 to ```~/.gradle/gradle.properties```:
@@ -152,6 +152,11 @@ to ```~/.gradle/gradle.properties```:
 org.gradle.daemon=true
 ```
 
+Stopping the Gradle daemon is easily achieved by running:
+
+```
+gradle --stop
+```
 
 # <a name="ProjectsAndWorkspaces"/>Projects & Workspaces
 
