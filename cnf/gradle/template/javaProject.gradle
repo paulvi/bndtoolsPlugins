@@ -45,5 +45,8 @@ clean.doLast {
     if (projectDir != it.output.resourcesDir) {
       delete(it.output.resourcesDir)
     }
+    if (projectDir != buildDir) {
+      delete(buildDir)
+    }
   }
 }
