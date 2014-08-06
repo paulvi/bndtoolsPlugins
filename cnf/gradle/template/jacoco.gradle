@@ -42,3 +42,6 @@ jacocoTestReport {
       html.destination new File(buildDir, "${jacocoReportsDir}/${jacocoHtmlDir}")
   }
 }
+
+test.finalizedBy  jacocoTestReport
+check.finalizedBy jacocoTestReport

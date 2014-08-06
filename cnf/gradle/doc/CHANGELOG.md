@@ -10,6 +10,8 @@ bndtools 2.4.0.M1).
 Below the changes that affect users are detailed.
 
 * The javadoc title, docTitle and windowTitle are now configurable.
+* The ```jacocoTestReport``` task is automatically run when either of
+  the ```test``` or ```check``` tasks are scheduled to run.
 * The jacoco reports are now placed in ```generated/reports/jacoco```.
 * The findbugs reports are now placed in ```generated/reports/findbugs```.
 * All custom buildscripts were renamed to better reflect that they're hooks,

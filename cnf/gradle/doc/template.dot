@@ -140,7 +140,8 @@ digraph GradleSetup {
     test                   -> findbugsTest
     findbugsMain           -> check              [color=green ]
     findbugsTest           -> check              [color=green ]
-    test                   -> jacocoTestReport
+    test                   -> jacocoTestReport   [color=magenta]
+    check                  -> jacocoTestReport   [color=magenta]
   }
 
 

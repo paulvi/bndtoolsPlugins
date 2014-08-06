@@ -322,6 +322,10 @@ It contains:
       * The **green** arrows depict flows/dependencies that are disabled by
         default.
 
+      * The **magenta** arrows depict flows/dependencies that are automatically
+        scheduled to run when the tasks from which they originate are scheduled
+        to run.
+
 ## <a name="ProjectsAndWorkspacesBndProjectLayout"/>Bnd Project Layout
 
 A bnd project has a well defined layout with two source sets and one output
@@ -803,6 +807,9 @@ project's ```build-settings.gradle``` file.
 
 The jacoco plugin is applied to all Java projects. This plugin adds the
 task ```jacocoTestReport``` which details the test coverage.
+
+The ```jacocoTestReport``` task is automatically run when either of
+the ```test``` or ```check``` tasks are scheduled to run.
 
 An ```test.exec``` report - for consumption by a build server - is always
 created and is placed in the directory configured by the ```jacocoReportsDir```
