@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
-
 import org.osgi.framework.Bundle;
 
 public class BundleResourceCopier {
@@ -63,7 +62,7 @@ public class BundleResourceCopier {
     }
 
     private void addOrRemoveDirectoryRecursive(File dstDir, String bundleDir, String relativePath, boolean add) throws IOException {
-        String resourcePath = new File(bundleDir, relativePath).getPath();
+        String resourcePath = new File(bundleDir, relativePath).getPath().replace(File.separatorChar, '/');
         Enumeration<String> resourcePathEntries = bundle.getEntryPaths(resourcePath);
         if (resourcePathEntries != null) {
             while (resourcePathEntries.hasMoreElements()) {
@@ -106,7 +105,7 @@ public class BundleResourceCopier {
         File dstFile = new File(dstDir, relativePath);
 
         if (add) {
-            String resourcePath = new File(bundleDir, relativePath).getPath();
+            String resourcePath = new File(bundleDir, relativePath).getPath().replace(File.separatorChar, '/');
             URL resourceUrl = bundle.getEntry(resourcePath);
             if (resourceUrl == null) {
                 throw new IOException("Resource " + resourcePath + " not found in bundle " + bundle.getSymbolicName());
