@@ -13,7 +13,7 @@ assert(project == rootProject)
 assert(hasProperty('bnd_cnf'))
 
 
-if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.0'
+if (!hasProperty('rootGradleVersion')) ext.rootGradleVersion = '2.1'
 
 
 /* Setup the default tasks */
