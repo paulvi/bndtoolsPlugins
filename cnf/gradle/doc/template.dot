@@ -81,6 +81,8 @@ digraph GradleSetup {
       style=invis;
       exportX              [shape=box3d, style=filled, fillcolor=cyan   , label="export.<name>"       ]
       export               [shape=box  , style=filled, fillcolor=cyan   , label="export"              ]
+      runbundlesX          [shape=box3d, style=filled, fillcolor=cyan   , label="runbundles.<name>"   ]
+      runbundles           [shape=box  , style=filled, fillcolor=cyan   , label="runbundles"          ]
     }
 
     subgraph cluster109 {
@@ -127,10 +129,12 @@ digraph GradleSetup {
     build                  -> buildNeeded
     buildNeeded            -> buildNeeded        [color=red   ]
 
-    jar                    -> compileJava        [color=red   ]
+    assemble               -> compileJava        [color=red   ]
     assemble               -> release
     assemble               -> exportX
     exportX                -> export
+    assemble               -> runbundlesX
+    runbundlesX            -> runbundles
     release                -> releaseNeeded
     releaseNeeded          -> releaseNeeded      [color=red   ]
     clean                  -> cleanNeeded
