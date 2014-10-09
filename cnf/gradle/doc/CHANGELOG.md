@@ -1,9 +1,13 @@
 This document is licensed under the GNU Free Documentation License,
 Version 1.3, 3 November 2008
 
+# Compatibility
+
+This plugin is compatible with all bndtools versions since 2.3.0.REL.
+
 # Update Log
 
-* this: fa370fa
+* this: 6fd9a75
 * bnd: 84553aa
 
 # Changes since bndtools 2.3.0 release
