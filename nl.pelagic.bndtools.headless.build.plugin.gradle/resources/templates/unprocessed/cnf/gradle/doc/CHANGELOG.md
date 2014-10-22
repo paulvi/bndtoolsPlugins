@@ -7,8 +7,8 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
 # Update Log
 
-* this: 6fd9a75
-* bnd: 84553aa
+* this: f0435b5
+* bnd:  228faed
 
 # Changes since bndtools 2.3.0 release
 
