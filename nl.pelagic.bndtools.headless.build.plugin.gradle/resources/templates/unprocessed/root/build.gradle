@@ -7,4 +7,12 @@
  * Version 2, June 1991
  */
 
+/* Setup the build dependencies */
+buildscript {
+  dependencies {
+    classpath files(bndURI) + bndBuildDependencies
+  }
+}
+
+
 apply from: new File(rootDir, "${bnd_cnf}/gradle/template/master.gradle")

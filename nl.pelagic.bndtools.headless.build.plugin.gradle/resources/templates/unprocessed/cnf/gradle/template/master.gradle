@@ -32,9 +32,6 @@ assert(hasProperty('bndURI'              ))
 assert(hasProperty('bndWorkspace'        ))
 
 
-/* Load the BndPlugin class */
-apply from: buildscript.classLoader.getResource('aQute/bnd/gradle/BndPlugin.gradle')
-
 /* Pre Hook */
 apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-pre.gradle")
 
@@ -90,7 +87,7 @@ subprojects { project ->
     /* Pre Hook */
     project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/bndProject-pre.gradle")
 
-    plugins.apply BndPlugin
+    plugins.apply 'biz.aQute.bnd'
 
     if (!hasProperty('javadocClassPathBoot')) {
       /* Set the javadoc bootclasspath */
