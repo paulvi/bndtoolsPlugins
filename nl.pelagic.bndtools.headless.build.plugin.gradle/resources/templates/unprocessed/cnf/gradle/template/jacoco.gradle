@@ -16,7 +16,7 @@ assert(hasProperty('sourceSets'))
 apply plugin: 'jacoco'
 
 
-if (!hasProperty('jacocoToolVersion')) ext.jacocoToolVersion = '0.7.1.201405082137'
+if (!hasProperty('jacocoToolVersion')) ext.jacocoToolVersion = '0.7.2.201409121644'
 if (!hasProperty('jacocoReportsDir' )) ext.jacocoReportsDir  = 'reports/jacoco'    /* relative to build directory  */
 if (!hasProperty('jacocoHtmlDir'    )) ext.jacocoHtmlDir     = 'html'              /* relative to jacocoReportsDir */
 if (!hasProperty('jacocoXmlReport'  )) ext.jacocoXmlReport   = true
