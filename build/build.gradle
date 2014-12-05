@@ -5,11 +5,15 @@ assert(hasProperty("bndProject"))
 
 
 /* Eclipse settings for p2 publishing */
-ext.bndEclipseDirectory         = "${projectDir}/eclipse-3.5.2"
-ext.bndEclipseJar               = files("${bndEclipseDirectory}/plugins/org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar")
-ext.bndEclipseJarMain           = 'org.eclipse.equinox.launcher.Main'
-ext.bndEclipseAntRunner         = 'org.eclipse.ant.core.antRunner'
-ext.bndEclipseCategoryPublisher = 'org.eclipse.equinox.p2.publisher.CategoryPublisher'
+ext.bndEclipseDirectory           = "${projectDir}/eclipse-3.5.2"
+ext.bndEclipseJar                 = files("${bndEclipseDirectory}/plugins/org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar")
+ext.bndEclipseJarMain             = 'org.eclipse.equinox.launcher.Main'
+ext.bndEclipseAntRunner           = 'org.eclipse.ant.core.antRunner'
+ext.bndEclipseCategoryPublisher   = 'org.eclipse.equinox.p2.publisher.CategoryPublisher'
+ext.bndP2LandingDirectory         = "${projectDir}/p2Landing"
+ext.bndP2LandingPagesJar          = files("${bndP2LandingDirectory}/sapphire-releng-tools.jar")
+ext.bndP2LandingPagesMainListings = 'org.eclipse.sapphire.releng.listing.GenFolderListingOp'
+ext.bndP2LandingPagesMain2Landing = 'org.eclipse.sapphire.releng.landing.GenRepositoryLandingOp'
 
 
 String bndThrow(String name) {
@@ -100,6 +104,30 @@ void generateP2Repository(String title, String antTarget, String metadataReposit
 }
 
 
+/* Generate p2 landing pages */
+void generateP2LandingPages(String title) {
+  def javaArgs  = ["${p2TargetDir}/p2"]
+  def result = javaexec {
+    classpath   = bndP2LandingPagesJar
+    main        = bndP2LandingPagesMainListings
+    args        = javaArgs
+  }
+  if (result.exitValue != 0) {
+    throw new GradleException("Could not create p2 listings")
+  }
+
+  javaArgs      = ["${p2TargetDir}/p2", "${title}"]
+  result = javaexec {
+    classpath   = bndP2LandingPagesJar
+    main        = bndP2LandingPagesMain2Landing
+    args        = javaArgs
+  }
+  if (result.exitValue != 0) {
+    throw new GradleException("Could not create p2 landing page")
+  }
+}
+
+
 /*
  * Setup tasks (p2 entry)
  */
@@ -187,6 +215,23 @@ task p2 {
 
 
 /*
+ * Setup tasks (p2 landing pages)
+ */
+
+task p2Landing {
+  dependsOn        p2
+  description      'Generate the p2 landing pages.'
+  group            'distribution'
+
+  inputs.files     fileTree("${p2TargetDir}/p2").include('**')
+
+  doLast {
+    generateP2LandingPages("${ProjectTitle}")
+  }
+}
+
+
+/*
  * Setup tasks (indexing)
  */
 
@@ -210,7 +255,7 @@ task distCompositePelagic(type: Copy) {
 }
 
 task distZipPelagic(type: Zip) {
-  dependsOn        distCompositePelagic
+  dependsOn        p2Landing, distCompositePelagic
   destinationDir = file(p2TargetDir)
   archiveName    = 'pelagic-bndtools-plugins-latest.zip'
   from             "${p2TargetDir}/p2"

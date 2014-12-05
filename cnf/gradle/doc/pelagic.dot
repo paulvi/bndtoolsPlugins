@@ -214,6 +214,7 @@ digraph GradleSetup {
     p2Plugins              [shape=box, style=filled, fillcolor=none      , label="p2Plugins"             ]
 
     p2                     [shape=box, style=filled, fillcolor=yellow    , label="p2"                    ]
+    p2Landing              [shape=box, style=filled, fillcolor=yellow    , label="p2Landing"             ]
 
     indexBuild             [shape=box, style=filled, fillcolor=yellow    , label="index"                 ]
 
@@ -234,8 +235,10 @@ digraph GradleSetup {
     p2Plugins              -> p2
 
     p2                     -> indexBuild
+    p2                     -> p2Landing
 
     indexBuild             -> distCompositePelagic
+    p2Landing              -> distZipPelagic
     distCompositePelagic   -> distZipPelagic
     distZipPelagic         -> dist
   }
