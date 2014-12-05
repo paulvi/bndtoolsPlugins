@@ -1,3 +1,8 @@
+/*
+ * GNU LIBRARY GENERAL PUBLIC LICENSE
+ * Version 2, June 1991
+ */
+
 ext.ProjectTitle               = 'Bndtools Plugins by Pelagic'
 ext.p2TargetDir                = 'generated'
 ext.p2SubDir                   = 'pelagic'

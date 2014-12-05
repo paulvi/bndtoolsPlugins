@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ GNU LIBRARY GENERAL PUBLIC LICENSE
+ Version 2, June 1991
+-->
 <project name="bndtoolsPlugins" default="none">
   <!-- Default Target -->
   <target name="none">
