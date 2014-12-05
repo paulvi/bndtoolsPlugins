@@ -15,6 +15,6 @@ bndtools checkout.
 To build the project, run
 
 ```
-./gradlew build dist
+./gradlew
 ```
 
