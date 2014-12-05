@@ -1,3 +1,7 @@
+/*
+ * GNU LIBRARY GENERAL PUBLIC LICENSE
+ * Version 2, June 1991
+ */
 package nl.pelagic.bndtools.headless.build.plugin.gradle;
 
 import org.bndtools.api.NamedPlugin;
