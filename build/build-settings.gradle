@@ -1,3 +1,4 @@
+ext.ProjectTitle               = 'Bndtools Plugins by Pelagic'
 ext.p2TargetDir                = 'generated'
 ext.p2SubDir                   = 'pelagic'
 ext.p2BndtoolsdateSiteUrl      = 'https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/'
@@ -9,7 +10,7 @@ ext.bndBuildP2IndexTreePelagic = fileTree("${bndBuildP2IndexRootPelagic}/plugins
 
 /* Index task overrides */
 ext.indexDirectories = \
-  "${bndBuildP2IndexRootPelagic};Bndtools Plugins by Pelagic;bndBuildP2IndexTreePelagic"
+  "${bndBuildP2IndexRootPelagic};${ProjectTitle};bndBuildP2IndexTreePelagic"
 
 /* Default tasks override */
 defaultTasks 'dist'
