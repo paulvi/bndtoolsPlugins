@@ -710,35 +710,6 @@ project itself.
 This section discusses tasks that are added to all Java projects (which
 includes bnd projects).
 
-<a name="BuildTasksJavaProjectsSettings"/>**Settings**
-
-* &nbsp;```javaLibsDirName```: The directory (relative to the project's build
-                               directory) in which to place the generated
-                               artifacts (jars and bundles). Defaults to **.**.
-
-* &nbsp;```javaTestResultsDirName```: The directory (relative to the project's
-                                      build directory) in which to place the
-                                      tests XML reports. Defaults
-                                      to **reports/tests/xml**.
-
-* &nbsp;```javaTestReportDirName```: The directory (relative to the project's
-                                      reports directory) in which to place the
-                                      tests HTML reports. Defaults
-                                      to **tests/html**.
-
-* &nbsp;```javaTestEnableAssertions```: **true** to enable assertions during
-                                        tests. Defaults to **true**.
-
-* &nbsp;```javaTestIgnoreFailures```: **true** to ignore test failures (to
-                                      **not** fail the build). Defaults
-                                      to **false**.
-
-* &nbsp;```javaTestMaxParallelForks```: The maximum number of parallel tests to
-                                        run. Defaults to **1**.
-
-The defaults for the settings can be overridden by defining the settings in the
-project's ```build-settings.gradle``` file.
-
 ### <a name="BuildTasksFindbugs"/>Findbugs
 
 The findbugs plugin is applied to all Java projects. This plugin adds the

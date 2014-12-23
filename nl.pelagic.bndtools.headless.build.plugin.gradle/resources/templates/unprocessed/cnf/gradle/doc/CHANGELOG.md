@@ -12,6 +12,28 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
 # Changes since bndtools 2.4.0 release
 
+* Defaults are no longer overridden for java projects.
+  Instead of using the 'override' variables, configure the desired settings
+  directly on the project or in one of the 'custom' templates.
+  * &nbsp;```libsDirName``` changes from ```.``` to the default ```libs```.
+  * &nbsp;```testResultsDirName``` changes from ```reports/tests/xml``` to
+    the default ```test-results```.
+  * &nbsp;```testReportDirName``` changes from ```tests/html``` to the
+    default ```tests```.
+
+  These 'override' variables were removed:
+  * &nbsp;```javaLibsDirName```
+  * &nbsp;```javaTestEnableAssertions```
+  * &nbsp;```javaTestIgnoreFailures```
+  * &nbsp;```javaTestMaxParallelForks```
+  * &nbsp;```javaTestReportDirName```
+  * &nbsp;```javaTestResultsDirName```
+
+  Summary:
+  ```
+  generated/reports/tests/xml --> generated/test-results
+  generated/tests/html        --> generated/tests
+  ```
 * Support bndtools 3.0.0 (DEV)
 * Update to the latest jacoco.
 
