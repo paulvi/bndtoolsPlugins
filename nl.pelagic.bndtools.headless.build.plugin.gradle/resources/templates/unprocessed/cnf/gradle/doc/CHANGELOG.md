@@ -12,6 +12,29 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
 # Changes since bndtools 2.4.0 release
 
+* Defaults (most of them) are no longer overridden for the findbugs task.
+  Instead of using the 'override' variables, configure the desired settings
+  directly on the project or in one of the 'custom' templates.
+
+  These 'override' variables were removed:
+  * &nbsp;```findbugsEffort```
+  * &nbsp;```findbugsReportLevel```
+  * &nbsp;```findbugsReportsDir```
+  * &nbsp;```findbugsToolVersion```
+
+  * Note that ```ignoreFailures```, ```includeFilter```
+    and ```excludeFilter``` are still overridden if the project doesn't
+    configure their 'override' variables.
+    * &nbsp;```ignoreFailures``` is overridden to ```true``` if the
+      'override' variable ```findbugsIgnoreFailures``` is not set by the
+      project. This is because its default is ```false```, which will fail
+      the build when findbugs reports anything.
+    * &nbsp;```includeFilter``` is overridden
+      to ```<cnf>/findbugs/findbugs.include.xml``` if the 'override'
+      variable ```findbugsIncludesFile``` is not set by the project.
+    * &nbsp;```excludeFilter``` is overridden
+      to ```<cnf>/findbugs/findbugs.exclude.xml``` if the 'override'
+      variable ```findbugsExcludesFile``` is not set by the project.
 * Defaults are no longer overridden for the jacoco task.
   Instead of using the 'override' variables, configure the desired settings
   directly on the project or in one of the 'custom' templates.

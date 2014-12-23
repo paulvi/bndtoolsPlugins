@@ -29,21 +29,13 @@ apply plugin: 'findbugs'
 
 if (!hasProperty('findbugsReportXML'     )) ext.findbugsReportXML      = 'CI'
 
-if (!hasProperty('findbugsToolVersion'   )) ext.findbugsToolVersion    = '3.0.0'
 if (!hasProperty('findbugsIgnoreFailures')) ext.findbugsIgnoreFailures = true
-if (!hasProperty('findbugsEffort'        )) ext.findbugsEffort         = 'default'          /* min, default, max           */
-if (!hasProperty('findbugsReportLevel'   )) ext.findbugsReportLevel    = 'medium'           /* low, medium, high           */
-if (!hasProperty('findbugsReportsDir'    )) ext.findbugsReportsDir     = 'reports/findbugs' /* relative to build directory */
 if (!hasProperty('findbugsIncludesFile'  )) ext.findbugsIncludesFile   = "${rootProject.rootDir}/${rootProject.bnd_cnf}/findbugs/findbugs.include.xml"
 if (!hasProperty('findbugsExcludesFile'  )) ext.findbugsExcludesFile   = "${rootProject.rootDir}/${rootProject.bnd_cnf}/findbugs/findbugs.exclude.xml"
 
 
 findbugs {
-  toolVersion    =          findbugsToolVersion
   ignoreFailures =          findbugsIgnoreFailures
-  effort         =          findbugsEffort
-  reportLevel    =          findbugsReportLevel
-  reportsDir     = new File(buildDir, "${findbugsReportsDir}")
   includeFilter  =     file(findbugsIncludesFile             )
   excludeFilter  =     file(findbugsExcludesFile             )
 }

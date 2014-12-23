@@ -755,24 +755,9 @@ and ```build``` are examples of such a task.
                                  create them both at the same time). Defaults
                                  to **CI**.
 
-* &nbsp;```findbugsToolVersion```: The version of the findbugs plugin to use.
-                                   Defaults to **3.0.0**.
-
 * &nbsp;```findbugsIgnoreFailures```: **true** to ignore findbugs warning (to
                                       **not** fail the build). Defaults
                                       to **true**.
-
-* &nbsp;```findbugsEffort```: The effort the expend; **min**, **default**
-                              or **max**. Defaults to **default**.
-
-* &nbsp;```findbugsReportLevel```: The minimum level to report, in which a
-                                   *lower* setting will report more warnings.
-                                   Can be **low**, **medium** or **high**.
-                                   Defaults to **medium**.
-
-* &nbsp;```findbugsReportsDir```: The directory (relative to the project's build
-                                  directory) in which to place the findbugs
-                                  reports. Defaults to **reports/findbugs**.
 
 * &nbsp;```findbugsIncludesFile```: The file with include rules. Defaults
                                     to **${rootProject.rootDir}/${rootProject.bnd_cnf}/findbugs/findbugs.include.xml**.
