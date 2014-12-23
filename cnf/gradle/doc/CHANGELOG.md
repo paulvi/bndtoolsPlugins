@@ -7,8 +7,13 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
 # Update Log
 
-* this: f0435b5
-* bnd:  228faed
+* this: b95761c
+* bnd:  879b2d1
+
+# Changes since bndtools 2.4.0 release
+
+* Support bndtools 3.0.0 (DEV)
+* Update to the latest jacoco.
 
 # Changes since bndtools 2.3.0 release
 

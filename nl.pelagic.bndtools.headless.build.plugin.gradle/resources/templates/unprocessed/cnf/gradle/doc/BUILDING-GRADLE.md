@@ -538,6 +538,9 @@ which instructs the Java runtime to run unit tests.
 
 Refer to the bnd manual/website for more details on how to setup bundle tests.
 
+Set ```check.ignoreFailures = true``` on the project to not fail the build
+on check failures.
+
 This task is automatically disabled when no bundle tests have been defined.
 
 ### <a name="BuildTasksCheckNeeded"/>checkNeeded
