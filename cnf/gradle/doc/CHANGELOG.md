@@ -12,6 +12,21 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
 # Changes since bndtools 2.4.0 release
 
+* Defaults are no longer overridden for the jacoco task.
+  Instead of using the 'override' variables, configure the desired settings
+  directly on the project or in one of the 'custom' templates.
+  * The destination file changes from ```reports/jacoco/test.exec```
+    to ```jacoco/test.exec```.
+
+  These 'override' variables were removed:
+  * &nbsp;```jacocoHtmlDir```
+  * &nbsp;```jacocoReportsDir```
+  * &nbsp;```jacocoToolVersion```
+
+  Summary:
+  ```
+  generated/reports/jacoco/test.exec --> generated/jacoco/test.exec
+  ```
 * Defaults are no longer overridden for java projects.
   Instead of using the 'override' variables, configure the desired settings
   directly on the project or in one of the 'custom' templates.
@@ -35,7 +50,6 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
   generated/tests/html        --> generated/tests
   ```
 * Support bndtools 3.0.0 (DEV)
-* Update to the latest jacoco.
 
 # Changes since bndtools 2.3.0 release
 

@@ -16,30 +16,16 @@ assert(hasProperty('sourceSets'))
 apply plugin: 'jacoco'
 
 
-if (!hasProperty('jacocoToolVersion')) ext.jacocoToolVersion = '0.7.2.201409121644'
-if (!hasProperty('jacocoReportsDir' )) ext.jacocoReportsDir  = 'reports/jacoco'    /* relative to build directory  */
-if (!hasProperty('jacocoHtmlDir'    )) ext.jacocoHtmlDir     = 'html'              /* relative to jacocoReportsDir */
 if (!hasProperty('jacocoXmlReport'  )) ext.jacocoXmlReport   = true
 if (!hasProperty('jacocoCsvReport'  )) ext.jacocoCsvReport   = false
 
-
-test {
-  jacoco {
-    destinationFile = new File(buildDir, "${jacocoReportsDir}/test.exec")
-  }
-}
-
-jacoco {
-  reportsDir  = new File(buildDir, "${jacocoReportsDir}")
-  toolVersion = jacocoToolVersion
-}
 
 jacocoTestReport {
   dependsOn test
   reports {
       xml.enabled      jacocoXmlReport
       csv.enabled      jacocoCsvReport
-      html.destination new File(buildDir, "${jacocoReportsDir}/${jacocoHtmlDir}")
+      html.destination file("${jacoco.reportsDir}/html")
   }
 }
 

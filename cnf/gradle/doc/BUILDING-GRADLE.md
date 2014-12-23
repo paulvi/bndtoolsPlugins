@@ -792,21 +792,9 @@ The ```jacocoTestReport``` task is automatically run when either of
 the ```test``` or ```check``` tasks are scheduled to run.
 
 An ```test.exec``` report - for consumption by a build server - is always
-created and is placed in the directory configured by the ```jacocoReportsDir```
-setting.
+created.
 
 <a name="BuildTasksJacocoSettings"/>**Settings**
-
-* &nbsp;```jacocoToolVersion```: The version of the jacoco plugin to use.
-                                 Defaults to **0.7.1.201405082137**.
-
-* &nbsp;```jacocoReportsDir```: The directory (relative to the project's build
-                                directory) in which to place the jacoco
-                                reports. Defaults to **reports/jacoco**.
-
-* &nbsp;```jacocoHtmlDir```: The directory (relative to ```jacocoReportsDir```)
-                             in which to place the html reports. Defaults
-                             to **html**.
 
 * &nbsp;```jacocoXmlReport```: **true** to generate XML reports. Defaults
                                to **true**.
