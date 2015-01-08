@@ -70,7 +70,7 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
   Summary:
   ```
   generated/reports/tests/xml --> generated/test-results
-  generated/tests/html        --> generated/tests
+  generated/tests/html        --> generated/reports/tests
   ```
 * Support bndtools 3.0.0 (DEV)
 
