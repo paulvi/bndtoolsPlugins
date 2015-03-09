@@ -86,6 +86,7 @@ Contributions are welcome!
   * [Gradle](#CustomisingTheBuildGradle)
   * [Bnd](#CustomisingTheBuildBnd)
 * [Adding Java Projects To The Build](#AddingJavaProjectsToTheBuild)
+* [Jenkins Build Setup](#JenkinsBuildSetup)
 
 
 # <a name="InstallingGradle"/>Installing Gradle
@@ -1139,3 +1140,24 @@ sourceSets {
 
 buildDir = 'target'
 ```
+
+# <a name="JenkinsBuildSetup"/>Jenkins Build Setup
+
+An screenshot ([Jenkins-Build-Settings.jpg](Jenkins-Build-Settings.jpg)) that
+shows part of an example job is included in the documentation directory.
+The shown settings can be used as an example, but can slightly differ for your
+own builds.
+
+The following Jenkins plugins should be installed to take advantage of the
+various functionalities of the build (some of which are shown in the
+screenshot):
+* build timeout plugin
+* build-name-setter
+* FindBugs Plug-in
+* Git Parameter Plug-In
+* GIT plugin
+* Gradle plugin
+* JaCoCo plugin
+* Javadoc Plugin
+* JUnit Plugin
+* Mailer Plugin
