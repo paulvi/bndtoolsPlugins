@@ -79,7 +79,6 @@ Contributions are welcome!
   * [Root Project](#BuildTasksRootProject)
     * [Settings](#BuildTasksRootProjectSettings)
     * [wrapper](#BuildTasksWrapper)
-* [Overriding Task Properties](#OverridingTaskProperties)
 * [Build Options](#BuildOptions)
   * [Bnd Projects](#BuildOptionsBndProjects)
   * [Findbugs](#BuildOptionsFindbugs)
