@@ -25,7 +25,7 @@ void getBuildDependencies(Set<File> buildDependencies, Set<String> evaluatedDepe
       def propKey        = it.key.trim()
       def dependencyName = propKey.toLowerCase().replaceFirst(propKeyExtRegex, '')
       if (evaluatedDependencies.contains(dependencyName)) {
-        println "Warning: Build dependency ${dependencyName} was already processed, skipping ${propKey}"
+        println "Warning: Build dependency ${dependencyName} was already processed, skipping ${it}"
       } else {
         def uri          = rootDir.toURI().resolve(propValue)
         def dependencyFile = null
