@@ -7,8 +7,8 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
 # Update Log
 
-* this: 0f16392
-* bnd:  98e71ed
+* this: 16c7fd2
+* bnd:  66bcdb2
 
 # Changes since bndtools 2.4.0 release
 
@@ -24,7 +24,7 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
 
   * Note that ```ignoreFailures```, ```includeFilter```
     and ```excludeFilter``` are still overridden if the project doesn't
-    configure their 'override' variables.
+    configure their 'override' variables:
     * &nbsp;```ignoreFailures``` is overridden to ```true``` if the
       'override' variable ```findbugsIgnoreFailures``` is not set by the
       project. This is because its default is ```false```, which will fail
@@ -35,29 +35,26 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
     * &nbsp;```excludeFilter``` is overridden
       to ```<cnf>/findbugs/findbugs.exclude.xml``` if the 'override'
       variable ```findbugsExcludesFile``` is not set by the project.
+
 * Defaults are no longer overridden for the jacoco task.
   Instead of using the 'override' variables, configure the desired settings
   directly on the project or in one of the 'custom' templates.
-  * The destination file changes from ```reports/jacoco/test.exec```
-    to ```jacoco/test.exec```.
 
   These 'override' variables were removed:
   * &nbsp;```jacocoHtmlDir```
   * &nbsp;```jacocoReportsDir```
   * &nbsp;```jacocoToolVersion```
 
-  Summary:
-  ```
-  generated/reports/jacoco/test.exec --> generated/jacoco/test.exec
-  ```
+  * The destination file changes from ```reports/jacoco/test.exec```
+    to ```jacoco/test.exec```.
+
+    ```
+    generated/reports/jacoco/test.exec --> generated/jacoco/test.exec
+    ```
+
 * Defaults are no longer overridden for java projects.
   Instead of using the 'override' variables, configure the desired settings
   directly on the project or in one of the 'custom' templates.
-  * &nbsp;```libsDirName``` changes from ```.``` to the default ```libs```.
-  * &nbsp;```testResultsDirName``` changes from ```reports/tests/xml``` to
-    the default ```test-results```.
-  * &nbsp;```testReportDirName``` changes from ```tests/html``` to the
-    default ```tests```.
 
   These 'override' variables were removed:
   * &nbsp;```javaLibsDirName```
@@ -67,11 +64,17 @@ This plugin is compatible with all bndtools versions since 2.3.0.REL.
   * &nbsp;```javaTestReportDirName```
   * &nbsp;```javaTestResultsDirName```
 
-  Summary:
-  ```
-  generated/reports/tests/xml --> generated/test-results
-  generated/tests/html        --> generated/reports/tests
-  ```
+  * &nbsp;```libsDirName``` changes from ```.``` to the default ```libs```.
+  * &nbsp;```testResultsDirName``` changes from ```reports/tests/xml``` to
+    the default ```test-results```.
+  * &nbsp;```testReportDirName``` changes from ```tests/html``` to the
+    default ```tests```.
+
+    ```
+    generated/reports/tests/xml --> generated/test-results
+    generated/tests/html        --> generated/reports/tests
+    ```
+
 * Support bndtools 3.0.0 (DEV)
 
 # Changes since bndtools 2.3.0 release
