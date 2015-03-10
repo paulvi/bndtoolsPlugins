@@ -41,7 +41,7 @@ apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-pr
 
 allprojects { project ->
   /* Set a default Gradle build directory */
-  project.buildDir = relativePath(Workspace.defaults.getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
+  project.buildDir = relativePath(Workspace.getDefaults().getProperty(Constants.DEFAULT_PROP_TARGET_DIR))
 
   /* Pre Hook */
   project.apply from: rootProject.file("${rootProject.bnd_cnf}/gradle/custom/allProject-pre.gradle")

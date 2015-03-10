@@ -47,7 +47,7 @@ gradle.projectsEvaluated {
 
   /* bnd project dependencies */
   if (hasProperty('bndProject')) {
-    bndProject.dependson.each {
+    bndProject.getDependson().each {
       distcleanNeeded.dependsOn(":${it.name}:distcleanNeeded")
     }
   }

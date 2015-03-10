@@ -46,7 +46,7 @@ void copyProjectBundles(List<String> projs, String dstDir) {
       throw new GradleException("Project ${it} is not a bnd project")
     }
 
-    proj.bndProject.deliverables.each { deliverable ->
+    proj.bndProject.getDeliverables().each { deliverable ->
       copy {
         from project.relativePath(deliverable.file)
         into targetDir
