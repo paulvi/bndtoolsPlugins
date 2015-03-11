@@ -1,0 +1,12 @@
+#!/bin/bash
+
+grep -E '^ *#.*<a +.*name=' \
+  nl.pelagic.bndtools.headless.build.plugin.gradle/resources/templates/unprocessed/cnf/gradle/doc/BUILDING-GRADLE.md | \
+  sed -r \
+    -e 's/<a[[:space:]]+name="([^"]*)"[[:space:]]*\/>(.*)/[\2](#\1)/' \
+    -e 's/^([[:space:]]*#+)/\1*/' \
+    -e 's/^#//' \
+    -e 's/^([[:space:]]*)#/\1  /g' \
+    -e 's/^([[:space:]]*)#/\1  /g' \
+    -e 's/^([[:space:]]*)#/\1  /g' \
+    -e 's/^([[:space:]]*)#/\1  /g'
