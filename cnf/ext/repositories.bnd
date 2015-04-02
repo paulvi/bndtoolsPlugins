@@ -1,5 +1,5 @@
-bnd-repo-cb-master     : https://bndtools.ci.cloudbees.com/job/bnd.master/lastSuccessfulBuild/artifact/dist/bundles/index.xml.gz
-bndtools-repo-cb-master: https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/index.xml.gz
+bnd-repo-cb-master     : https://bndtools.ci.cloudbees.com/job/bnd.next/566/artifact/dist/bundles/index.xml.gz
+bndtools-repo-cb-master: https://bndtools.ci.cloudbees.com/job/bndtools.next/60/artifact/build/generated/p2/index.xml.gz
 
 
 -plugin:\
