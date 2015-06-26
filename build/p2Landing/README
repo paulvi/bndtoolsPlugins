@@ -1,5 +1,14 @@
+Original blog: http://lt-rider.blogspot.nl/2014/12/say-no-to-naked-p2-repositories.html
+
 Sources are at http://git.eclipse.org/c/sapphire/org.eclipse.sapphire.git/tree/releng/tools
 
-Clone from git://git.eclipse.org/gitroot/sapphire/org.eclipse.sapphire.git
 
-Original blog: http://lt-rider.blogspot.nl/2014/12/say-no-to-naked-p2-repositories.html
+Clone from:
+  git clone git://git.eclipse.org/gitroot/sapphire/org.eclipse.sapphire.git
+
+Build with:
+  ant build-sapphire-releng-tools
+
+The jar is in:
+  releng/tools/
+
