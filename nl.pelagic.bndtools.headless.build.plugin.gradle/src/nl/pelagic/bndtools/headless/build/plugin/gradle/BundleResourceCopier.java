@@ -4,15 +4,18 @@
  */
 package nl.pelagic.bndtools.headless.build.plugin.gradle;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.nio.file.Files;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.osgi.framework.Bundle;
+
+import aQute.lib.io.IO;
 
 public class BundleResourceCopier {
     /** the bundle holding the resources */
@@ -29,44 +32,8 @@ public class BundleResourceCopier {
         this.bundle = bundle;
     }
 
-    private static final int BUFFER_SIZE = 4096 * 16;
-
-    private void copy(URL url, File file) throws IOException {
-        URLConnection urlConnection = url.openConnection();
-
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-        try {
-            in = new BufferedInputStream(urlConnection.getInputStream());
-            out = new BufferedOutputStream(new FileOutputStream(file));
-
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int size = in.read(buffer);
-            while (size > 0) {
-                out.write(buffer, 0, size);
-                size = in.read(buffer);
-            }
-            out.flush();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    /* swallow */
-                }
-            }
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    /* swallow */
-                }
-            }
-        }
-    }
-
-    private void addOrRemoveDirectoryRecursive(File dstDir, String bundleDir, String relativePath, boolean add) throws IOException {
-        String resourcePath = new File(bundleDir, relativePath).getPath().replace(File.separatorChar, '/');
+    private void addOrRemoveDirectoryRecursive(File dstDir, String bundleDir, String relativePath, CopyMode mode, List<File> affected) throws IOException {
+        String resourcePath = formatBundleEntryPath(new File(bundleDir, relativePath).getPath());
         Enumeration<String> resourcePathEntries = bundle.getEntryPaths(resourcePath);
         if (resourcePathEntries != null) {
             while (resourcePathEntries.hasMoreElements()) {
@@ -76,9 +43,9 @@ public class BundleResourceCopier {
                 }
 
                 if (resourcePathEntry.endsWith("/")) {
-                    addOrRemoveDirectoryRecursive(dstDir, bundleDir, resourcePathEntry, add);
+                    addOrRemoveDirectoryRecursive(dstDir, bundleDir, resourcePathEntry, mode, affected);
                 } else {
-                    addOrRemoveFile(dstDir, bundleDir, resourcePathEntry, add);
+                    affected.addAll(addOrRemoveFile(dstDir, bundleDir, resourcePathEntry, mode));
                 }
             }
         }
@@ -94,41 +61,51 @@ public class BundleResourceCopier {
      * @param relativePath
      *            the path of the resource (relative to bundleDir) in the bundle. The resource will be added/removed
      *            to/from the same path relative to dstDir. This parameter must only hold the path of a file.
-     * @param add
-     *            true to add the file, false to remove it
+     * @param mode
      * @throws IOException
      *             when relativePath is null or empty, when the resource could not be found in the bundle, when the
      *             directory holding the file could not be created (when add is true), or when the file could not be
      *             removed (when add is false)
      */
-    public void addOrRemoveFile(File dstDir, String bundleDir, String relativePath, boolean add) throws IOException {
+    public Collection<File> addOrRemoveFile(File dstDir, String bundleDir, String relativePath, CopyMode mode) throws IOException {
+        List<File> affected = new LinkedList<>();
+
         if (relativePath == null || relativePath.length() == 0) {
             throw new IOException("Resource relative path can't be empty");
         }
 
         File dstFile = new File(dstDir, relativePath);
+        File relativeDstFile = new File(relativePath);
 
-        if (add) {
-            String resourcePath = new File(bundleDir, relativePath).getPath().replace(File.separatorChar, '/');
-            URL resourceUrl = bundle.getEntry(resourcePath);
-            if (resourceUrl == null) {
-                throw new IOException("Resource " + resourcePath + " not found in bundle " + bundle.getSymbolicName());
-            }
+        if (mode == null) {
+            throw new IllegalArgumentException("Copy mode may not be null");
+        } else if (mode == CopyMode.REMOVE) {
+            Files.deleteIfExists(dstFile.toPath());
+        } else if (mode == CopyMode.CHECK) {
+            if (dstFile.exists())
+                affected.add(relativeDstFile);
+        } else {
+            if (dstFile.exists() && !dstFile.isFile())
+                throw new IOException("Target path exists and is not a plain file: " + dstFile);
 
-            File dstFileDir = dstFile.getParentFile();
-            if (dstFileDir != null) {
-                boolean existsOrCreated = (dstFileDir.exists() && dstFileDir.isDirectory()) || dstFileDir.mkdirs();
-                if (!existsOrCreated) {
-                    throw new IOException("Could not create directory " + dstFileDir.getAbsolutePath());
+            if (dstFile.exists() && mode == CopyMode.ADD) {
+                affected.add(relativeDstFile);
+            } else {
+                String resourcePath = formatBundleEntryPath(new File(bundleDir, relativePath).getPath());
+                URL resourceUrl = bundle.getEntry(resourcePath);
+                if (resourceUrl == null)
+                    throw new IOException("Resource " + resourcePath + " not found in bundle " + bundle.getSymbolicName());
+
+                if (mode == CopyMode.REPLACE || !dstFile.exists()) {
+                    File dstFileDir = dstFile.getParentFile();
+                    if (dstFileDir != null)
+                        Files.createDirectories(dstFileDir.toPath());
+                    IO.copy(resourceUrl, dstFile);
                 }
             }
-
-            copy(resourceUrl, dstFile);
-        } else {
-            if (dstFile.exists() && !dstFile.delete()) {
-                throw new IOException("Could not remove " + dstFile.getAbsolutePath());
-            }
         }
+
+        return affected;
     }
 
     /**
@@ -141,17 +118,18 @@ public class BundleResourceCopier {
      * @param relativePaths
      *            the paths of the resources (relative to bundleDir) in the bundle. The resources will be added/removed
      *            to/from the same paths relative to dstDir. This parameter must only hold paths of files.
-     * @param add
-     *            true to add the files, false to remove them
+     * @param mode
      * @throws IOException
      *             when a relative path is null or empty, when a resource could not be found in the bundle, when a
      *             directory holding a file could not be created (when add is true), or when a file could not be removed
      *             (when add is false)
      */
-    public void addOrRemoveFiles(File dstDir, String bundleDir, String[] relativePaths, boolean add) throws IOException {
+    public Collection<File> addOrRemoveFiles(File dstDir, String bundleDir, String[] relativePaths, CopyMode mode) throws IOException {
+        List<File> affected = new LinkedList<>();
         for (String templatePath : relativePaths) {
-            addOrRemoveFile(dstDir, bundleDir, templatePath, add);
+            affected.addAll(addOrRemoveFile(dstDir, bundleDir, templatePath, mode));
         }
+        return affected;
     }
 
     /**
@@ -165,14 +143,16 @@ public class BundleResourceCopier {
      *            the path of the resources (relative to bundleDir) in the bundle. The resources will be recursively
      *            added/removed to/from the same paths relative to dstDir. This parameter must only hold a paths of a
      *            directory. When null then "/" will be used.
-     * @param add
-     *            true to add the directory and its files, false to remove them
+     * @param mode
+     * @return A list of existing files that were/would have been affected.
      * @throws IOException
      *             when a relative path is null or empty, when a resource could not be found in the bundle, when a
      *             directory holding a file could not be created (if add is true), or when a file could not be removed
      *             (when add is false)
      */
-    public void addOrRemoveDirectory(File dstDir, String bundleDir, String relativePath, boolean add) throws IOException {
+    public Collection<File> addOrRemoveDirectory(File dstDir, String bundleDir, String relativePath, CopyMode mode) throws IOException {
+        List<File> affected = new LinkedList<>();
+
         String bundleDirFixed = bundleDir.replaceAll("^/+", "");
         if (!bundleDirFixed.endsWith("/")) {
             bundleDirFixed = bundleDirFixed + "/";
@@ -186,7 +166,8 @@ public class BundleResourceCopier {
             relativePathFixed = relativePathFixed + "/";
         }
 
-        addOrRemoveDirectoryRecursive(dstDir, bundleDirFixed, relativePathFixed, add);
+        addOrRemoveDirectoryRecursive(dstDir, bundleDirFixed, relativePathFixed, mode, affected);
+        return affected;
     }
 
     /**
@@ -200,16 +181,24 @@ public class BundleResourceCopier {
      *            the paths of the resources (relative to bundleDir) in the bundle. The resources will be recursively
      *            added/removed to/from the same paths relative to dstDir. This parameter must only hold paths of
      *            directories.
-     * @param add
-     *            true to add the directories and their files, false to remove them
+     * @param mode
      * @throws IOException
      *             when a relative path is null or empty, when a resource could not be found in the bundle, when a
      *             directory holding a file could not be created (when add is true), or when a file could not be removed
      *             (when add is false)
      */
-    public void addOrRemoveDirectories(File dstDir, String bundleDir, String[] relativePaths, boolean add) throws IOException {
+    public void addOrRemoveDirectories(File dstDir, String bundleDir, String[] relativePaths, CopyMode mode) throws IOException {
         for (String templatePath : relativePaths) {
-            addOrRemoveDirectory(dstDir, bundleDir, templatePath, add);
+            addOrRemoveDirectory(dstDir, bundleDir, templatePath, mode);
         }
+    }
+
+    private String formatBundleEntryPath(String path) {
+        // Bundle.getEntry* doesn't grok backslashes
+        if (File.separatorChar != '\\') {
+            return path;
+        }
+
+        return path.replace('\\', '/');
     }
 }
