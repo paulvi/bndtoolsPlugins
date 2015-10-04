@@ -3,12 +3,17 @@ Version 1.3, 3 November 2008
 
 # Compatibility
 
-This plugin is compatible with all bndtools versions since 2.3.0.REL.
+This plugin is compatible with all bndtools versions since 3.1.0.REL.
 
 # Update Log
 
-* this: 17c718f
-* bnd:  ab0eea0
+* this: 6205962
+* bnd:  28adfbc
+
+# Changes since bndtools 3.0.0 release
+
+* Like other bndtools headless build plugins, the plugin will issue
+  relevant warnings when generating or removing files.
 
 # Changes since bndtools 2.4.0 release
 
