@@ -32,6 +32,15 @@ assert(hasProperty('bndURI'              ))
 assert(hasProperty('bndWorkspace'        ))
 
 
+/* Initialize the bnd workspace */
+Workspace.setDriver(Constants.BNDDRIVER_GRADLE)
+Workspace.addGestalt(Constants.GESTALT_BATCH, null)
+ext.bndWorkspace = new Workspace(rootDir, bnd_cnf)
+if (bndWorkspace == null) {
+  throw new GradleException("Unable to load workspace ${rootDir}/${bnd_cnf}")
+}
+
+
 /* Pre Hook */
 apply from: new File(rootDir, "${rootProject.bnd_cnf}/gradle/custom/workspace-pre.gradle")
 
