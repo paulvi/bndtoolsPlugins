@@ -110,6 +110,9 @@ public class BundleResourceCopier {
                     Files.createDirectories(dstFileDir.toPath());
                 }
                 IO.copy(resourceUrl, dstFile);
+                if (mode == CopyMode.REPLACE) {
+                    affected.add(dstFile);
+                }
             }
             break;
 
