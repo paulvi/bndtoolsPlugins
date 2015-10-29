@@ -85,12 +85,14 @@ public class BundleResourceCopier {
             if (dstFile.exists())
                 affected.add(relativeDstFile);
         } else {
+            /* ADD or REPLACE */
             if (dstFile.exists() && !dstFile.isFile())
                 throw new IOException("Target path exists and is not a plain file: " + dstFile);
 
             if (dstFile.exists() && mode == CopyMode.ADD) {
                 affected.add(relativeDstFile);
             } else {
+                /* !exists || !ADD */
                 String resourcePath = formatBundleEntryPath(new File(bundleDir, relativePath).getPath());
                 URL resourceUrl = bundle.getEntry(resourcePath);
                 if (resourceUrl == null)
