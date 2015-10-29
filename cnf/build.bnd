@@ -71,5 +71,11 @@ Bundle-Copyright: (c) Pelagic
 Bundle-License: http://www.gnu.org/licenses/lgpl-2.0.txt
 Bundle-Vendor: Pelagic
 Bundle-ContactAddress: http://www.pelagic.nl
+Bundle-SCM: url=https://github.com/fhuberts/bndtoolsPlugins, \
+    connections=scm:git:https://github.com/fhuberts/bndtoolsPlugins.git, \
+    developerConnection=scm:git:git@github.com:fhuberts/bndtoolsPlugins.git
+Bundle-DocURL: https://github.com/fhuberts/bndtoolsPlugins
 
 -baseline:              *
+
+-removeheaders: Bnd-LastModified, Created-By, Include-Resource, Private-Package, Tool
