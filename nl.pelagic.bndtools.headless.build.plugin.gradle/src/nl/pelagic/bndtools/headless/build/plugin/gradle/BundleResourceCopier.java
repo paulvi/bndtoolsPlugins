@@ -78,34 +78,43 @@ public class BundleResourceCopier {
         File relativeDstFile = new File(relativePath);
         boolean dstFileExists = dstFile.exists();
 
-        if (mode == null) {
-            throw new IllegalArgumentException("Copy mode may not be null");
-        } else if (mode == CopyMode.REMOVE) {
+        switch (mode) {
+        case REMOVE :
             Files.deleteIfExists(dstFile.toPath());
-        } else if (mode == CopyMode.CHECK) {
-            if (dstFileExists)
+            break;
+
+        case CHECK :
+            if (dstFileExists) {
                 affected.add(relativeDstFile);
-        } else {
-            /* ADD or REPLACE */
-            if (dstFileExists && !dstFile.isFile())
+            }
+            break;
+
+        case ADD :
+        case REPLACE :
+            if (dstFileExists && !dstFile.isFile()) {
                 throw new IOException("Target path exists and is not a plain file: " + dstFile);
+            }
 
             if (dstFileExists && mode == CopyMode.ADD) {
                 affected.add(relativeDstFile);
             } else {
-                /* !exists || !ADD */
+                /* !exists || REPLACE */
                 String resourcePath = formatBundleEntryPath(new File(bundleDir, relativePath).getPath());
                 URL resourceUrl = bundle.getEntry(resourcePath);
-                if (resourceUrl == null)
+                if (resourceUrl == null) {
                     throw new IOException("Resource " + resourcePath + " not found in bundle " + bundle.getSymbolicName());
-
-                if (mode == CopyMode.REPLACE || !dstFileExists) {
-                    File dstFileDir = dstFile.getParentFile();
-                    if (dstFileDir != null)
-                        Files.createDirectories(dstFileDir.toPath());
-                    IO.copy(resourceUrl, dstFile);
                 }
+
+                File dstFileDir = dstFile.getParentFile();
+                if (dstFileDir != null) {
+                    Files.createDirectories(dstFileDir.toPath());
+                }
+                IO.copy(resourceUrl, dstFile);
             }
+            break;
+
+        default :
+            throw new IllegalArgumentException("Unknown copy mode " + mode);
         }
 
         return affected;
