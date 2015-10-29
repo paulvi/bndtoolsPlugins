@@ -60,7 +60,7 @@ public class GradleHeadlessBuildPlugin implements HeadlessBuildPlugin {
 
     @Override
     public void setup(boolean cnf, File projectDir, boolean add, Set<String> enabledIgnorePlugins) throws IOException {
-        setup(cnf, projectDir, add, enabledIgnorePlugins, new LinkedList<String>());
+        setup(cnf, projectDir, add, enabledIgnorePlugins, null);
     }
 
     @Override
@@ -81,15 +81,17 @@ public class GradleHeadlessBuildPlugin implements HeadlessBuildPlugin {
 
         files1.addAll(files2);
 
-        for (File file : files1) {
-            String warning;
-            if (add) {
-                warning = String.format("Not overwriting existing Gradle build file %s", file);
-            } else {
-                warning = String.format("Unable to remove Gradle build file %s", file);
-            }
+        if (warnings != null) {
+            for (File file : files1) {
+                String warning;
+                if (add) {
+                    warning = String.format("Not overwriting existing Gradle build file %s", file);
+                } else {
+                    warning = String.format("Unable to remove Gradle build file %s", file);
+                }
 
-            warnings.add(warning);
+                warnings.add(warning);
+            }
         }
 
         VersionControlIgnoresManager ignoresManager = versionControlIgnoresManager.get();
