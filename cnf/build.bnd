@@ -73,3 +73,8 @@ Bundle-Vendor: Pelagic
 Bundle-ContactAddress: http://www.pelagic.nl
 
 -baseline:              *
+
+# Override bndlib
+bnd-version-base:         3.0.0
+bnd-version-ceiling:      3.0.1
+bndlib:                   biz.aQute.bndlib;version='[${bnd-version-base},${bnd-version-ceiling})'
