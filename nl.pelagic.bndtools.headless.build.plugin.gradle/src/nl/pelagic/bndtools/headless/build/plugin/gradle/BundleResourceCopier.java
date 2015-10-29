@@ -76,20 +76,21 @@ public class BundleResourceCopier {
 
         File dstFile = new File(dstDir, relativePath);
         File relativeDstFile = new File(relativePath);
+        boolean dstFileExists = dstFile.exists();
 
         if (mode == null) {
             throw new IllegalArgumentException("Copy mode may not be null");
         } else if (mode == CopyMode.REMOVE) {
             Files.deleteIfExists(dstFile.toPath());
         } else if (mode == CopyMode.CHECK) {
-            if (dstFile.exists())
+            if (dstFileExists)
                 affected.add(relativeDstFile);
         } else {
             /* ADD or REPLACE */
-            if (dstFile.exists() && !dstFile.isFile())
+            if (dstFileExists && !dstFile.isFile())
                 throw new IOException("Target path exists and is not a plain file: " + dstFile);
 
-            if (dstFile.exists() && mode == CopyMode.ADD) {
+            if (dstFileExists && mode == CopyMode.ADD) {
                 affected.add(relativeDstFile);
             } else {
                 /* !exists || !ADD */
@@ -98,7 +99,7 @@ public class BundleResourceCopier {
                 if (resourceUrl == null)
                     throw new IOException("Resource " + resourcePath + " not found in bundle " + bundle.getSymbolicName());
 
-                if (mode == CopyMode.REPLACE || !dstFile.exists()) {
+                if (mode == CopyMode.REPLACE || !dstFileExists) {
                     File dstFileDir = dstFile.getParentFile();
                     if (dstFileDir != null)
                         Files.createDirectories(dstFileDir.toPath());
