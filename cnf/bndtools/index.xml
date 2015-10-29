@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repository increment="1446159267000" name="Bndtools" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="bndtools.api"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="8db429efd7a6ac264d6f7b6a3043fb6e0e97d0f039e252ff192db2e281d31eb4"/>
+      <attribute name="url" value="bndtools.api/bndtools.api-3.0.0.jar"/>
+      <attribute name="size" type="Long" value="20410"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="bndtools.api"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="bndtools.api"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.bndtools.api"/>
+      <attribute name="version" type="Version" value="2.0.0"/>
+      <attribute name="bundle-symbolic-name" value="bndtools.api"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+      <directive name="uses" value="aQute.bnd.build,aQute.bnd.build.model,aQute.bnd.osgi,org.eclipse.core.runtime"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=aQute.bnd.build)(version&gt;=2.6.0)(!(version&gt;=3.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=aQute.bnd.build.model)(version&gt;=2.7.0)(!(version&gt;=3.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=aQute.bnd.build.model.clauses)(version&gt;=2.1.0)(!(version&gt;=3.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=aQute.bnd.header)(version&gt;=1.5.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=aQute.bnd.osgi)(version&gt;=2.4.0)(!(version&gt;=3.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.eclipse.core.internal.runtime)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.core.runtime)(version&gt;=3.4.0)(!(version&gt;=4.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(version&gt;=1.7.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.bndtools.headless.build.manager"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="eef24aa509a966b0eac5533a7b3ce8374c257ed63355c7b452f0461f65f27d01"/>
+      <attribute name="url" value="org.bndtools.headless.build.manager/org.bndtools.headless.build.manager-3.0.0.jar"/>
+      <attribute name="size" type="Long" value="10052"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.bndtools.headless.build.manager"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.bndtools.headless.build.manager"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.bndtools.headless.build.manager.api"/>
+      <attribute name="version" type="Version" value="1.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.bndtools.headless.build.manager"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+      <directive name="uses" value="org.bndtools.api"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" type="List&lt;String&gt;" value="org.bndtools.headless.build.manager.api.HeadlessBuildManager"/>
+      <directive name="uses" value="org.bndtools.headless.build.manager.api"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bndtools.api)(version&gt;=2.0.0)(!(version&gt;=3.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bndtools.headless.build.manager.api)(version&gt;=1.0.0)(!(version&gt;=1.1.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.bndtools.headless.build.manager.api.HeadlessBuildPlugin)"/>
+      <directive name="cardinality" value="multiple"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.1.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.bndtools.versioncontrol.ignores.manager"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="d269b6b0230aa48284103b7db2d8e1308cd0359a366fed287eaaa100f8067e85"/>
+      <attribute name="url" value="org.bndtools.versioncontrol.ignores.manager/org.bndtools.versioncontrol.ignores.manager-3.0.0.jar"/>
+      <attribute name="size" type="Long" value="14076"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.bndtools.versioncontrol.ignores.manager"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.bndtools.versioncontrol.ignores.manager"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.bndtools.versioncontrol.ignores.manager.api"/>
+      <attribute name="version" type="Version" value="1.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.bndtools.versioncontrol.ignores.manager"/>
+      <attribute name="bundle-version" type="Version" value="3.0.0.201509101608"/>
+      <directive name="uses" value="org.bndtools.api"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" type="List&lt;String&gt;" value="org.bndtools.versioncontrol.ignores.manager.api.VersionControlIgnoresManager"/>
+      <directive name="uses" value="org.bndtools.versioncontrol.ignores.manager.api"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bndtools.api)(version&gt;=2.0.0)(!(version&gt;=3.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bndtools.versioncontrol.ignores.manager.api)(version&gt;=1.0.0)(!(version&gt;=1.1.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.bndtools.versioncontrol.ignores.manager.api.VersionControlIgnoresPlugin)"/>
+      <directive name="cardinality" value="multiple"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.1.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+  </resource>
+</repository>
