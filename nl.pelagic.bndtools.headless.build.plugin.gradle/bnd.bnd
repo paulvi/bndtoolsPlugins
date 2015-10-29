@@ -18,3 +18,6 @@ Bundle-Version: ${build.version}
 Private-Package: \
 	nl.pelagic.bndtools.headless.build.plugin.gradle
 Service-Component: *
+Conditional-Package: \
+    aQute.lib.io,\
+    aQute.libg.glob
