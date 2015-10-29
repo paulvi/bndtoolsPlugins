@@ -74,10 +74,10 @@ public class GradleHeadlessBuildPlugin implements HeadlessBuildPlugin {
         File workspaceRoot = projectDir.getParentFile();
 
         String baseDir = "templates/root/";
-        Collection<File> files1 = copier.addOrRemoveDirectory(workspaceRoot, baseDir, "/", add ? CopyMode.REPLACE : CopyMode.REMOVE);
+        Collection<File> files1 = copier.addOrRemoveDirectory(workspaceRoot, baseDir, "/", add ? CopyMode.ADD : CopyMode.REMOVE);
 
         baseDir = "templates/cnf/";
-        Collection<File> files2 = copier.addOrRemoveDirectory(projectDir, baseDir, "/", add ? CopyMode.REPLACE : CopyMode.REMOVE);
+        Collection<File> files2 = copier.addOrRemoveDirectory(projectDir, baseDir, "/", add ? CopyMode.ADD : CopyMode.REMOVE);
 
         files1.addAll(files2);
 
@@ -85,7 +85,7 @@ public class GradleHeadlessBuildPlugin implements HeadlessBuildPlugin {
             for (File file : files1) {
                 String warning;
                 if (add) {
-                    warning = String.format("Existing Gradle build file %s was overwritten", file);
+                    warning = String.format("Not overwriting existing Gradle build file %s", file);
                 } else {
                     warning = String.format("Unable to remove Gradle build file %s", file);
                 }
