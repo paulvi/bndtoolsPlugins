@@ -95,7 +95,7 @@ public class GradleHeadlessBuildPlugin implements HeadlessBuildPlugin {
         }
 
         VersionControlIgnoresManager ignoresManager = versionControlIgnoresManager.get();
-        if (ignoresManager != null) {
+        if (add && ignoresManager != null) {
             List<String> ignoredEntries = new LinkedList<String>();
             ignoredEntries.add(ignoresManager.sanitiseGitIgnoreGlob(true, "/.gradle/", true));
             ignoredEntries.add(ignoresManager.sanitiseGitIgnoreGlob(true, "/reports/", true));
