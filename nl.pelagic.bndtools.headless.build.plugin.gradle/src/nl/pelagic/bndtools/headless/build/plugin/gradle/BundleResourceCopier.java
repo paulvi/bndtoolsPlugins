@@ -83,6 +83,18 @@ public class BundleResourceCopier {
         switch (mode) {
         case REMOVE :
             Files.deleteIfExists(dstFile.toPath());
+
+            /* remove empty directories up to dstDir */
+            File parent = dstFile.getParentFile();
+            while (parent != null && parent.toPath().startsWith(dstDir.toPath())) {
+                String[] pfiles = parent.list();
+                if (pfiles == null || pfiles.length > 0) {
+                    break;
+                }
+
+                Files.deleteIfExists(parent.toPath());
+                parent = parent.getParentFile();
+            }
             break;
 
         case CHECK :
