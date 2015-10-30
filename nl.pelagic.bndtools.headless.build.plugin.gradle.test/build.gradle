@@ -1,0 +1,10 @@
+findbugsMain.enabled = false
+release.enabled = false
+
+test {
+  jacoco {
+    enabled = false
+  }
+}
+
+jacocoTestReport.enabled = false
