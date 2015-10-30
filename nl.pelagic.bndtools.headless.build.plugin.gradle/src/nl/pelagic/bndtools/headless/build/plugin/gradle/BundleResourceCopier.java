@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,10 +35,11 @@ public class BundleResourceCopier {
 
     private void addOrRemoveDirectoryRecursive(File dstDir, String bundleDir, String relativePath, CopyMode mode, List<File> affected) throws IOException {
         String resourcePath = formatBundleEntryPath(new File(bundleDir, relativePath).getPath());
-        Enumeration<String> resourcePathEntries = bundle.getEntryPaths(resourcePath);
-        if (resourcePathEntries != null) {
-            while (resourcePathEntries.hasMoreElements()) {
-                String resourcePathEntry = resourcePathEntries.nextElement();
+        Enumeration<String> bundleEntryPaths = bundle.getEntryPaths(resourcePath);
+        if (bundleEntryPaths != null) {
+            List<String> resourcePathEntries = Collections.list(bundleEntryPaths);
+            Collections.sort(resourcePathEntries, Collections.reverseOrder());
+            for (String resourcePathEntry : resourcePathEntries) {
                 if (resourcePathEntry.startsWith(bundleDir)) {
                     resourcePathEntry = resourcePathEntry.substring(bundleDir.length());
                 }
