@@ -85,7 +85,7 @@ public class BundleResourceCopier {
 
         case CHECK :
             if (dstFileExists) {
-                affected.add(relativeDstFile);
+                affected.add(relativeDstFile.getAbsoluteFile());
             }
             break;
 
@@ -96,7 +96,7 @@ public class BundleResourceCopier {
             }
 
             if (dstFileExists && mode == CopyMode.ADD) {
-                affected.add(relativeDstFile);
+                affected.add(relativeDstFile.getAbsoluteFile());
             } else {
                 /* !exists || REPLACE */
                 String resourcePath = formatBundleEntryPath(new File(bundleDir, relativePath).getPath());
@@ -111,7 +111,7 @@ public class BundleResourceCopier {
                 }
                 IO.copy(resourceUrl, dstFile);
                 if (mode == CopyMode.REPLACE) {
-                    affected.add(dstFile);
+                    affected.add(dstFile.getAbsoluteFile());
                 }
             }
             break;
