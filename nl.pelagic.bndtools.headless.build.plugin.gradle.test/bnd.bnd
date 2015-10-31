@@ -16,11 +16,13 @@ Conditional-Package: \
 	biz.aQute.bndlib,\
 	biz.aQute.junit
 -runbundles: \
-	biz.aQute.junit,\
 	biz.aQute.bndlib,\
+	biz.aQute.junit,\
 	bndtools.api,\
 	javax.annotation,\
 	javax.inject,\
+	nl.pelagic.bndtools.headless.build.plugin.gradle;version=latest,\
+	nl.pelagic.bndtools.headless.build.plugin.gradle.test;version=latest,\
 	org.apache.felix.configadmin,\
 	org.apache.felix.eventadmin,\
 	org.apache.felix.log,\
@@ -28,17 +30,15 @@ Conditional-Package: \
 	org.apache.felix.scr,\
 	org.bndtools.headless.build.manager,\
 	org.bndtools.versioncontrol.ignores.manager,\
-	org.eclipse.core.runtime,\
-	org.eclipse.equinox.common,\
-	org.eclipse.core.jobs,\
-	org.eclipse.equinox.registry,\
-	org.eclipse.equinox.preferences,\
 	org.eclipse.core.contenttype,\
+	org.eclipse.core.jobs,\
+	org.eclipse.core.runtime,\
 	org.eclipse.core.runtime.compatibility,\
 	org.eclipse.equinox.app,\
-	org.eclipse.update.configurator,\
-	nl.pelagic.bndtools.headless.build.plugin.gradle;version=latest,\
-	nl.pelagic.bndtools.headless.build.plugin.gradle.test;version=latest
+	org.eclipse.equinox.common,\
+	org.eclipse.equinox.preferences,\
+	org.eclipse.equinox.registry,\
+	org.eclipse.update.configurator
 -runfw: org.eclipse.osgi;version='[3,4]'
 -runee: JavaSE-1.7
 -runsystemcapabilities: ${native_capability}
