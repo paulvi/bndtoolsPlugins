@@ -79,3 +79,9 @@ Bundle-DocURL: https://github.com/fhuberts/bndtoolsPlugins
 -baseline:              *
 
 -removeheaders: Bnd-LastModified, Conditional-Package, Created-By, Include-Resource, Private-Package, Tool
+
+
+# Override bndlib
+bnd-version-base:         3.1.0
+bnd-version-ceiling:      3.1.1
+bndlib:                   biz.aQute.bndlib;version='[${bnd-version-base},${bnd-version-ceiling})'
