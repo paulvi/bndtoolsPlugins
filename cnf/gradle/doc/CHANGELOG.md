@@ -7,8 +7,8 @@ This plugin is compatible with all bndtools versions since 3.1.0.REL.
 
 # Update Log
 
-* this: 6205962
-* bnd:  28adfbc
+* this: 827de25
+* bnd:  5780ccf
 
 # Changes since bndtools 3.0.0 release
 
@@ -17,6 +17,7 @@ This plugin is compatible with all bndtools versions since 3.1.0.REL.
   This is because the Gradle Jacoco plugin uses an old version of Jacoco.
 * Like other bndtools headless build plugins, the plugin will issue
   relevant warnings when generating or removing files.
+* Improve caching  behaviour when using the Gradle daemon.
 
 # Changes since bndtools 2.4.0 release
 
