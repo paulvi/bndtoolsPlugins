@@ -78,4 +78,4 @@ Bundle-DocURL: https://github.com/fhuberts/bndtoolsPlugins
 
 -baseline:              *
 
--removeheaders: Bnd-LastModified, Created-By, Include-Resource, Private-Package, Tool
+-removeheaders: Bnd-LastModified, Conditional-Package, Created-By, Include-Resource, Private-Package, Tool
