@@ -22,6 +22,8 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
+
 import aQute.bnd.build.Workspace;
 import aQute.bnd.osgi.Constants;
 
@@ -29,7 +31,7 @@ import aQute.bnd.osgi.Constants;
 public class GradleHeadlessBuildPlugin implements HeadlessBuildPlugin {
     private final AtomicReference<VersionControlIgnoresManager> versionControlIgnoresManager = new AtomicReference<VersionControlIgnoresManager>();
 
-    @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
     public void setVersionControlIgnoresManager(VersionControlIgnoresManager versionControlIgnoresManager) {
         this.versionControlIgnoresManager.set(versionControlIgnoresManager);
     }
