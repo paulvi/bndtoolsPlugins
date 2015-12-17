@@ -12,6 +12,9 @@ This plugin is compatible with all bndtools versions since 3.1.0.REL.
 
 # Changes since bndtools 3.0.0 release
 
+* The jacoco task re-introduced its ```jacocoToolVersion``` setting, with a
+  default of the latest released version (0.7.5.201505241946).
+  This is because the Gradle Jacoco plugin uses an old version of Jacoco.
 * Like other bndtools headless build plugins, the plugin will issue
   relevant warnings when generating or removing files.
 

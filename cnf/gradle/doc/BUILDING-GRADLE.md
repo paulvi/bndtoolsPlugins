@@ -858,6 +858,9 @@ created.
 
 #### <a name="BuildTasksJacocoSettings"/>Settings
 
+* &nbsp;```jacocoToolVersion```: The version of the jacoco plugin to use.
+                                 Defaults to **0.7.5.201505241946**.
+
 * &nbsp;```jacocoXmlReport```: **true** to generate XML reports. Defaults
                                to **true**.
 
