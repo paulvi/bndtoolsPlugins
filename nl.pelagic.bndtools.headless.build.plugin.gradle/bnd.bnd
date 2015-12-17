@@ -1,9 +1,9 @@
 -buildpath: \
 	osgi.core;version=${osgi.core.version},\
+	osgi.annotation;version=${osgi.annotation.version};-split-package:=merge-first,\
 	bndtools.api;version=latest,\
 	org.bndtools.headless.build.manager;version=latest,\
 	org.bndtools.versioncontrol.ignores.manager;version=latest,\
-	biz.aQute.bnd.annotation,\
 	${bndlib},\
 	${junit}
 -includeresource: \

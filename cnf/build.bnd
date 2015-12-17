@@ -79,3 +79,6 @@ Bundle-DocURL: https://github.com/fhuberts/bndtoolsPlugins
 -baseline:              *
 
 -removeheaders: Bnd-LastModified, Conditional-Package, Created-By, Include-Resource, Private-Package, Tool
+
+# extra OSGi defines
+osgi.annotation.version:  6.0.1
