@@ -17,7 +17,8 @@ Bundle-ActivationPolicy: lazy
 Bundle-Version: ${build.version}
 Private-Package: \
 	nl.pelagic.bndtools.headless.build.plugin.gradle
-Service-Component: *
+-dsannotations: *
+-metatypeannotations: *
 Conditional-Package: \
     aQute.lib.io,\
     aQute.libg.glob
