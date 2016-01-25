@@ -79,3 +79,14 @@ Bundle-DocURL: https://github.com/fhuberts/bndtoolsPlugins
 -baseline:              *
 
 -removeheaders: Bnd-LastModified, Conditional-Package, Created-By, Include-Resource, Private-Package, Tool
+
+
+# Facilitate overriding bnd and bndtools versions.
+# By default they are the same (bnd-version-base and bnd-version-ceiling),
+# but they _can_ differ.
+my-bnd-version-base:         ${bnd-version-base}
+my-bnd-version-ceiling:      ${bnd-version-ceiling}
+my-bndlib:                   biz.aQute.bndlib;version='[${my-bnd-version-base},${my-bnd-version-ceiling})'
+
+my-bndtools-version-base:    ${bnd-version-base}
+my-bndtools-version-ceiling: ${bnd-version-ceiling}
