@@ -6,8 +6,8 @@
 ext.ProjectTitle               = 'Bndtools Plugins by Pelagic'
 ext.p2TargetDir                = 'generated'
 ext.p2SubDir                   = 'pelagic'
-ext.p2BndtoolsdateSiteUrl      = 'https://bndtools.ci.cloudbees.com/job/bndtools.master/lastSuccessfulBuild/artifact/build/generated/p2/'
-ext.p2PelagicUpdateSiteUrl     = 'http://bndtools-plugins.pelagic.nl/master/'
+ext.p2BndtoolsdateSiteUrl      = 'http://dl.bintray.com/bndtools/bndtools/3.1.1/'
+ext.p2PelagicUpdateSiteUrl     = 'http://bndtools-plugins.pelagic.nl/3.1.1/'
 
 
 ext.bndBuildP2IndexRootPelagic = "${p2TargetDir}/p2/${p2SubDir}"
