@@ -14,6 +14,7 @@
 # we really need this, otherwise Eclipse will not start our bundles
 Bundle-ActivationPolicy: lazy
 
+base-version:             3.1.2
 Bundle-Version: ${build.version}
 Private-Package: \
 	nl.pelagic.bndtools.headless.build.plugin.gradle

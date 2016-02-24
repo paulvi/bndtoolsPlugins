@@ -10,6 +10,11 @@ This plugin is compatible with all bndtools versions since 3.1.0.REL.
 * this: 827de25
 * bnd:  5780ccf
 
+# Changes since bndtools 3.1.1 release
+
+* The jacoco version  ```jacocoToolVersion``` setting was updated to
+  0.7.6.201602180812.
+
 # Changes since bndtools 3.0.0 release
 
 * The jacoco task re-introduced its ```jacocoToolVersion``` setting, with a
