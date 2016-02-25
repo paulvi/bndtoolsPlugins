@@ -1,6 +1,7 @@
 # Bndtools Plugins by Pelagic
 
 see <http://marketplace.eclipse.org/content/bndtools-plugins-pelagic-stable>
+and <http://marketplace.eclipse.org/content/bndtools-plugins-pelagic-master>
 
 ## Building
 
