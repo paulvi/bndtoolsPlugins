@@ -1,4 +1,8 @@
-# Building
+# Bndtools Plugins by Pelagic
+
+see <http://marketplace.eclipse.org/content/bndtools-plugins-pelagic-stable>
+
+## Building
 
 In order to build this project you need a parallel checkout of bndtools and
 this project. Such a checkout will look like:
